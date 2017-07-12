@@ -58,3 +58,7 @@ B. Installing the script
 8. That's it! you successfully Tweak some internal stuff
 
 Yes the boot performance is kind of slower than before becouse the preload directory but it worth the performance improvement
+
+# And one more thing
+
+meow~
