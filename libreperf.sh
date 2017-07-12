@@ -23,13 +23,14 @@ printf '\e[9;1t'
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# 2017 questandachievement masamudro2001@gmail.com Systemguard ideas
 # Copyright (C) 2011  0x46616c6b for ramdisk
 # (c) 2010 Alec Muffett Alec.Muffett@gmail.com Dynamic pager
 # http://code.google.com/p/dynamicpagerwrapper/
 # reference/inspiration http://is.gd/9qZIX or http://bit.ly/axANub
 # https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
 
-# 2017 questandachievement masamudro2001@gmail.com Systemguard ideas
+
 # thanks to https://github.com/herrbischoff/awesome-osx-command-line
 # https://apple.stackexchange.com/questions/41045/how-can-i-disable-cpu-throttling-and-cpu-disabling
 #and thanks for the other articles to such as lifewire and etc

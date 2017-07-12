@@ -23,6 +23,7 @@ printf '\e[9;1t'
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# 2017 questandachievement masamudro2001@gmail.com Systemguard ideas
 # Copyright (C) 2011  0x46616c6b for ramdisk
 # (c) 2010 Alec Muffett Alec.Muffett@gmail.com Dynamic pager
 # http://code.google.com/p/dynamicpagerwrapper/
