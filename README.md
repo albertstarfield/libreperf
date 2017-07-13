@@ -1,7 +1,12 @@
-# libreperf 0.1b macOS Darwin kernel performance improvement project
+# libreperf 0.1b "OSX Darwin kernel" based OS performance improvement project
 ------------
 # what is Libreperf?
 An project of attempting to remove macOS (10.12) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices using various command and modification from multiple source or website
+------------
+# what Libreperf mean
+libre = free
+perf = performance
+libreperf = free from performance throttling
 ------------
 # The Refrence List
 
