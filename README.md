@@ -3,9 +3,11 @@
 # what is Libreperf?
 An project of attempting to remove macOS (10.12) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices using various command and modification from multiple source or website
 ------------
-# what Libreperf mean
+# what does "Libreperf" mean?
 libre = free
+
 perf = performance
+
 libreperf = free from performance throttling
 ------------
 # The Refrence List
