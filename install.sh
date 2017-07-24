@@ -49,6 +49,12 @@ Sleep 1
 echo setup will start in 9 seconds
 sleep 10
 #menuend
+
+
+
+#installation started
+
+
 LOGIN=$USER
 Clear
 #echo Type your password
@@ -59,7 +65,7 @@ LOGIN=$sudo_USER
 #Credits
 echo -------------------------------------
 echo libreperf script 
-echo by 2017 questandachievement and community
+echo by questandachievement and community
 echo system will be rebooted automatically
 echo -------------------------------------
 Sleep 4
@@ -72,7 +78,6 @@ echo http://is.gd/9qZIX or http://bit.ly/axANub
 echo https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
 echo https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
 echo davidschalter.com
-Echo https://perishablepress.com/list-files-folders-recursively-terminal/
 echo https://gist.github.com/pwnsdx/d87b034c4c0210b988040ad2f85a68d3 disabling features
 echo https://ioshackerwiki.com/sysctls/ moar kernel strings yay
 Echo http://www.manpagez.com/man/8/sysctl/
@@ -338,13 +343,14 @@ sysctl -a vm.compressor_mode
 #irregularpolling code
 
 Clear
-#sudo periodic daily weekly monthly
 #Xmessage taking over root please put this script in the background &
 clear
 echo applying settings
 echo your Macintosh may go blank but your application will be restored
 Clear
 echo we are done
+
+#installation ended
 sudo reboot
 Sleep 180
 done

@@ -1,5 +1,6 @@
 #Slee
 #!/bin/bash
+
 while true; do
 #Licenses
 printf '\e[9;1t'
@@ -44,7 +45,7 @@ LOGIN=$sudo_USER
 
 #Credits
 echo -------------------------------------
-echo $0 script 
+echo $0 script
 echo by questandachievement and community
 echo system will be rebooted automatically
 echo -------------------------------------
@@ -52,7 +53,7 @@ Sleep 4
 Clear
 echo Thanks to all of you guys thanks for the community yay
 echo References
-echo deprecated Copyright 2011  0x46616c6b for ramdisk 
+echo deprecated Copyright 2011  0x46616c6b for ramdisk
 echo deprecated 2010 Alec Muffett Alec.Muffett@gmail.com Dynamic pager
 echo http://is.gd/9qZIX or http://bit.ly/axANub
 echo https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
@@ -61,7 +62,7 @@ echo davidschalter.com
 echo https://gist.github.com/pwnsdx/d87b034c4c0210b988040ad2f85a68d3 disabling features
 echo https://ioshackerwiki.com/sysctls/ moar kernel strings yay
 Echo http://www.manpagez.com/man/8/sysctl/
-echo and many little snippets 
+echo and many little snippets
 echo sorry
 echo delaying for certain amount of time
 #Sleep 30
@@ -184,7 +185,7 @@ sudo sysctl -w net.inet6.ip6.maxfrags=4096
 sudo sysctl -w debug.lowpri_throttle_enabled=0
 sudo sysctl -w debug.lowpri_throttle_max_iosize=9999999
 sudo sysctl -w kern.flush_cache_on_write=1
-sudo sysctl -w vfs.generic.sync_timeout=360
+sudo sysctl -w vfs.generic.sync_timeout=590
 sudo sysctl -w kern.memorystatus_purge_on_critical=19
 sudo sysctl -w kern.memorystatus_purge_on_urgent=15
 sudo sysctl -w kern.memorystatus_purge_on_warning=10
@@ -205,6 +206,7 @@ sudo nvram SystemAudioVolume=" "
 sudo Periodic all
 # https://lifehacker.com/the-best-hidden-settings-you-can-unlock-with-os-xs-ter-1476627111
 sudo spctl —master-disable
+sudo spctl --master-disable
 
 #disable MacOSIOThrottling
 #davidschalter.com
@@ -290,7 +292,7 @@ sudo pmset -b powernap 0
 sudo pmset -a disksleep 1
 sudo pmset -a autorestart 1
 sudo pmset -a hibernate mode 25
-sudo pmset -a autopoweroff 1 
+sudo pmset -a autopoweroff 1
 sudo pmset -a autopoweroffdelay 180
 sudo pmset -a autopoweroffdelay 300
 sudo pmset -a reduce 0
@@ -314,14 +316,14 @@ sleep 4
 #mkdir "$ramdisk/Caches"
 #cp -r "$origin" "$ramdisk"
 #rm -rf "/Users/$LOGIN/Library/Caches" &
-echo deleting disk cache
+#echo deleting disk cache
 #mkdir "$ramdisk/Caches"
 #ln -s "$ramdisk/Caches" "/Users/$LOGIN/Library"
 #reporting
 sysctl vm.swapusage
 sysctl -a vm.compressor_mode
 #irregularpolling code
-
+irregulardelay=$(( ( RANDOM % 600 )  + 0 ))
 Clear
 #sudo periodic daily weekly monthly
 #Xmessage taking over root please put this script in the background &
@@ -333,5 +335,7 @@ echo we are done
 #https://perishablepress.com/list-files-folders-recursively-terminal/
 ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
 ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
-Sleep 600
+sudo open -a /Applications/*.app --background #background application loading
+
+Sleep $irregulardelay
 done
