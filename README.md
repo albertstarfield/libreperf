@@ -34,6 +34,7 @@ here is the list
 5. Tuning the power management
 6. Early periodic Indexing?
 7. IOFamilykext Removal?
+8. Preloading Apps
 
 # How to install?
 
