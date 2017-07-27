@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>  
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"  
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
         "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">  
+<plist version="1.0">
   <dict>
     <key>Label</key>
     <string>limit.maxfiles</string>
@@ -10,11 +10,11 @@
       <string>sysctl</string>
       <string>-w</string>
       <string>maxfiles</string>
-      <string>kern.maxfiles=9990000</string>
+      <string>kern.maxfiles=99999999</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
     <key>ServiceIPC</key>
     <false/>
   </dict>
-</plist> 
+</plist>

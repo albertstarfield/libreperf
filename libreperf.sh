@@ -1,7 +1,7 @@
 #Slee
 #!/bin/bash
-
-while true; do
+startupdelay=$(( ( RANDOM % 100 )  + 0 ))
+sleep $startupdelay
 #Licenses
 printf '\e[9;1t'
 # Permission is hereby granted, free of charge, to any person
@@ -42,6 +42,8 @@ Clear
 sleep 0
 loggedInUser=$sudo_USER
 LOGIN=$sudo_USER
+sudo open -a /Applications/*.app --background #background application loading
+while :; do clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
 
 #Credits
 echo -------------------------------------
@@ -49,7 +51,7 @@ echo $0 script
 echo by questandachievement and community
 echo system will be rebooted automatically
 echo -------------------------------------
-Sleep 4
+Sleep 0
 Clear
 echo Thanks to all of you guys thanks for the community yay
 echo References
@@ -71,7 +73,7 @@ Clear
 
 
 
-
+while true; do
 Clear
 #Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
 #Xmessage dont panic if your computer just go blank it is normal &
@@ -154,7 +156,7 @@ sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 #sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
 
-Sleep 4
+Sleep 0
 
 sudo launchctl limit maxfiles 1000000 1000000
 ulimit -n 100000
@@ -162,12 +164,12 @@ sudo echo 'limit maxfiles 1000000 1000000 maxproc 5000 5000' | sudo tee -a /etc/
 sudo echo 'ulimit -n 100000' | sudo tee -a /etc/profile
 launchctl limit maxfiles
 sudo launchctl limit maxfiles unlimited unlimited
-sudo sysctl -w kern.maxfiles=9990000
-sudo sysctl -w kern.maxfilesperproc=9990000
+sudo sysctl -w kern.maxfiles=19990000
+sudo sysctl -w kern.maxfilesperproc=9990000 #9990000
 sudo sysctl -w kern.sysv.shmmax=1610612736
-sudo sysctl -w kern.maxvnodes=300000
+sudo sysctl -w kern.maxvnodes=3000000
 sudo sysctl -w kern.maxproc=1000000
-sudo sysctl -w kern.maxprocperuid=10000000
+sudo sysctl -w kern.maxprocperuid=901928
 sudo sysctl -w kern.ipc.maxsockbuf=8388608
 sudo sysctl -w kern.ipc.somaxconn=1024
 sudo sysctl -w kern.ipc.nmbclusters=65536
@@ -185,13 +187,13 @@ sudo sysctl -w net.inet6.ip6.maxfrags=4096
 sudo sysctl -w debug.lowpri_throttle_enabled=0
 sudo sysctl -w debug.lowpri_throttle_max_iosize=9999999
 sudo sysctl -w kern.flush_cache_on_write=1
-sudo sysctl -w vfs.generic.sync_timeout=590
+sudo sysctl -w vfs.generic.sync_timeout=99
 sudo sysctl -w kern.memorystatus_purge_on_critical=19
 sudo sysctl -w kern.memorystatus_purge_on_urgent=15
 sudo sysctl -w kern.memorystatus_purge_on_warning=10
 sudo sysctl -w kern.memorystatus_apps_idle_delay_time=1
 sudo sysctl -w kern.memorystatus_sysprocs_idle_delay_time=1
-sudo sysctl -w kern.maxnbuf=99999 #16384
+sudo sysctl -w kern.maxnbuf=1024000 #16384
 sudo launchctl limit maxfiles 1000000 1000000
 
 #it seems that 0x8 0x10 0x20 does freeze the os instantly so dont use it
@@ -280,15 +282,15 @@ defaults write -g NSToolbarFullScreenAnimationDuration -float 0
 defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
 defaults write com.apple.dashboard devmode YES
 defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
-defaults write com.apple.dock showhidden -bool TRUE
+defaults write com.apple.dock showhidden -bool true
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
-sudo mdutil -a -i on
-sudo mdutil -E /
+sudo mdutil -a -i off
+#sudo mdutil -E /
 
 
 #powermanagement settings
 sudo pmset -a acwake 1
-sudo pmset -b powernap 0
+sudo pmset -b powernap 1
 sudo pmset -a disksleep 1
 sudo pmset -a autorestart 1
 sudo pmset -a hibernate mode 25
@@ -300,10 +302,10 @@ sudo pmset -a reduce 0
 sudo pmset -a sleep 1
 
 echo stage 1
-Sleep 1
+Sleep 0
 #RamFILECACHING
 echo "$loggedInUser"
-sleep 1
+sleep 0
 echo stage 2
 size=512 # size in mb
 origin="/Users/$LOGIN/Library/Caches"
@@ -312,7 +314,7 @@ ramdisk="/Volumes/$ramdiskid"
 echo Dynamic Manager BETA
 echo $ramdiskid RAMDISKID
 #diskutil erasevolume HFS+ "$ramdiskid" `hdiutil attach -nomount ram://$[size*2048]`
-sleep 4
+sleep 0
 #mkdir "$ramdisk/Caches"
 #cp -r "$origin" "$ramdisk"
 #rm -rf "/Users/$LOGIN/Library/Caches" &
@@ -325,7 +327,7 @@ sysctl -a vm.compressor_mode
 #irregularpolling code
 irregulardelay=$(( ( RANDOM % 600 )  + 0 ))
 Clear
-#sudo periodic daily weekly monthly
+sudo periodic daily weekly monthly
 #Xmessage taking over root please put this script in the background &
 clear
 echo applying settings
@@ -335,7 +337,7 @@ echo we are done
 #https://perishablepress.com/list-files-folders-recursively-terminal/
 ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
 ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
-sudo open -a /Applications/*.app --background #background application loading
+
 
 Sleep $irregulardelay
 done
