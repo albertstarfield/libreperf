@@ -45,6 +45,8 @@ Sleep 0
 Echo without disabling that this will only optimize partially
 Sleep 0
 Echo your Mac will reboot automatically after installation process finished
+echo Exception on the newer version
+echo Installing no longer need reboot
 Sleep 0
 echo setup will start in 9 seconds
 sleep 1
@@ -190,10 +192,56 @@ sudo cp -r krnvfssync.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 
+clear
+
 sudo cp -r libreperf.sh /usr/local/bin
+sudo cp -r resourceguard.sh /usr/local/bin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
+sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
+sleep 2
 sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
+
+#UXOptimization
+echo phase
+sudo defaults write com.apple.CrashReporter DialogType nano
+defaults write com.apple.CrashReporter DialogType developer
+defaults write com.apple.universalaccess reduceTransparency -bool false
+defaults write com.apple.dashboard mcx-disabled -boolean YES
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+defaults write -g QLPanelAnimationDuration -float 0
+defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+defaults write com.apple.dock launchanim -bool false
+defaults write com.apple.dock expose-animation-duration -float 0.1
+defaults write com.apple.Dock autohide-delay -float 0
+defaults write com.apple.finder DisableAllAnimations -bool true
+defaults write com.apple.mail DisableReplyAnimations -bool true
+defaults write com.apple.mail DisableSendAnimations -bool true
+defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25
+defaults delete NSDisableAutomaticTermination
+echo phase
+defaults write -g NSDisableAutomaticTermination -bool no
+defaults write com.google.Chrome NSQuitAlwaysKeepsWindows -bool false
+defaults write com.apple.Safari NSQuitAlwaysKeepsWindows -bool false
+defaults write com.apple.dock single-app -bool true
+defaults write com.apple.dock mineffect -string scale
+defaults write NSGlobalDomain NSAppSleepDisabled -bool no
+defaults write com.apple.finder DisableAllAnimations -bool true
+defaults write com.apple.CrashReporter DialogType none
+defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
+echo phase
+defaults write -g NSScrollAnimationEnabled -bool false
+defaults write -g NSWindowResizeTime -float 0.001
+defaults write -g QLPanelAnimationDuration -float 0
+defaults write -g NSScrollViewRubberbanding -bool false
+defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
+defaults write -g NSToolbarFullScreenAnimationDuration -float 0
+defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
+defaults write com.apple.dashboard devmode YES
+defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
+sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
+echo phase
+defaults write com.apple.dock showhidden -bool true
 
 echo applying settings
 echo your Macintosh may go blank but your application will be restored
@@ -218,6 +266,7 @@ sleep 1
 echo setup will reconfigure your system in 1 seconds
 sleep 1
 #installation ended
-sudo reboot
+#sudo killall loginwindow
+exit
 Sleep 180
 done

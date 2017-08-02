@@ -1,7 +1,9 @@
 #Slee
 #!/bin/bash
 startupdelay=$(( ( RANDOM % 100 )  + 0 ))
-sleep $startupdelay
+echo $startupdelay seconds
+#sleep $startupdelay
+caffeinate -t $startupdelay &
 #Licenses
 printf '\e[9;1t'
 # Permission is hereby granted, free of charge, to any person
@@ -37,74 +39,37 @@ printf '\e[9;1t'
 #and thanks for the other articles to such as lifewire and etc
 
 LOGIN=$USER
-Clear
+#clear
 #echo Type your password
 sleep 0
 loggedInUser=$sudo_USER
 LOGIN=$sudo_USER
-sudo open -a /Applications/*.app --background #background application loading
-while :; do clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
+FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
 
-#Credits
-echo -------------------------------------
-echo $0 script
-echo by questandachievement and community
-echo system will be rebooted automatically
-echo -------------------------------------
-Sleep 0
-Clear
-echo Thanks to all of you guys thanks for the community yay
-echo References
-echo deprecated Copyright 2011  0x46616c6b for ramdisk
-echo deprecated 2010 Alec Muffett Alec.Muffett@gmail.com Dynamic pager
-echo http://is.gd/9qZIX or http://bit.ly/axANub
-echo https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
-echo https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
-echo davidschalter.com
-echo https://gist.github.com/pwnsdx/d87b034c4c0210b988040ad2f85a68d3 disabling features
-echo https://ioshackerwiki.com/sysctls/ moar kernel strings yay
-Echo http://www.manpagez.com/man/8/sysctl/
-echo and many little snippets
-echo sorry
-echo delaying for certain amount of time
-#Sleep 30
-Clear
-#updatecomponent
+FREE=$((($FREE_BLOCKS+SPECULATIVE_BLOCKS)*4096/1048576))
+INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
+TOTAL=$((($FREE+$INACTIVE)))
+echo Free:       $FREE MB
+echo Inactive:   $INACTIVE MB
+echo Total free: $TOTAL MB
+cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+if [ "$TOTAL" -gt "2048" ];
+  then
+    sudo purge
+    sudo open -a /Applications/*.app --background #background application loading
+  else
+    echo Resource Usage is too high i wont cache the app
+fi
 
+sleep 2
+while :; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
+while :; do #clear; sudo nvram SystemAudioVolume="01%" ; sleep 0.5; done &
 
+sudo sh /usr/local/bin/resourceguard.sh &
 
-while true; do
-Clear
-#Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
-#Xmessage dont panic if your computer just go blank it is normal &
-echo remastering parameters settings
-
-csrutil disable
-
-sw_vers
-Uptime
-
-#Systemmanagementtweaks
-#vm_compressor should be set to 1 but its no longer supported and been deprecated by apple in OS X 10.12 even though its deprecated already it gives us IO performance boost
-
-#hidden IO boost
-#multiple pilots install
-#https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
-echo installing some driver
-sudo cp -r maxdrive.plist /Library/LaunchDaemons/
-sudo chown root:wheel /Library/LaunchDaemons/maxdrive.plist
-sudo launchctl load -w /Library/LaunchDaemons/maxdrive.plist
-
-sudo cp -r krnbuffer.plist /Library/LaunchDaemons/
-sudo chown root:wheel /Library/LaunchDaemons/krnbuffer.plist
-sudo launchctl load -w /Library/LaunchDaemons/krnbuffer.plist
-
-sudo cp -r krnappdelay.plist /Library/LaunchDaemons/
-sudo chown root:wheel /Library/LaunchDaemons/krnappdelay.plist
-sudo launchctl load -w /Library/LaunchDaemons/krnappdelay.plist
-
-sudo cp -r krnfilebuffer.plist /Library/LaunchDaemons/
-sudo chown root:wheel /Library/LaunchDaemons/krnfilebuffer.plist
+/LaunchDaemons/krnfilebuffer.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnfilebuffer.plist
 
 sudo cp -r krnfilebufferproc.plist /Library/LaunchDaemons/
@@ -156,6 +121,67 @@ sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 #sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
 
+#Credits
+echo -------------------------------------
+echo $0 script
+echo by questandachievement and community
+echo system will be rebooted automatically
+echo -------------------------------------
+Sleep 0
+#clear
+echo Thanks to all of you guys thanks for the community yay
+echo References
+echo deprecated Copyright 2011  0x46616c6b for ramdisk
+echo deprecated 2010 Alec Muffett Alec.Muffett@gmail.com Dynamic pager
+echo http://is.gd/9qZIX or http://bit.ly/axANub
+echo https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
+echo https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
+echo davidschalter.com
+echo https://gist.github.com/pwnsdx/d87b034c4c0210b988040ad2f85a68d3 disabling features
+echo https://ioshackerwiki.com/sysctls/ moar kernel strings yay
+Echo http://www.manpagez.com/man/8/sysctl/
+echo and many little snippets
+echo sorry
+echo delaying for certain amount of time
+#Sleep 30
+#clear
+#updatecomponent
+
+
+
+while true; do
+clear
+#clear
+#Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
+#Xmessage dont panic if your computer just go blank it is normal &
+echo remastering parameters settings
+
+csrutil disable
+
+sw_vers
+Uptime
+
+#Systemmanagementtweaks
+#vm_compressor should be set to 1 but its no longer supported and been deprecated by apple in OS X 10.12 even though its deprecated already it gives us IO performance boost
+
+#hidden IO boost
+#multiple pilots install
+#https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
+echo installing some driver
+sudo cp -r maxdrive.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/maxdrive.plist
+sudo launchctl load -w /Library/LaunchDaemons/maxdrive.plist
+
+sudo cp -r krnbuffer.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/krnbuffer.plist
+sudo launchctl load -w /Library/LaunchDaemons/krnbuffer.plist
+
+sudo cp -r krnappdelay.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/krnappdelay.plist
+sudo launchctl load -w /Library/LaunchDaemons/krnappdelay.plist
+
+sudo cp -r krnfilebuffer.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library
 Sleep 0
 
 sudo launchctl limit maxfiles 1000000 1000000
@@ -199,12 +225,12 @@ sudo launchctl limit maxfiles 1000000 1000000
 #it seems that 0x8 0x10 0x20 does freeze the os instantly so dont use it
 # using 2 is the most balanced settings
 # using 1 probably OOM killer will be kicked on to save the day
-sudo nvram boot-args="-v kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
+sudo nvram boot-args="-v -f kext-dev-mode=1 vm_compressor=8 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm /private/var/vm/swapfile*
 sudo sysctl debug.lowpri_throttle_enabled=0
 sudo systemsetup -setrestartfreeze on
-sudo nvram SystemAudioVolume=" "
+sudo nvram SystemAudioVolume="01%"
 sudo Periodic all
 # https://lifehacker.com/the-best-hidden-settings-you-can-unlock-with-os-xs-ter-1476627111
 sudo spctl —master-disable
@@ -247,11 +273,11 @@ do
     echo "[OK] Daemon ${daemon} disabled"
 done
 
-
 #UXOptimization
+echo phase
 sudo defaults write com.apple.CrashReporter DialogType nano
 defaults write com.apple.CrashReporter DialogType developer
-defaults write com.apple.universalaccess reduceTransparency -bool false
+defaults write com.apple.universalaccess reduceTransparency -bool true
 defaults write com.apple.dashboard mcx-disabled -boolean YES
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 defaults write -g QLPanelAnimationDuration -float 0
@@ -264,15 +290,17 @@ defaults write com.apple.mail DisableReplyAnimations -bool true
 defaults write com.apple.mail DisableSendAnimations -bool true
 defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25
 defaults delete NSDisableAutomaticTermination
+echo phase
 defaults write -g NSDisableAutomaticTermination -bool no
 defaults write com.google.Chrome NSQuitAlwaysKeepsWindows -bool false
 defaults write com.apple.Safari NSQuitAlwaysKeepsWindows -bool false
 defaults write com.apple.dock single-app -bool true
 defaults write com.apple.dock mineffect -string scale
-defaults write NSGlobalDomain NSAppSleepDisabled -bool YES
+defaults write NSGlobalDomain NSAppSleepDisabled -bool no
 defaults write com.apple.finder DisableAllAnimations -bool true
 defaults write com.apple.CrashReporter DialogType none
 defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
+echo phase
 defaults write -g NSScrollAnimationEnabled -bool false
 defaults write -g NSWindowResizeTime -float 0.001
 defaults write -g QLPanelAnimationDuration -float 0
@@ -282,8 +310,12 @@ defaults write -g NSToolbarFullScreenAnimationDuration -float 0
 defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
 defaults write com.apple.dashboard devmode YES
 defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
+sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
+sudo defaults write /Library/Preferences/com.apple.windowserver QuartzGLEnabled -boolean YES
+echo phase
 defaults write com.apple.dock showhidden -bool true
-sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+#ReduceIndexResources
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
 sudo mdutil -a -i off
 #sudo mdutil -E /
 
@@ -305,14 +337,6 @@ echo stage 1
 Sleep 0
 #RamFILECACHING
 echo "$loggedInUser"
-sleep 0
-echo stage 2
-size=512 # size in mb
-origin="/Users/$LOGIN/Library/Caches"
-ramdiskid=$(( ( RANDOM % 999999 )  + 9000 ))
-ramdisk="/Volumes/$ramdiskid"
-echo Dynamic Manager BETA
-echo $ramdiskid RAMDISKID
 #diskutil erasevolume HFS+ "$ramdiskid" `hdiutil attach -nomount ram://$[size*2048]`
 sleep 0
 #mkdir "$ramdisk/Caches"
@@ -325,19 +349,44 @@ sleep 0
 sysctl vm.swapusage
 sysctl -a vm.compressor_mode
 #irregularpolling code
-irregulardelay=$(( ( RANDOM % 600 )  + 0 ))
-Clear
-sudo periodic daily weekly monthly
+irregulardelay=$(( ( RANDOM % 60 )  + 0 ))
+#clear
 #Xmessage taking over root please put this script in the background &
-clear
-echo applying settings
-echo your Macintosh may go blank but your application will be restored
-Clear
-echo we are done
+echo Precaching
+echo Resource Usage ${cpuusage%%.*}
+
+FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
+
+FREE=$((($FREE_BLOCKS+SPECULATIVE_BLOCKS) * 4096 / 1048576))
+INACTIVE=$(($INACTIVE_BLOCKS * 4096 / 1048576))
+TOTAL=$((($FREE+$INACTIVE)))
+echo Free:       $FREE MB
+echo Inactive:   $INACTIVE MB
+echo Total free: $TOTAL MB
+cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+#https://apple.stackexchange.com/questions/4286/is-there-a-mac-os-x-terminal-version-of-the-free-command-in-linux-systems
 #https://perishablepress.com/list-files-folders-recursively-terminal/
-ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
-ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
 
-
+if [ "${cpuusage%%.*}" -lt "17" ]
+  then
+    purge
+    if [ "$TOTAL" -gt "1500" ]
+      then
+        sudo periodic daily weekly monthly
+        rsync -rva /
+        ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+        ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+      else
+        echo i will not allocate more memory
+    fi
+  else
+    echo CPU Usage is too high for flushing and precaching operation
+  fi
+echo $irregulardelay seconds
 Sleep $irregulardelay
+
+done
+done
 done
