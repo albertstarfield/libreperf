@@ -8,7 +8,7 @@ libre = free
 
 perf = performance
 
-libreperf = free from performance throttling
+libreperf = free from performance throttling Bottleneck
 ------------
 # The Refrence List
 
@@ -35,7 +35,8 @@ here is the list
 6. Early periodic Indexing?
 7. IOFamilykext Removal?
 8. Preloading Apps
-
+9. Preloading Some Data
+10. Replacing default macOS memory paging system with iOS paging system (maybe)
 # How to install?
 
 THIS PROCESS IS IRREVERSIBLE SO IF YOU WANT TO PRESERVE THE VANILLA MACOS DO NOT USE THIS
