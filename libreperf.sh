@@ -57,17 +57,17 @@ echo Total free: $TOTAL MB
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 if [ "$TOTAL" -gt "2048" ];
   then
-    sudo purge
-    sudo open -a /Applications/*.app --background #background application loading
+    sudo sync
+    #sudo open -a /Applications/*.app --background #background application loading
   else
     echo Resource Usage is too high i wont cache the app
 fi
 
 sleep 2
 while :; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
-while :; do #clear; sudo nvram SystemAudioVolume="01%" ; sleep 0.5; done &
+while :; do #clear; sudo nvram SystemAudioVolume="01%"; sleep 0.5; done &
 
-sudo sh /usr/local/bin/resourceguard.sh &
+#while :; do #clear; sudo sh /usr/local/bin/resourceguard.sh; sleep 27; done
 
 /LaunchDaemons/krnfilebuffer.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnfilebuffer.plist
@@ -88,21 +88,21 @@ sudo cp -r krnproclim.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnproclim.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnproclim.plist
 
-sudo cp -r krnpurgectrlcrit.plist /Library/LaunchDaemons/
-sudo chown root:wheel /Library/LaunchDaemons/krnpurgectrlcrit.plist
-sudo launchctl load -w /Library/LaunchDaemons/krnpurgectrlcrit.plist
+sudo cp -r krnsyncctrlcrit.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/krnsyncctrlcrit.plist
+sudo launchctl load -w /Library/LaunchDaemons/krnsyncctrlcrit.plist
 
-sudo cp -r krnpurgectrlurgent.plist /Library/LaunchDaemons/
-sudo chown root:wheel /Library/LaunchDaemons/krnpurgectrlurgent.plist
-sudo launchctl load -w /Library/LaunchDaemons/krnpurgectrlurgent.plist
+sudo cp -r krnsyncctrlurgent.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/krnsyncctrlurgent.plist
+sudo launchctl load -w /Library/LaunchDaemons/krnsyncctrlurgent.plist
 
 sudo cp -r maxdrive.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/maxdrive.plist
 sudo launchctl load -w /Library/LaunchDaemons/maxdrive.plist
 
-sudo cp -r krnpurgectrlwarn.plist /Library/LaunchDaemons/
-sudo chown root:wheel /Library/LaunchDaemons/krnpurgectrlwarn.plist
-sudo launchctl load -w /Library/LaunchDaemons/krnpurgectrlwarn.plist
+sudo cp -r krnsyncctrlwarn.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/krnsyncctrlwarn.plist
+sudo launchctl load -w /Library/LaunchDaemons/krnsyncctrlwarn.plist
 
 sudo cp -r krnshmmax.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnshmmax.plist
@@ -214,9 +214,9 @@ sudo sysctl -w debug.lowpri_throttle_enabled=0
 sudo sysctl -w debug.lowpri_throttle_max_iosize=9999999
 sudo sysctl -w kern.flush_cache_on_write=1
 sudo sysctl -w vfs.generic.sync_timeout=99
-sudo sysctl -w kern.memorystatus_purge_on_critical=19
-sudo sysctl -w kern.memorystatus_purge_on_urgent=15
-sudo sysctl -w kern.memorystatus_purge_on_warning=10
+sudo sysctl -w kern.memorystatus_sync_on_critical=19
+sudo sysctl -w kern.memorystatus_sync_on_urgent=15
+sudo sysctl -w kern.memorystatus_sync_on_warning=10
 sudo sysctl -w kern.memorystatus_apps_idle_delay_time=1
 sudo sysctl -w kern.memorystatus_sysprocs_idle_delay_time=1
 sudo sysctl -w kern.maxnbuf=1024000 #16384
@@ -294,7 +294,7 @@ echo phase
 defaults write -g NSDisableAutomaticTermination -bool no
 defaults write com.google.Chrome NSQuitAlwaysKeepsWindows -bool false
 defaults write com.apple.Safari NSQuitAlwaysKeepsWindows -bool false
-defaults write com.apple.dock single-app -bool true
+#defaults write com.apple.dock single-app -bool true
 defaults write com.apple.dock mineffect -string scale
 defaults write NSGlobalDomain NSAppSleepDisabled -bool no
 defaults write com.apple.finder DisableAllAnimations -bool true
@@ -371,8 +371,8 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 
 if [ "${cpuusage%%.*}" -lt "17" ]
   then
-    purge
-    if [ "$TOTAL" -gt "1500" ]
+    sync
+    if [ "$TOTAL" -gt "512" ]
       then
         sudo periodic daily weekly monthly
         rsync -rva /
@@ -385,6 +385,7 @@ if [ "${cpuusage%%.*}" -lt "17" ]
     echo CPU Usage is too high for flushing and precaching operation
   fi
 echo $irregulardelay seconds
+sudo sh /usr/local/bin/resourceguard.sh
 Sleep $irregulardelay
 
 done

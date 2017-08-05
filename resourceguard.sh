@@ -21,7 +21,7 @@ printf '\e[9;1t'
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 while true; do
-irregulardelay=$(( ( RANDOM % 1 )  + 0 ))
+irregulardelay=$(( ( RANDOM % 4 )  + 0 ))
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
 SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
@@ -35,68 +35,85 @@ echo Total free: $TOTAL MB
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 if [ "$TOTAL" -lt "1024" ]
   then
-    irregulardelay=30
+    irregulardelay=1
     echo your memory is running out $TOTAL MB
     if [ "${cpuusage%%.*}" -lt "10" ]
       then
-        purge
+        sudo sync
       else
         echo but the scarce of resources makes me not to do the job
     fi
   else
     echo your memory still in good shape $TOTAL MB
 fi
+ramclslv1=$(( ( RANDOM % 512 )  + 500 ))
+ramclslv2=$(( ( RANDOM % 350 )  + 333 ))
+ramclscrit=$(( ( RANDOM % 32 )  + 0 ))
+ramclscfail=$(( ( RANDOM % 16 )  + 0 ))
 
-lineselect=$(( ( RANDOM % 27 )  + 10 ))
+echo ramlimit $ramclslv1 $ramclslv2 $ramclscrit $ramclscfail
+echo FREERAM $TOTAL MB
+
+lineselect=$(( ( RANDOM % 20 )  + 10 ))
 TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
-if [ "$TOPPROCESS" = "WindowServer" ] && [ "$TOPPROCESS" = "loginwindow" ]; then
-    echo Its window server wat do you think you doing
-  else
-TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
-if [ "$TOTAL" -lt "512" ]
+echo Process Scanned $TOPPROCESS
+TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
+
+echo example "$TOPPROCESS" = "WindowServer"
+if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" ]]
   then
-    irregulardelay=0
-    sudo kill -9 $TOPPROCESS
-    echo Memory freed
-    if [ "$TOTAL" -lt "256" ]
+    TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    if [ "$TOTAL" -lt "$ramclslv1" ]
       then
-        lineselect=$(( ( RANDOM % 12 )  + 10 ))
-        TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
-        if [ "$TOPPROCESS" = "WindowServer" ] && [ "$TOPPROCESS" = "loginwindow" ]; then
-            echo Its window server wat do you think you doing
+        irregulardelay=0
+        sudo kill -9 $TOPPROCESS
+        echo Memory freed
+        if [ "$TOTAL" -lt "$ramclslv2" ]
+        then
+          lineselect=$(( ( RANDOM % 15 )  + 10 ))
+          TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
+          TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
+          echo Process Scanned $TOPPROCESS
+          if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" ]]
+            then
+              TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+              sudo kill -9 $TOPPROCESS
+              irregulardelay=0
+            fi
           else
-            TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
-            sudo kill -9 $TOPPROCESS
-            irregulardelay=0
+            echo LMK finished
+          fi
+        else
+          echo LMK IS NOT ACTIVATED YET
         fi
       else
-        echo LMK finished
-    fi
-  else
-    echo LMK IS NOT ACTIVATED YET
-  fi
+        echo wrong processes
 fi
 
-if [ "$TOTAL" -lt "100" ]
+
+if [ "$TOTAL" -lt "$ramclscrit" ]
   then
     sudo sync
     echo LAST RESORT mode
     irregulardelay=0
     sudo killall loginwindow
-    sudo purge
+    #sudo purge
   else
     echo no emergency kill needed
 fi
 
-if [ "$TOTAL" -lt "64" ]
+if [ "$TOTAL" -lt "$ramclscfail" ]
   then
     sudo sync
     echo LAST RESORT mode
     irregulardelay=0
     sudo reboot
-    sudo purge
+    #sudo purge
   else
     echo no emergency kill needed
 fi
+echo $irregulardelay Seconds of refresh
+
 sleep $irregulardelay
+clear
 done
