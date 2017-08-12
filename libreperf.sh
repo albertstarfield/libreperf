@@ -3,6 +3,8 @@
 startupdelay=$(( ( RANDOM % 100 )  + 0 ))
 echo $startupdelay seconds
 #sleep $startupdelay
+#initd
+sudo sh /usr/local/bin/initd.sh
 caffeinate -t $startupdelay &
 #Licenses
 printf '\e[9;1t'
@@ -225,7 +227,7 @@ sudo launchctl limit maxfiles 1000000 1000000
 #it seems that 0x8 0x10 0x20 does freeze the os instantly so dont use it
 # using 2 is the most balanced settings
 # using 1 probably OOM killer will be kicked on to save the day
-sudo nvram boot-args="-v -f kext-dev-mode=1 vm_compressor=8 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
+sudo nvram boot-args="-v -f kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm /private/var/vm/swapfile*
 sudo sysctl debug.lowpri_throttle_enabled=0
@@ -323,7 +325,6 @@ sudo mdutil -a -i off
 #powermanagement settings
 sudo pmset -a acwake 1
 sudo pmset -b powernap 1
-sudo pmset -a disksleep 1
 sudo pmset -a autorestart 1
 sudo pmset -a hibernate mode 25
 sudo pmset -a autopoweroff 1
@@ -369,21 +370,16 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 #https://apple.stackexchange.com/questions/4286/is-there-a-mac-os-x-terminal-version-of-the-free-command-in-linux-systems
 #https://perishablepress.com/list-files-folders-recursively-terminal/
 
-if [ "${cpuusage%%.*}" -lt "17" ]
+sudo periodic daily weekly monthly &
+if [ "$TOTAL" -gt "2048" ];
   then
-    sync
-    if [ "$TOTAL" -gt "512" ]
-      then
-        sudo periodic daily weekly monthly
-        rsync -rva /
-        ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
-        ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
-      else
-        echo i will not allocate more memory
-    fi
+sudo open -a /Applications/*.app
+rsync -rva / &
+ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/' &
+ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/' &
   else
-    echo CPU Usage is too high for flushing and precaching operation
-  fi
+    echo wont cache
+fi
 echo $irregulardelay seconds
 sudo sh /usr/local/bin/resourceguard.sh
 Sleep $irregulardelay
