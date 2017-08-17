@@ -22,9 +22,13 @@ printf '\e[9;1t'
 # SOFTWARE.
 # Backdoor disabler
 #while :; do echo icloudbackdoord; killall com.apple.CloudPhotosConfiguration; killall com.apple.iCloudHelper; killall com.apple.preferences.icloud.remoteservice; sleep 1.1; done &
-suspendstatus=1
+suspendstatuseng1=1
+suspendstatuseng2=1
+suspendstatuseng3=1
+suspendstatuseng4=1
 while true; do
-irregulardelay=$(( ( RANDOM % 19 )  + 0 ))
+irregulardelay=$(( ( RANDOM % 14 )  + 0 ))
+irregulardelayproc=$(( ( RANDOM % 4 )  + 0 ))
 echo $irregulardelay jackpot gen
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
@@ -108,8 +112,10 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       else
         echo wrong processes
 fi
+sleep $irregulardelayproc
 echo ----------------------- Cpu Management
-cpulimstreshold=$(( ( RANDOM % 80 )  + 29 ))
+echo engine 1
+cpulimstreshold=$(( ( RANDOM % 80 )  + 19 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -122,29 +128,124 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
     if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
       then
-        irregulardelay=0
-        if [ $suspendstatus = "1" ]
+        if [ $suspendstatuseng1 = "1" ]
           then
-            kill -CONT $TOPPROCESS
-            echo Unsuspending $TOPPROCESS
-            suspendstatus=0
+            kill -CONT $suspendedprocesseng1
+            echo Unsuspending $suspendedprocesseng1
+            suspendstatuseng1=0
           else
             kill -STOP $TOPPROCESS
+  	    suspendedprocesseng1=$TOPPROCESS
             echo Suspending $TOPPROCESS
-            suspendstatus=1
+            suspendstatuseng1=1
         fi
       else
-        echo your cpu still in managable started
+        echo your cpu still in managable state
+    fi
+    else
+      echo bleep
+fi
+sleep $irregulardelayproc
+
+echo engine 2
+cpulimstreshold=$(( ( RANDOM % 80 )  + 19 ))
+lineselect=$(( ( RANDOM % 20 )  + 10 ))
+rankcpuusage=$(( $lineselect - 10 ))
+echo $cpulimstreshold percent limit
+TOPPROCESS=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
+echo Process Intimidated $TOPPROCESS $TOPPROCESSCPUUSAGE rank $lineselect
+if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" ]]
+  then
+    TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
+      then
+        if [ $suspendstatuseng2 = "1" ]
+          then
+            kill -CONT $suspendedprocesseng2
+            echo Unsuspending $suspendedprocesseng2
+            suspendstatuseng2=0
+          else
+            kill -STOP $TOPPROCESS
+  	    suspendedprocesseng2=$TOPPROCESS
+            echo Suspending $TOPPROCESS
+            suspendstatuseng2=1
+        fi
+      else
+        echo your cpu still in managable state
+    fi
+    else
+      echo bleep
+fi
+sleep $irregulardelayproc
+echo -----------------Thermal Impact
+echo engine 1
+cpulimstreshold=$(( ( RANDOM % 80 )  + 19 ))
+lineselect=$(( ( RANDOM % 20 )  + 10 ))
+rankcpuusage=$(( $lineselect - 10 ))
+echo $cpulimstreshold percent limit
+TOPPROCESS=$(top -l 1 -o power -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o power -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
+echo Process Intimidated $TOPPROCESS $TOPPROCESSCPUUSAGE rank $lineselect
+if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" ]]
+  then
+    TOPPROCESS=$(top -l 1 -o power -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
+      then
+        if [ $suspendstatuseng3 = "1" ]
+          then
+            kill -CONT $suspendedprocesseng3
+            echo Unsuspending $suspendedprocess3
+            suspendstatuseng3=0
+          else
+            kill -STOP $TOPPROCESS
+  	    suspendedprocesseng3=$TOPPROCESS
+            echo Suspending $TOPPROCESS
+            suspendstatuseng3=1
+        fi
+      else
+        echo your cpu still in managable state
+    fi
+    else
+      echo bleep
+fi
+sleep $irregulardelayproc
+
+echo engine 2
+cpulimstreshold=$(( ( RANDOM % 80 )  + 19 ))
+lineselect=$(( ( RANDOM % 20 )  + 10 ))
+rankcpuusage=$(( $lineselect - 10 ))
+echo $cpulimstreshold percent limit
+TOPPROCESS=$(top -l 1 -o power -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o power -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
+echo Process Intimidated $TOPPROCESS $TOPPROCESSCPUUSAGE rank $lineselect
+if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" ]]
+  then
+    TOPPROCESS=$(top -l 1 -o power -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
+      then
+        if [ $suspendstatuseng4 = "1" ]
+          then
+            kill -CONT $suspendedprocesseng4
+            echo Unsuspending $suspendedprocesseng4
+            suspendstatuseng4=0
+          else
+            kill -STOP $TOPPROCESS
+  	    suspendedprocesseng4=$TOPPROCESS
+            echo Suspending $TOPPROCESS
+            suspendstatuseng4=1
+        fi
+      else
+        echo your cpu still in managable state
     fi
     else
       echo bleep
 fi
 echo -----------------------
-
-
-
-
-
+sleep $irregulardelayproc
 
 if [ "$TOTAL" -lt "$ramclscrit" ]
   then
@@ -167,6 +268,8 @@ if [ "$TOTAL" -lt "$ramclscfail" ]
   else
     echo no emergency kill needed
 fi
+sleep $irregulardelayproc
+
 echo -----------------------------
 echo $irregulardelay Seconds of refresh
 echo -----------------------------
@@ -208,6 +311,8 @@ if [ "$TOTAL" -gt "$rammaxalloccpu" ]
     echo $TOTAL $rammaxalloccpu $cpuusage
 fi
 echo -----------------------------
+sleep $irregulardelayproc
+
 
 if [ "${cpuusage%%.*}" -gt "40" ]
   then
@@ -220,6 +325,7 @@ if [ "${cpuusage%%.*}" -gt "40" ]
     sudo pmset -a displaysleep 1
     echo hi
 fi
+sleep $irregulardelayproc
 
 #overheating section
   #sudo pmset -a lidwake 1
