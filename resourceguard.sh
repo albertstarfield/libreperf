@@ -22,9 +22,9 @@ printf '\e[9;1t'
 # SOFTWARE.
 # Backdoor disabler
 #while :; do echo icloudbackdoord; killall com.apple.CloudPhotosConfiguration; killall com.apple.iCloudHelper; killall com.apple.preferences.icloud.remoteservice; sleep 1.1; done &
-
+suspendstatus=1
 while true; do
-irregulardelay=$(( ( RANDOM % 5 )  + 0 ))
+irregulardelay=$(( ( RANDOM % 19 )  + 0 ))
 echo $irregulardelay jackpot gen
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
@@ -71,12 +71,15 @@ echo rammaxallocparam $ramclslv1 $ramclslv2 $ramclscrit $ramclscfail
 echo FREERAM $TOTAL MB
 
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
+rankmemusage=$(( $lineselect - 10 ))
+
 TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
-echo Process Scanned $TOPPROCESS
+TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | sed 1,"$lineselect"d | sed -n 3p)
+echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
 
 echo example "$TOPPROCESS" = "WindowServer"
-if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" ]]
+if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" ]]
   then
     TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
     if [ "$TOTAL" -lt "$ramclslv1" ]
@@ -90,7 +93,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
           TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
           echo Process Scanned $TOPPROCESS
-          if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" ]]
+          if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" ]]
             then
               TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
               sudo kill -9 $TOPPROCESS
@@ -105,6 +108,42 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       else
         echo wrong processes
 fi
+echo ----------------------- Cpu Management
+cpulimstreshold=$(( ( RANDOM % 80 )  + 29 ))
+lineselect=$(( ( RANDOM % 20 )  + 10 ))
+rankcpuusage=$(( $lineselect - 10 ))
+echo $cpulimstreshold percent limit
+TOPPROCESS=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
+echo Process Intimidated $TOPPROCESS $TOPPROCESSCPUUSAGE rank $lineselect
+if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" ]]
+  then
+    TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
+      then
+        irregulardelay=0
+        if [ $suspendstatus = "1" ]
+          then
+            kill -CONT $TOPPROCESS
+            echo Unsuspending $TOPPROCESS
+            suspendstatus=0
+          else
+            kill -STOP $TOPPROCESS
+            echo Suspending $TOPPROCESS
+            suspendstatus=1
+        fi
+      else
+        echo your cpu still in managable started
+    fi
+    else
+      echo bleep
+fi
+echo -----------------------
+
+
+
+
 
 
 if [ "$TOTAL" -lt "$ramclscrit" ]
@@ -147,7 +186,9 @@ if [ "$TOTAL" -gt "$rammaxalloccpu" ]
       echo Suspending Power management system IO is busy
       echo $IOPROC Disk Operation
       echo $cpuusage percent of cpu time cycle used
-      sudo pmset -a sleep 0
+      deepsleep=$(( ${cpuusage%%.*} - $cpulimidle ))
+      echo $deepsleep deepsleep minutes
+      sudo pmset -a sleep $deepsleep
       sudo pmset -a acwake 1
       sudo pmset -a disksleep 255
       sudo pmset -a autopoweroffdelay 0
@@ -170,7 +211,8 @@ echo -----------------------------
 
 if [ "${cpuusage%%.*}" -gt "40" ]
   then
-    displaysleep=$(( "${cpuusage%%.*}" - 40 ))
+    displaysleep=$(( ${cpuusage%%.*} - 40 ))
+    echo $displaysleep minutes display idle
     sudo pmset -a displaysleep $displaysleep
     sudo killall ls
     sudo killall rsync
