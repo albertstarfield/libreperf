@@ -20,8 +20,11 @@ printf '\e[9;1t'
 # ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+# Backdoor disabler
+#while :; do echo icloudbackdoord; killall com.apple.CloudPhotosConfiguration; killall com.apple.iCloudHelper; killall com.apple.preferences.icloud.remoteservice; sleep 1.1; done &
+
 while true; do
-irregulardelay=$(( ( RANDOM % 10 )  + 0 ))
+irregulardelay=$(( ( RANDOM % 5 )  + 0 ))
 echo $irregulardelay jackpot gen
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
@@ -40,19 +43,31 @@ if [ "$TOTAL" -lt "1024" ]
     echo your memory is running out $TOTAL MB
     if [ "${cpuusage%%.*}" -lt "10" ]
       then
+        echo syncing
         sudo sync
       else
-        echo but the scarce of resources makes me not to do the job
+        echo not syncing
+        #echo but the scarce of resources makes me not to do the job
     fi
   else
-    echo your memory still in good shape $TOTAL MB
+    #echo your memory still in good shape $TOTAL MB
+    echo not bad
 fi
-ramclslv1=$(( ( RANDOM % 512 )  + 128 ))
-ramclslv2=$(( ( RANDOM % 128 )  + 64 ))
+cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+if [ "${cpuusage%%.*}" -gt "90" ]
+  then
+    rammaxalloccpu=720
+    rammaxalloccrit=256
+  else
+    rammaxalloccpu=512
+    rammaxalloccrit=128
+fi
+ramclslv1=$(( ( RANDOM % $rammaxalloccpu )  + 128 ))
+ramclslv2=$(( ( RANDOM % $rammaxalloccrit )  + 64 ))
 ramclscrit=$(( ( RANDOM % 32 )  + 0 )) #its better to not change this setting
 ramclscfail=$(( ( RANDOM % 16 )  + 0 )) #DO NOT CHANGE THIS ONE
 
-echo ramlimit $ramclslv1 $ramclslv2 $ramclscrit $ramclscfail
+echo rammaxallocparam $ramclslv1 $ramclslv2 $ramclscrit $ramclscfail
 echo FREERAM $TOTAL MB
 
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
@@ -98,7 +113,7 @@ if [ "$TOTAL" -lt "$ramclscrit" ]
     echo LAST RESORT mode
     irregulardelay=0
     sudo killall loginwindow
-    #sudo purge
+    sudo purge
   else
     echo no emergency kill needed
 fi
@@ -116,61 +131,63 @@ fi
 echo -----------------------------
 echo $irregulardelay Seconds of refresh
 echo -----------------------------
+if [ "$TOTAL" -gt "$rammaxalloccpu" ]
+  then
+    #Finishing iops
+    #TOPPROCESS=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}')
+    #IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}') | IOPROC="$(echo "${IOPROC}" | tr -d '[:space:]' | sed 's/[^0-9]*//g')"
+    #IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}' | sed 's/[^0-9]*//g') | IOPROC="$(echo $IOPROC | tr -d '[:space:]')" | echo $IOPROC
+    #IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}' | sed 's/[^0-9]*//g') | echo $IOPROC
+    IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
+    IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
+    echo ---------------CPU and HDD power management
+    cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+    cpulimidle=$(( ( RANDOM % 19 )  + 5 ))
+    if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "100000" ]]; then
+      echo Suspending Power management system IO is busy
+      echo $IOPROC Disk Operation
+      echo $cpuusage percent of cpu time cycle used
+      sudo pmset -a sleep 0
+      sudo pmset -a acwake 1
+      sudo pmset -a disksleep 255
+      sudo pmset -a autopoweroffdelay 0
+      sudo pmset -a autopoweroff 0
+      sudo pmset -a lidwake 0
+    else
+      echo Power management is ON
+      sudo pmset -a sleep 1
+      sudo pmset -a acwake 0
+      sudo pmset -a disksleep 1
+      sudo pmset -a autopoweroffdelay 30
+      sudo pmset -a autopoweroff 1
+      sudo pmset -a lidwake 1
+    fi
+  else
+    echo Power management disabled optimizing system resources
+    echo $TOTAL $rammaxalloccpu $cpuusage
+fi
+echo -----------------------------
 
-echo -------------disk management
-#Finishing iops
-#TOPPROCESS=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}')
-#IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}') | IOPROC="$(echo "${IOPROC}" | tr -d '[:space:]' | sed 's/[^0-9]*//g')"
-#IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}' | sed 's/[^0-9]*//g') | IOPROC="$(echo $IOPROC | tr -d '[:space:]')" | echo $IOPROC
-#IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}' | sed 's/[^0-9]*//g') | echo $IOPROC
-IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
-IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
-echo $IOPROC Disk Operation
-if [ "$IOPROC" -gt "100000" ]
+if [ "${cpuusage%%.*}" -gt "40" ]
   then
-    echo Suspending Power management until IO operation has been done
-    sudo pmset -a sleep 900
-    sudo pmset -a acwake 1
-    sudo pmset -a disksleep 255
-    sudo pmset -a autopoweroffdelay 600
-    sudo pmset -a autopoweroff 0
-    sudo pmset -a lidwake 0
+    displaysleep=$(( "${cpuusage%%.*}" - 40 ))
+    sudo pmset -a displaysleep $displaysleep
+    sudo killall ls
+    sudo killall rsync
   else
-    echo Power management is ON
-    sudo pmset -a sleep 1
-    sudo pmset -a acwake 0
-    sudo pmset -a disksleep 1
-    sudo pmset -a autopoweroffdelay 30
-    sudo pmset -a autopoweroff 1
-    sudo pmset -a lidwake 1
+    sudo pmset -a displaysleep 1
+    echo hi
 fi
-echo -----------------------------
-echo ---------------cpu management
-cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
-if [ "${cpuusage%%.*}" -gt "45" ]
-  then
-    echo Suspending Power management until CPU calculation operation has been done
-    echo $cpuusage percent of cpu time cycle used
-    sudo pmset -a sleep 900
-    sudo pmset -a acwake 1
-    sudo pmset -a disksleep 255
-    sudo pmset -a autopoweroffdelay 600
-    sudo pmset -a autopoweroff 0
-    sudo pmset -a lidwake 0
-  else
-    echo Power management is ON
-    sudo pmset -a sleep 1
-    sudo pmset -a acwake 0
-    sudo pmset -a disksleep 1
-    sudo pmset -a autopoweroffdelay 30
-    sudo pmset -a autopoweroff 1
-    sudo pmset -a lidwake 1
-fi
-echo -----------------------------
 
 #overheating section
   #sudo pmset -a lidwake 1
   #sudo pmset -a lidwake 0
+  #top -stats pid,command,cpu,idlew,power -o power -d
+#power management
+#lineselect=$(( ( RANDOM % 15 )  + 10 ))
+#TOPPROCESS=$(top -l 1 -o power -stats pid | sed 1,10d | sed -n 3p)
+#BATTLEFT=$(sudo pmset -g batt | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}') | IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 33 | sed 's/[^0-9]*//g')
+#echo $BATTLEFT mins left
 
 
 sleep $irregulardelay
