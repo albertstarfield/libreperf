@@ -4,7 +4,7 @@ startupdelay=$(( ( RANDOM % 100 )  + 0 ))
 echo $startupdelay seconds
 #sleep $startupdelay
 #initd
-sudo sh /usr/local/bin/initd.sh
+sudo sh /usr/local/bin/initd.sh &
 caffeinate -t $startupdelay &
 #Licenses
 printf '\e[9;1t'

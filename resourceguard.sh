@@ -27,8 +27,12 @@ suspendstatuseng2=1
 suspendstatuseng3=1
 suspendstatuseng4=1
 while true; do
-irregulardelay=$(( ( RANDOM % 14 )  + 0 ))
-irregulardelayproc=$(( ( RANDOM % 4 )  + 0 ))
+cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 8 ))
+irregulardelayproc=$(( ( 100 - ${cpuusage%%.*} ) / 16 ))
+#irregulardelay=$(( ( RANDOM % $irregulardelaycpuoverride )  + 0 ))
+echo $irregulardelaycpuoverride seconds
+#irregulardelayproc=$(( ( RANDOM % $irregulardelaycpuoverride2 )  + 0 ))
 echo $irregulardelay jackpot gen
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
@@ -113,7 +117,22 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
         echo wrong processes
 fi
 sleep $irregulardelayproc
+if [ "$TOTAL" -gt "$rammaxalloccpu" ] #ram emergency optimisation start
+  then
 echo ----------------------- Cpu Management
+echo engine1=$suspendstatuseng1
+echo engine2=$suspendstatuseng2
+echo engine3=$suspendstatuseng3
+echo engine4=$suspendstatuseng4
+if [[ $suspendstatuseng1 = "1" && $suspendstatuseng2 = "1" && $suspendstatuseng3 = "1" && $suspendstatuseng4 = "1" ]]; then
+  kill -CONT $suspendedprocesseng1
+  kill -CONT $suspendedprocesseng2
+  kill -CONT $suspendedprocesseng3
+  kill -CONT $suspendedprocesseng4
+  echo Continuing processes
+else
+  echo Nothing to continue
+fi
 echo engine 1
 cpulimstreshold=$(( ( RANDOM % 80 )  + 19 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
@@ -181,17 +200,17 @@ fi
 sleep $irregulardelayproc
 echo -----------------Thermal Impact
 echo engine 1
-cpulimstreshold=$(( ( RANDOM % 80 )  + 19 ))
+cpulimstreshold=$(( ( RANDOM % 40 )  + 5 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
-TOPPROCESS=$(top -l 1 -o power -stats command | sed 1,"$lineselect"d | sed -n 3p)
-TOPPROCESSCPUUSAGE=$(top -l 1 -o power -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
-echo Process Intimidated $TOPPROCESS $TOPPROCESSCPUUSAGE rank $lineselect
+echo Process Intimidated $TOPPROCESS pwr $TOPPROCESSPOWERUSAGE line $lineselect
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" ]]
   then
-    TOPPROCESS=$(top -l 1 -o power -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    TOPPROCESS=$(top -l 2 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
     if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
       then
         if [ $suspendstatuseng3 = "1" ]
@@ -214,17 +233,17 @@ fi
 sleep $irregulardelayproc
 
 echo engine 2
-cpulimstreshold=$(( ( RANDOM % 80 )  + 19 ))
+cpulimstreshold=$(( ( RANDOM % 32 )  + 5 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
-TOPPROCESS=$(top -l 1 -o power -stats command | sed 1,"$lineselect"d | sed -n 3p)
-TOPPROCESSCPUUSAGE=$(top -l 1 -o power -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
-echo Process Intimidated $TOPPROCESS $TOPPROCESSCPUUSAGE rank $lineselect
+echo Process Intimidated $TOPPROCESS pwr $TOPPROCESSPOWERUSAGE line $lineselect
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" ]]
   then
-    TOPPROCESS=$(top -l 1 -o power -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    TOPPROCESS=$(top -l 2 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
     if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
       then
         if [ $suspendstatuseng4 = "1" ]
@@ -273,8 +292,7 @@ sleep $irregulardelayproc
 echo -----------------------------
 echo $irregulardelay Seconds of refresh
 echo -----------------------------
-if [ "$TOTAL" -gt "$rammaxalloccpu" ]
-  then
+
     #Finishing iops
     #TOPPROCESS=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}')
     #IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}') | IOPROC="$(echo "${IOPROC}" | tr -d '[:space:]' | sed 's/[^0-9]*//g')"
@@ -306,10 +324,7 @@ if [ "$TOTAL" -gt "$rammaxalloccpu" ]
       sudo pmset -a autopoweroff 1
       sudo pmset -a lidwake 1
     fi
-  else
-    echo Power management disabled optimizing system resources
-    echo $TOTAL $rammaxalloccpu $cpuusage
-fi
+
 echo -----------------------------
 sleep $irregulardelayproc
 
@@ -336,7 +351,11 @@ sleep $irregulardelayproc
 #TOPPROCESS=$(top -l 1 -o power -stats pid | sed 1,10d | sed -n 3p)
 #BATTLEFT=$(sudo pmset -g batt | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}') | IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 33 | sed 's/[^0-9]*//g')
 #echo $BATTLEFT mins left
-
+else
+  echo Power management disabled optimizing system resources #memory optimisation stop
+  echo $TOTAL $rammaxalloccpu $cpuusage
+  echo -----------------------------
+fi
 
 sleep $irregulardelay
 clear
