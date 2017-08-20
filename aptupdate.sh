@@ -47,25 +47,6 @@ Sleep 0
 Echo your Mac will reboot automatically after installation process finished
 echo Exception on the newer version
 echo Installing no longer need reboot
-Sleep 0
-echo setup will start in 9 seconds
-sleep 1
-echo setup will start in 8 seconds
-sleep 1
-echo setup will start in 7 seconds
-sleep 1
-echo setup will start in 6 seconds
-sleep 1
-echo setup will start in 5 seconds
-sleep 1
-echo setup will start in 4 seconds
-sleep 1
-echo setup will start in 3 seconds
-sleep 1
-echo setup will start in 2 seconds
-sleep 1
-echo setup will start in 1 seconds
-sleep 1
 #menuend
 
 
@@ -107,7 +88,7 @@ Echo http://www.manpagez.com/man/8/sysctl/
 echo and many little snippets
 echo sorry
 echo delaying for certain amount of time
-Sleep 2
+Sleep 0
 #Sleep 30
 Clear
 #updatecomponent
@@ -193,15 +174,13 @@ sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 
 clear
-sudo cp -r uptget.sh /usr/local/bin
-sudo cp -r aptupdate.sh /usr/local/bin
+
 sudo cp -r libreperf.sh /usr/local/bin
 sudo cp -r resourceguard.sh /usr/local/bin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
-sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
-sleep 2
-sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
+sleep 0
+sudo sh /usr/local/bin/libreperf.sh
 
 #UXOptimization
 echo phase

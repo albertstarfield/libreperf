@@ -26,7 +26,10 @@ suspendstatuseng1=1
 suspendstatuseng2=1
 suspendstatuseng3=1
 suspendstatuseng4=1
+getupdate=4
+updatecycle=0
 while true; do
+updatecycle=$(( $updatecycle + 1 ))
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 8 ))
 irregulardelayproc=$(( ( 100 - ${cpuusage%%.*} ) / 16 ))
@@ -357,6 +360,11 @@ else
   echo -----------------------------
 fi
 
+if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "100000" && "$TOTAL" -gt "1024" && $updatecycle -gt $getupdate ]]; then
+  sudo sh /usr/local/bin/uptget.sh
+else
+  echo updating not possible now
+fi
 sleep $irregulardelay
 clear
 done
