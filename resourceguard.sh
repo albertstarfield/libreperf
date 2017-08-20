@@ -26,7 +26,8 @@ suspendstatuseng1=1
 suspendstatuseng2=1
 suspendstatuseng3=1
 suspendstatuseng4=1
-getupdate=4
+randomnumber=$(( ( RANDOM % 50 )  + 10 ))
+getupdate=$randomnumber
 updatecycle=0
 while true; do
 updatecycle=$(( $updatecycle + 1 ))
@@ -362,6 +363,8 @@ fi
 
 if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "100000" && "$TOTAL" -gt "1024" && $updatecycle -gt $getupdate ]]; then
   sudo sh /usr/local/bin/uptget.sh
+  updatecycle=0
+  sudo sh /usr/local/bin/resourceguard.sh
 else
   echo updating not possible now
 fi
