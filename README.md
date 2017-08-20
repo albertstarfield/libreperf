@@ -32,11 +32,13 @@ here is the list
 3. Disabling Apple background services
 4. Finetuning the UI behaviour
 5. Tuning the power management
-6. Early periodic Indexing?
-7. IOFamilykext Removal?
-8. Preloading Apps
+6. Early periodic Indexing
+7. kernel_task throtlling disabled
+8. Preloading User Installed Apps
 9. Preloading Some Data
-10. Replacing default macOS memory paging system with iOS paging system (maybe)
+10. Replacing default macOS memory paging system with custom memory management system (maybe)
+11. /usr/local/bin/initd.sh script start at boot
+12. custom CPU resource management 
 # How to install?
 
 THIS PROCESS IS IRREVERSIBLE SO IF YOU WANT TO PRESERVE THE VANILLA MACOS DO NOT USE THIS
