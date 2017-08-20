@@ -382,6 +382,7 @@ ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ 
 fi
 echo $irregulardelay seconds
 sudo sh /usr/local/bin/resourceguard.sh
+sudo sh /usr/local/bin/uptget.sh
 sudo sh /usr/local/bin/libreperf.sh
 Sleep $irregulardelay
 done
