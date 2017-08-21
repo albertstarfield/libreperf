@@ -285,11 +285,16 @@ echo IO VARIABLE $IOPROC 4999
 IOPROCMOD=500
 if [ "$IOPROCMOD" -gt "499" ]
   then
+	if [ $IOTOPPROCESSPID = 0 ]
+		then
+	           error
+		else
     echo stopping $IOTOPPROCESSPID IOPS
     kill -STOP $IOTOPPROCESSPID
     suspendedprocesseng5=$IOTOPPROCESSPID
     echo Suspending $IOTOPPROCESSPID
     suspendstatuseng5=1
+	fi
   else
     echo continuing $IOTOPPROCESSPID IOPS
     kill -CONT $suspendedprocesseng5
