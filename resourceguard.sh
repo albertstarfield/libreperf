@@ -282,7 +282,7 @@ IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{prin
 #IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
 kill -CONT $suspendedprocesseng5
 echo IO VARIABLE $IOPROC 4999
-if [ "$IOPROC" -gt "4999" ]
+if [ "$IOPROC" -gt "499" ]
   then
     echo stopping $IOTOPPROCESSPID IOPS
     kill -STOP $IOTOPPROCESSPID
