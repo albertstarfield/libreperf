@@ -131,6 +131,15 @@ Uptime
 #hidden IO boost
 #multiple pilots install
 #https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
+echo installing some GNU stuff into your proprietary OS
+echo Compability issues with the built in features
+
+
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install gnu-sed
+brew install git
+
+
 echo installing some driver
 sudo cp -r maxdrive.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/maxdrive.plist

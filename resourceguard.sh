@@ -26,6 +26,7 @@ suspendstatuseng1=1
 suspendstatuseng2=1
 suspendstatuseng3=1
 suspendstatuseng4=1
+suspendstatuseng5=1
 randomnumber=$(( ( RANDOM % 50 )  + 10 ))
 getupdate=$randomnumber
 updatecycle=0
@@ -269,7 +270,33 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
 fi
 echo -----------------------
 sleep $irregulardelayproc
-
+#IOPS optimisation
+echo ------------------- Disk optimisation
+#sudo iotop -t 1 -C 1 1
+IOPROC=$(sudo iotop -C 1 1 -P | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
+IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
+#IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 4p | awk '{print substr($0, index($1,$7))}')
+IOTOPPROCESSPID=$(sudo iotop -t 1 -C 1 1)
+IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{print substr($2, index($11,$7))}' )
+#IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
+#IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
+kill -CONT $suspendedprocesseng5
+echo IO VARIABLE $IOPROC 4999
+if [ "$IOPROC" -gt "4999" ]
+  then
+    echo stopping $IOTOPPROCESSPID IOPS
+    kill -STOP $IOTOPPROCESSPID
+    suspendedprocesseng5=$IOTOPPROCESSPID
+    echo Suspending $IOTOPPROCESSPID
+    suspendstatuseng5=1
+  else
+    echo continuing $IOTOPPROCESSPID IOPS
+    kill -CONT $suspendedprocesseng5
+    echo Unsuspending $suspendedprocesseng5
+    suspendstatuseng5=0
+fi
+echo --------------------
+sleep $irregulardelayproc
 if [ "$TOTAL" -lt "$ramclscrit" ]
   then
     sudo sync
@@ -345,6 +372,8 @@ if [ "${cpuusage%%.*}" -gt "40" ]
     echo hi
 fi
 sleep $irregulardelayproc
+
+
 
 #overheating section
   #sudo pmset -a lidwake 1
