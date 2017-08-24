@@ -282,9 +282,9 @@ IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{prin
 #IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
 kill -CONT $suspendedprocesseng5
 echo IO VARIABLE $IOPROC 4999
-IOPROCMOD=200000
-if [ "$IOPROCMOD" -gt "100000" ]
-  then
+IOPROCMOD=$IOPROC
+cpulimidle=$(( ( RANDOM % 30 )  + 20 ))
+if [[ "$IOPROCMOD" -gt "100000" && "${cpuusage%%.*}" -gt "$cpulimidle" ]]; then
 	if [ $IOTOPPROCESSPID = 0 ]
 		then
 	           error

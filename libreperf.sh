@@ -347,6 +347,9 @@ sleep 0
 #mkdir "$ramdisk/Caches"
 #ln -s "$ramdisk/Caches" "/Users/$LOGIN/Library"
 #reporting
+#Installingservice on ramdisk
+diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://131072`
+cp -r /usr/local/bin/resourceguard.sh /Volumes/libreperfruntime
 sysctl vm.swapusage
 sysctl -a vm.compressor_mode
 #irregularpolling code
@@ -381,7 +384,7 @@ ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ 
     echo wont cache
 fi
 echo $irregulardelay seconds
-sudo sh /usr/local/bin/resourceguard.sh
+sudo sh /Volumes/libreperfruntime/resourceguard.sh
 sudo sh /usr/local/bin/uptget.sh
 sudo sh /usr/local/bin/libreperf.sh
 Sleep $irregulardelay
