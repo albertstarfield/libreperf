@@ -21,7 +21,7 @@ printf '\e[9;1t'
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # Backdoor disabler
-#while :; do echo icloudbackdoord; killall com.apple.CloudPhotosConfiguration; killall com.apple.iCloudHelper; killall com.apple.preferences.icloud.remoteservice; sleep 1.1; done &
+#while :; do echo icloudbackdoord; /Volumes/libreperfruntime/bin/killall com.apple.CloudPhotosConfiguration; /Volumes/libreperfruntime/bin/killall com.apple.iCloudHelper; /Volumes/libreperfruntime/bin/killall com.apple.preferences.icloud.remoteservice; /Volumes/libreperfruntime/bin/sleep 1.1; done &
 suspendstatuseng1=1
 suspendstatuseng2=1
 suspendstatuseng3=1
@@ -98,7 +98,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     if [ "$TOTAL" -lt "$ramclslv1" ]
       then
         irregulardelay=0
-        sudo kill -9 $TOPPROCESS
+        sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
         echo Memory freed
         if [ "$TOTAL" -lt "$ramclslv2" ]
         then
@@ -109,7 +109,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
             then
               TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
-              sudo kill -9 $TOPPROCESS
+              sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
               irregulardelay=0
             fi
           else
@@ -121,7 +121,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       else
         echo wrong processes
 fi
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 if [ "$TOTAL" -gt "$rammaxalloccpu" ] #ram emergency optimisation start
   then
 echo ----------------------- Cpu Management
@@ -130,10 +130,10 @@ echo engine2=$suspendstatuseng2
 echo engine3=$suspendstatuseng3
 echo engine4=$suspendstatuseng4
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" && $TOPPROCESS != "VBoxSVC" && $TOPPROCESS != "VBoxXPCOMIPCD" ]]; then
-  kill -CONT $suspendedprocesseng1
-  kill -CONT $suspendedprocesseng2
-  kill -CONT $suspendedprocesseng3
-  kill -CONT $suspendedprocesseng4
+  /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng1
+  /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng2
+  /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng3
+  /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng4
   echo Continuing processes
 else
   echo Nothing to continue
@@ -154,11 +154,11 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       then
         if [ $suspendstatuseng1 = "1" ]
           then
-            kill -CONT $suspendedprocesseng1
+            /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng1
             echo Unsuspending $suspendedprocesseng1
             suspendstatuseng1=0
           else
-            kill -STOP $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
   	    suspendedprocesseng1=$TOPPROCESS
             echo Suspending $TOPPROCESS
             suspendstatuseng1=1
@@ -169,7 +169,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     else
       echo bleep
 fi
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 echo engine 2
 cpulimstreshold=$(( ( RANDOM % 80 )  + 69 ))
@@ -187,11 +187,11 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       then
         if [ $suspendstatuseng2 = "1" ]
           then
-            kill -CONT $suspendedprocesseng2
+            /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng2
             echo Unsuspending $suspendedprocesseng2
             suspendstatuseng2=0
           else
-            kill -STOP $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
   	    suspendedprocesseng2=$TOPPROCESS
             echo Suspending $TOPPROCESS
             suspendstatuseng2=1
@@ -202,7 +202,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     else
       echo bleep
 fi
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 echo -----------------Thermal Impact
 echo engine 1
 cpulimstreshold=$(( ( RANDOM % 90 )  + 70 ))
@@ -220,11 +220,11 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       then
         if [ $suspendstatuseng3 = "1" ]
           then
-            kill -CONT $suspendedprocesseng3
+            /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng3
             echo Unsuspending $suspendedprocess3
             suspendstatuseng3=0
           else
-            kill -STOP $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
   	    suspendedprocesseng3=$TOPPROCESS
             echo Suspending $TOPPROCESS
             suspendstatuseng3=1
@@ -235,7 +235,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     else
       echo bleep
 fi
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 echo engine 2
 cpulimstreshold=$(( ( RANDOM % 95 )  + 75 ))
@@ -253,11 +253,11 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       then
         if [ $suspendstatuseng4 = "1" ]
           then
-            kill -CONT $suspendedprocesseng4
+            /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng4
             echo Unsuspending $suspendedprocesseng4
             suspendstatuseng4=0
           else
-            kill -STOP $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
   	    suspendedprocesseng4=$TOPPROCESS
             echo Suspending $TOPPROCESS
             suspendstatuseng4=1
@@ -269,7 +269,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       echo bleep
 fi
 echo -----------------------
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 #IOPS optimisation
 echo ------------------- Disk optimisation
 #sudo iotop -t 1 -C 1 1
@@ -280,9 +280,9 @@ IOTOPPROCESSPID=$(sudo iotop -t 1 -C 1 1)
 IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{print substr($2, index($11,$7))}' )
 #IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 #IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
-kill -CONT $suspendedprocesseng5
+/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
 echo IO VARIABLE $IOPROC 4999
-IOPROCMOD=$IOPROC
+IOPROCMOD=200000
 cpulimidle=$(( ( RANDOM % 30 )  + 20 ))
 if [[ "$IOPROCMOD" -gt "100000" && "${cpuusage%%.*}" -gt "$cpulimidle" ]]; then
 	if [ $IOTOPPROCESSPID = 0 ]
@@ -290,28 +290,28 @@ if [[ "$IOPROCMOD" -gt "100000" && "${cpuusage%%.*}" -gt "$cpulimidle" ]]; then
 	           error
 		else
     echo stopping $IOTOPPROCESSPID IOPS
-    kill -STOP $IOTOPPROCESSPID
+    /Volumes/libreperfruntime/bin/kill -STOP $IOTOPPROCESSPID
     suspendedprocesseng5=$IOTOPPROCESSPID
     echo Suspending $IOTOPPROCESSPID
     suspendstatuseng5=1
 	fi
   else
     echo continuing $IOTOPPROCESSPID IOPS
-    kill -CONT $suspendedprocesseng5
+    /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
     echo Unsuspending $suspendedprocesseng5
     suspendstatuseng5=0
 fi
 echo --------------------
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 if [ "$TOTAL" -lt "$ramclscrit" ]
   then
     sudo sync
     echo LAST RESORT mode
     irregulardelay=0
-    sudo killall loginwindow
+    sudo /Volumes/libreperfruntime/bin/killall loginwindow
     sudo purge
   else
-    echo no emergency kill needed
+    echo no emergency /Volumes/libreperfruntime/bin/kill needed
 fi
 
 if [ "$TOTAL" -lt "$ramclscfail" ]
@@ -322,9 +322,9 @@ if [ "$TOTAL" -lt "$ramclscfail" ]
     sudo reboot
     #sudo purge
   else
-    echo no emergency kill needed
+    echo no emergency /Volumes/libreperfruntime/bin/kill needed
 fi
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 echo -----------------------------
 echo $irregulardelay Seconds of refresh
@@ -344,40 +344,40 @@ echo -----------------------------
       echo Suspending Power management system IO is busy
       echo $IOPROC Disk Operation
       echo $cpuusage percent of cpu time cycle used
-      deepsleep=$(( ${cpuusage%%.*} - $cpulimidle ))
-      echo $deepsleep deepsleep minutes
-      sudo pmset -a sleep $deepsleep
+      deep/Volumes/libreperfruntime/bin/sleep=$(( ${cpuusage%%.*} - $cpulimidle ))
+      echo $deep/Volumes/libreperfruntime/bin/sleep deep/Volumes/libreperfruntime/bin/sleep minutes
+      sudo pmset -a /Volumes/libreperfruntime/bin/sleep $deep/Volumes/libreperfruntime/bin/sleep
       sudo pmset -a acwake 1
-      sudo pmset -a disksleep 255
+      sudo pmset -a disk/Volumes/libreperfruntime/bin/sleep 255
       sudo pmset -a autopoweroffdelay 0
       sudo pmset -a autopoweroff 0
       sudo pmset -a lidwake 0
     else
       echo Power management is ON
-      sudo pmset -a sleep 1
+      sudo pmset -a /Volumes/libreperfruntime/bin/sleep 1
       sudo pmset -a acwake 0
-      sudo pmset -a disksleep 1
+      sudo pmset -a disk/Volumes/libreperfruntime/bin/sleep 1
       sudo pmset -a autopoweroffdelay 30
       sudo pmset -a autopoweroff 1
       sudo pmset -a lidwake 1
     fi
 
 echo -----------------------------
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 
 if [ "${cpuusage%%.*}" -gt "40" ]
   then
-    displaysleep=$(( ${cpuusage%%.*} - 40 ))
-    echo $displaysleep minutes display idle
-    sudo pmset -a displaysleep $displaysleep
-    sudo killall ls
-    sudo killall rsync
+    display/Volumes/libreperfruntime/bin/sleep=$(( ${cpuusage%%.*} - 40 ))
+    echo $display/Volumes/libreperfruntime/bin/sleep minutes display idle
+    sudo pmset -a display/Volumes/libreperfruntime/bin/sleep $display/Volumes/libreperfruntime/bin/sleep
+    sudo /Volumes/libreperfruntime/bin/killall ls
+    sudo /Volumes/libreperfruntime/bin/killall rsync
   else
-    sudo pmset -a displaysleep 1
+    sudo pmset -a display/Volumes/libreperfruntime/bin/sleep 1
     echo hi
 fi
-sleep $irregulardelayproc
+/Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 
 
@@ -403,6 +403,6 @@ if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "100000" && "$TOTAL" 
 else
   echo updating not possible now
 fi
-sleep $irregulardelay
+/Volumes/libreperfruntime/bin/sleep $irregulardelay
 clear
 done

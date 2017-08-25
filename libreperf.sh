@@ -350,6 +350,8 @@ sleep 0
 #Installingservice on ramdisk
 diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://131072`
 cp -r /usr/local/bin/resourceguard.sh /Volumes/libreperfruntime
+mkdir /Volumes/libreperfruntime/bin
+cp -r /bin/ /Volumes/libreperfruntime/bin
 sysctl vm.swapusage
 sysctl -a vm.compressor_mode
 #irregularpolling code
