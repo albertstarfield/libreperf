@@ -21,12 +21,12 @@ printf '\e[9;1t'
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # Backdoor disabler
-#while :; do echo icloudbackdoord; /Volumes/libreperfruntime/bin/killall com.apple.CloudPhotosConfiguration; /Volumes/libreperfruntime/bin/killall com.apple.iCloudHelper; /Volumes/libreperfruntime/bin/killall com.apple.preferences.icloud.remoteservice; /Volumes/libreperfruntime/bin/sleep 1.1; done &
-suspendstatuseng1=1
-suspendstatuseng2=1
-suspendstatuseng3=1
-suspendstatuseng4=1
-suspendstatuseng5=1
+#while :; do echo icloudbackdoord; killall com.apple.CloudPhotosConfiguration; killall com.apple.iCloudHelper; killall com.apple.preferences.icloud.remoteservice; /Volumes/libreperfruntime/bin/sleep 1.1; done &
+suspendstatuseng1=0
+suspendstatuseng2=0
+suspendstatuseng3=0
+suspendstatuseng4=0
+suspendstatuseng5=0
 randomnumber=$(( ( RANDOM % 50 )  + 10 ))
 getupdate=$randomnumber
 updatecycle=0
@@ -280,27 +280,39 @@ IOTOPPROCESSPID=$(sudo iotop -t 1 -C 1 1)
 IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{print substr($2, index($11,$7))}' )
 #IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 #IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
-/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
+TOPPROCESS=$( /Volumes/libreperfruntime/bin/ps -c -p $IOTOPPROCESSPID )
+TOPPROCESS=$( echo "${TOPPROCESS}" | sed 1,1d | sed -n 1p |sed 's/[^a-zA-Z]*//g' )
+echo PROCESS BEING MONITORED $TOPPROCESS
+
+#/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
 echo IO VARIABLE $IOPROC 4999
 IOPROCMOD=$IOPROC
-cpulimidle=$(( ( RANDOM % 30 )  + 20 ))
-if [[ "$IOPROCMOD" -gt "1000000" && "${cpuusage%%.*}" -gt "$cpulimidle" ]]; then
-	if [ $IOTOPPROCESSPID = 0 ]
-		then
-	           error
-		else
-    echo stopping $IOTOPPROCESSPID IOPS
-    /Volumes/libreperfruntime/bin/kill -STOP $IOTOPPROCESSPID
-    suspendedprocesseng5=$IOTOPPROCESSPID
-    echo Suspending $IOTOPPROCESSPID
-    suspendstatuseng5=1
-	fi
-  else
-    echo continuing $IOTOPPROCESSPID IOPS
-    /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
-    echo Unsuspending $suspendedprocesseng5
-    suspendstatuseng5=0
+IOGUARD=$(( ( RANDOM % 100000 )  + 10000 ))
+echo $IOGUARD IO LIMIT
+cpulimidle=$(( ( RANDOM % 19 )  + 10 ))
+if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" && $TOPPROCESS != "VBoxSVC" && $TOPPROCESS != "VBoxXPCOMIPCD" ]]; then
+  if [[ "$IOPROCMOD" -gt "$IOGUARD" && "${cpuusage%%.*}" -gt "$cpulimidle" ]]; then
+	   if [ $IOTOPPROCESSPID = 0 ]
+		   then
+	             error
+		   else
+         echo stopping $IOTOPPROCESSPID IOPS
+         /Volumes/libreperfruntime/bin/kill -STOP $IOTOPPROCESSPID
+         suspendedprocesseng5=$IOTOPPROCESSPID
+         echo Suspending $IOTOPPROCESSPID
+         suspendstatuseng5=1
+	      fi
+      else
+        echo continuing $IOTOPPROCESSPID IOPS
+        /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
+        echo Unsuspending $suspendedprocesseng5
+        suspendstatuseng5=0
+      fi
+    else
+    echo Guarding system memory
 fi
+
+
 echo --------------------
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 if [ "$TOTAL" -lt "$ramclscrit" ]
@@ -308,7 +320,7 @@ if [ "$TOTAL" -lt "$ramclscrit" ]
     sudo sync
     echo LAST RESORT mode
     irregulardelay=0
-    sudo /Volumes/libreperfruntime/bin/killall loginwindow
+    sudo killall loginwindow
     sudo purge
   else
     echo no emergency /Volumes/libreperfruntime/bin/kill needed
@@ -319,7 +331,7 @@ if [ "$TOTAL" -lt "$ramclscfail" ]
     sudo sync
     echo LAST RESORT mode
     irregulardelay=0
-    sudo reboot
+    sudo reboot -q
     #sudo purge
   else
     echo no emergency /Volumes/libreperfruntime/bin/kill needed
@@ -344,19 +356,19 @@ echo -----------------------------
       echo Suspending Power management system IO is busy
       echo $IOPROC Disk Operation
       echo $cpuusage percent of cpu time cycle used
-      deep/Volumes/libreperfruntime/bin/sleep=$(( ${cpuusage%%.*} - $cpulimidle ))
-      echo $deep/Volumes/libreperfruntime/bin/sleep deep/Volumes/libreperfruntime/bin/sleep minutes
-      sudo pmset -a /Volumes/libreperfruntime/bin/sleep $deep/Volumes/libreperfruntime/bin/sleep
+      deepsleep=$(( ${cpuusage%%.*} - $cpulimidle ))
+      echo $deepsleep minutes
+      sudo pmset -a sleep $deepsleep
       sudo pmset -a acwake 1
-      sudo pmset -a disk/Volumes/libreperfruntime/bin/sleep 255
+      sudo pmset -a disksleep 255
       sudo pmset -a autopoweroffdelay 0
       sudo pmset -a autopoweroff 0
       sudo pmset -a lidwake 0
     else
       echo Power management is ON
-      sudo pmset -a /Volumes/libreperfruntime/bin/sleep 1
+      sudo pmset -a sleep 1
       sudo pmset -a acwake 0
-      sudo pmset -a disk/Volumes/libreperfruntime/bin/sleep 1
+      sudo pmset -a disksleep 1
       sudo pmset -a autopoweroffdelay 30
       sudo pmset -a autopoweroff 1
       sudo pmset -a lidwake 1
@@ -366,15 +378,15 @@ echo -----------------------------
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 
-if [ "${cpuusage%%.*}" -gt "40" ]
+if [ "${cpuusage%%.*}" -gt "10" ]
   then
-    display/Volumes/libreperfruntime/bin/sleep=$(( ${cpuusage%%.*} - 40 ))
-    echo $display/Volumes/libreperfruntime/bin/sleep minutes display idle
-    sudo pmset -a display/Volumes/libreperfruntime/bin/sleep $display/Volumes/libreperfruntime/bin/sleep
-    sudo /Volumes/libreperfruntime/bin/killall ls
-    sudo /Volumes/libreperfruntime/bin/killall rsync
+    displaysleep=$(( ${cpuusage%%.*} - 40 ))
+    echo $displaysleep minutes display idle
+    sudo pmset -a displaysleep $displaysleep
+    sudo killall ls
+    sudo killall rsync
   else
-    sudo pmset -a display/Volumes/libreperfruntime/bin/sleep 1
+    sudo pmset -a displaysleep 1
     echo hi
 fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
