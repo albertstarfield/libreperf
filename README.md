@@ -1,4 +1,4 @@
-# libreperf 0.1b "OSX Darwin kernel" based OS performance improvement project
+# libreperf 0.2b "OSX Darwin kernel" based OS performance improvement project
 ------------
 # what is Libreperf?
 An project of attempting to remove macOS (10.12) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices using various command and modification from multiple source or website
@@ -39,6 +39,7 @@ here is the list
 10. Replacing default macOS memory paging system with custom memory management system (maybe)
 11. /usr/local/bin/initd.sh script start at boot
 12. custom CPU resource management 
+13. custom I/O management (Kinda having some broken algorithm issues
 # How to install?
 
 THIS PROCESS IS IRREVERSIBLE SO IF YOU WANT TO PRESERVE THE VANILLA MACOS DO NOT USE THIS
