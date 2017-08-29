@@ -293,7 +293,8 @@ IOPROCMOD=$IOPROC
 IOGUARD=$(( ( RANDOM % 100000 )  + 10000 ))
 echo $IOGUARD IO LIMIT
 cpulimidle=$(( ( RANDOM % 19 )  + 10 ))
-cpulimidle2=$(( ( RANDOM % 50 )  + 10 ))
+cpulimidle2=$(( ( RANDOM % 500 )  + 100 ))
+echo $cpulimidle2 CPU DETECTION
 
 #ps -o %cpu -c -p 1143
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" && $TOPPROCESS != "VBoxSVC" && $TOPPROCESS != "VBoxXPCOMIPCD" ]]; then
