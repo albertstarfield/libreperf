@@ -282,7 +282,10 @@ IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{prin
 #IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
 TOPPROCESS=$( /Volumes/libreperfruntime/bin/ps -c -p $IOTOPPROCESSPID )
 TOPPROCESS=$( echo "${TOPPROCESS}" | sed 1,1d | sed -n 1p |sed 's/[^a-zA-Z]*//g' )
-echo PROCESS BEING MONITORED $TOPPROCESS
+TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $IOTOPPROCESSPID )
+TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p |sed 's/[^0-9]*//g' )
+
+echo PROCESS BEING MONITORED $TOPPROCESS CPUUSAGE $TOPPROCESSCPUUSAGE
 
 #/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
 echo IO VARIABLE $IOPROC 4999
@@ -290,11 +293,14 @@ IOPROCMOD=$IOPROC
 IOGUARD=$(( ( RANDOM % 100000 )  + 10000 ))
 echo $IOGUARD IO LIMIT
 cpulimidle=$(( ( RANDOM % 19 )  + 10 ))
+cpulimidle2=$(( ( RANDOM % 50 )  + 10 ))
+
+#ps -o %cpu -c -p 1143
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" && $TOPPROCESS != "VBoxSVC" && $TOPPROCESS != "VBoxXPCOMIPCD" ]]; then
-  if [[ "$IOPROCMOD" -gt "$IOGUARD" && "${cpuusage%%.*}" -gt "$cpulimidle" ]]; then
+  if [[ "$IOPROCMOD" -gt "$IOGUARD" && "${cpuusage%%.*}" -gt "$cpulimidle" && "$TOPPROCESSCPUUSAGE" -gt "$cpulimidle2" ]]; then
 	   if [ $IOTOPPROCESSPID = 0 ]
 		   then
-	             error
+	             invalid
 		   else
          echo stopping $IOTOPPROCESSPID IOPS
          /Volumes/libreperfruntime/bin/kill -STOP $IOTOPPROCESSPID
