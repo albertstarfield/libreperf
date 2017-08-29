@@ -293,7 +293,7 @@ IOPROCMOD=$IOPROC
 IOGUARD=$(( ( RANDOM % 100000 )  + 10000 ))
 echo $IOGUARD IO LIMIT
 cpulimidle=$(( ( RANDOM % 19 )  + 10 ))
-cpulimidle2=$(( ( RANDOM % 500 )  + 100 ))
+cpulimidle2=$(( ( RANDOM % 750 )  + 100 ))
 echo $cpulimidle2 CPU DETECTION
 
 #ps -o %cpu -c -p 1143
