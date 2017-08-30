@@ -349,11 +349,14 @@ sleep 0
 #reporting
 
 #Installingservice on ramdisk
+
 if [ ! -d "/Volumes/libreperfruntime/" ]; then
 diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://131072`
   else
     echo volume exist
   fi
+sudo chflags hidden /volumes/libreperfruntime
+sudo killall Finder
 cp -r /usr/local/bin/resourceguard.sh /Volumes/libreperfruntime
 mkdir /Volumes/libreperfruntime/bin
 cp -r /bin/ /Volumes/libreperfruntime/bin

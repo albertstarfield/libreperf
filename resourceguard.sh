@@ -27,7 +27,7 @@ suspendstatuseng2=0
 suspendstatuseng3=0
 suspendstatuseng4=0
 suspendstatuseng5=0
-randomnumber=$(( ( RANDOM % 50 )  + 10 ))
+randomnumber=$(( ( RANDOM % 100 )  + 10 ))
 getupdate=$randomnumber
 updatecycle=0
 while true; do
@@ -268,6 +268,40 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     else
       echo bleep
 fi
+
+echo -----------------------Cooling systems
+maxsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
+maxsaferpm=$( echo "${maxsaferpm}" | sed -n 7p | sed 's/[^0-9]*//g' )
+echo $maxsaferpm MAX RPM
+minsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
+minsaferpm=$( echo "${minsaferpm}" | sed -n 6p | sed 's/[^0-9]*//g' )
+echo $minsaferpm MIN DETERMINED RPM
+cpulimidle=$(( ( RANDOM % 52 )  + 40 ))
+
+if [ ${cpuusage%%.*} -gt $cpulimidle ]
+  then
+    echo MAXIMUM RPM MODE
+    sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
+    sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
+  else
+    echo SERVO RPM MODE
+    temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
+    temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
+    echo $temp Celsius
+    maxtemp=$(( ( RANDOM % 740 )  + 690 ))
+    echo $maxtemp
+    if [ $temp -gt $maxtemp ]
+      then
+        rpmop=$(( $temp * $maxsaferpm / $maxtemp ))
+        echo Safe Spin $rpmop RPM
+        sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
+        sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
+      else
+        sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
+        sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
+    fi
+  fi
+
 echo -----------------------
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 #IOPS optimisation
@@ -283,7 +317,7 @@ IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{prin
 TOPPROCESS=$( /Volumes/libreperfruntime/bin/ps -c -p $IOTOPPROCESSPID )
 TOPPROCESS=$( echo "${TOPPROCESS}" | sed 1,1d | sed -n 1p |sed 's/[^a-zA-Z]*//g' )
 TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $IOTOPPROCESSPID )
-TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p |sed 's/[^0-9]*//g' )
+TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
 
 echo PROCESS BEING MONITORED $TOPPROCESS CPUUSAGE $TOPPROCESSCPUUSAGE
 

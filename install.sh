@@ -104,6 +104,7 @@ echo davidschalter.com
 echo https://gist.github.com/pwnsdx/d87b034c4c0210b988040ad2f85a68d3 disabling features
 echo https://ioshackerwiki.com/sysctls/ moar kernel strings yay
 Echo http://www.manpagez.com/man/8/sysctl/
+echo https://github.com/lavoiesl/osx-cpu-temp
 echo and many little snippets
 echo sorry
 echo delaying for certain amount of time
@@ -200,15 +201,19 @@ sudo launchctl load -w /Library/LaunchDaemons/krnsysprocdelay.plist
 sudo cp -r krnvfssync.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
-
+# Like it was a install process
 clear
 sudo cp -r uptget.sh /usr/local/bin
 sudo cp -r aptupdate.sh /usr/local/bin
 sudo cp -r libreperf.sh /usr/local/bin
+#binary installation
+sudo cp -r cycletmpcheck /bin/
+sudo cp -r smc /bin/
 sudo cp -r resourceguard.sh /usr/local/bin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
+sudo sync
 sleep 2
 sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
 
