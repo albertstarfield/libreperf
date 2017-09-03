@@ -175,13 +175,20 @@ sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 
 clear
 
+sudo cp -r uptget.sh /usr/local/bin
+sudo cp -r aptupdate.sh /usr/local/bin
 sudo cp -r libreperf.sh /usr/local/bin
+#binary installation
+sudo cp -r cycletmpcheck /bin/
+sudo cp -r smc /bin/
+sudo cp -r coolingcontroller.sh /usr/local/bin
 sudo cp -r resourceguard.sh /usr/local/bin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
-sleep 0
-sudo sh /usr/local/bin/libreperf.sh
-
+sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
+sudo sync
+sleep 2
+sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
 #UXOptimization
 echo phase
 sudo defaults write com.apple.CrashReporter DialogType nano

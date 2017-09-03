@@ -5,6 +5,7 @@ echo $startupdelay seconds
 #sleep $startupdelay
 #initd
 sudo sh /usr/local/bin/initd.sh &
+osascript -e 'display notification "Booting initd subsystem" with title "libreperf"'
 caffeinate -t $startupdelay &
 #Licenses
 printf '\e[9;1t'
@@ -68,7 +69,7 @@ fi
 sleep 2
 while :; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
 while :; do #clear; sudo nvram SystemAudioVolume="01%"; sleep 0.5; done &
-
+osascript -e 'display notification "Welcome Please wait while we preparing our flight" with title "libreperf"'
 #while :; do #clear; sudo sh /usr/local/bin/resourceguard.sh; sleep 27; done
 
 /LaunchDaemons/krnfilebuffer.plist
@@ -170,6 +171,7 @@ Uptime
 #multiple pilots install
 #https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
 echo installing some driver
+osascript -e 'display notification "Booting livepatching subsystem" with title "libreperf"'
 sudo cp -r maxdrive.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/maxdrive.plist
 sudo launchctl load -w /Library/LaunchDaemons/maxdrive.plist
@@ -321,7 +323,7 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.pl
 sudo mdutil -a -i off
 #sudo mdutil -E /
 
-
+osascript -e 'display notification "Initializing Power Management Settings" with title "libreperf"'
 #powermanagement settings
 sudo pmset -a acwake 1
 sudo pmset -b powernap 1
@@ -349,7 +351,7 @@ sleep 0
 #reporting
 
 #Installingservice on ramdisk
-
+osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
 if [ ! -d "/Volumes/libreperfruntime/" ]; then
 diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://131072`
   else
@@ -357,6 +359,7 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
   fi
 sudo chflags hidden /volumes/libreperfruntime
 sudo killall Finder
+cp -r /usr/local/bin/coolingcontroller.sh /Volumes/libreperfruntime
 cp -r /usr/local/bin/resourceguard.sh /Volumes/libreperfruntime
 mkdir /Volumes/libreperfruntime/bin
 cp -r /bin/ /Volumes/libreperfruntime/bin
@@ -388,6 +391,7 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 sudo periodic daily weekly monthly &
 if [ "$TOTAL" -gt "2048" ];
   then
+    osascript -e 'display notification "Prefetching files" with title "libreperf"'
 sudo open -a /Applications/*.app
 rsync -rva / &
 ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/' &

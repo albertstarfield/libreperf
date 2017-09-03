@@ -30,6 +30,8 @@ suspendstatuseng5=0
 randomnumber=$(( ( RANDOM % 100 )  + 10 ))
 getupdate=$randomnumber
 updatecycle=0
+osascript -e 'display notification "Booting coolingcontroller subsystem" with title "libreperf"'
+sudo sh /Volumes/libreperfruntime/coolingcontroller.sh &
 while true; do
 updatecycle=$(( $updatecycle + 1 ))
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
@@ -77,8 +79,8 @@ if [ "${cpuusage%%.*}" -gt "90" ]
 fi
 ramclslv1=$(( ( RANDOM % $rammaxalloccpu )  + 128 ))
 ramclslv2=$(( ( RANDOM % $rammaxalloccrit )  + 64 ))
-ramclscrit=$(( ( RANDOM % 32 )  + 0 )) #its better to not change this setting
-ramclscfail=$(( ( RANDOM % 16 )  + 0 )) #DO NOT CHANGE THIS ONE
+ramclscrit=$(( ( RANDOM % 19 )  + 0 )) #its better to not change this setting
+ramclscfail=$(( ( RANDOM % 8 )  + 0 )) #DO NOT CHANGE THIS ONE
 
 echo rammaxallocparam $ramclslv1 $ramclslv2 $ramclscrit $ramclscfail
 echo FREERAM $TOTAL MB
@@ -110,6 +112,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
             then
               TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
               sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
+              osascript -e 'display notification "Memory have reached the limit sacrificed $TOPPROCESS" with title "libreperf"'
               irregulardelay=0
             fi
           else
@@ -157,11 +160,13 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng1
             echo Unsuspending $suspendedprocesseng1
             suspendstatuseng1=0
+	    sudo renice -n -20 $suspendedprocesseng1
           else
             /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
   	    suspendedprocesseng1=$TOPPROCESS
             echo Suspending $TOPPROCESS
             suspendstatuseng1=1
+            sudo renice -n 20 $TOPPROCESS
         fi
       else
         echo your cpu still in managable state
@@ -190,11 +195,13 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng2
             echo Unsuspending $suspendedprocesseng2
             suspendstatuseng2=0
+            sudo renice -n -20 $suspendedprocesseng2
           else
             /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
   	    suspendedprocesseng2=$TOPPROCESS
             echo Suspending $TOPPROCESS
             suspendstatuseng2=1
+            sudo renice -n 20 $TOPPROCESS
         fi
       else
         echo your cpu still in managable state
@@ -269,39 +276,6 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       echo bleep
 fi
 
-echo -----------------------Cooling systems
-maxsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
-maxsaferpm=$( echo "${maxsaferpm}" | sed -n 7p | sed 's/[^0-9]*//g' )
-echo $maxsaferpm MAX RPM
-minsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
-minsaferpm=$( echo "${minsaferpm}" | sed -n 6p | sed 's/[^0-9]*//g' )
-echo $minsaferpm MIN DETERMINED RPM
-cpulimidle=$(( ( RANDOM % 52 )  + 40 ))
-
-if [ ${cpuusage%%.*} -gt $cpulimidle ]
-  then
-    echo MAXIMUM RPM MODE
-    sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-    sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
-  else
-    echo SERVO RPM MODE
-    temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
-    temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
-    echo $temp Celsius
-    maxtemp=$(( ( RANDOM % 740 )  + 690 ))
-    echo $maxtemp
-    if [ $temp -gt $maxtemp ]
-      then
-        rpmop=$(( $temp * $maxsaferpm / $maxtemp ))
-        echo Safe Spin $rpmop RPM
-        sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-        sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
-      else
-        sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-        sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
-    fi
-  fi
-
 echo -----------------------
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 #IOPS optimisation
@@ -320,7 +294,7 @@ TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $IOTOPPROCE
 TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
 
 echo PROCESS BEING MONITORED $TOPPROCESS CPUUSAGE $TOPPROCESSCPUUSAGE
-
+sudo renice -n 20 $TOPPROCESSPID
 #/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
 echo IO VARIABLE $IOPROC 4999
 IOPROCMOD=$IOPROC
@@ -333,11 +307,12 @@ echo $cpulimidle2 CPU DETECTION
 #ps -o %cpu -c -p 1143
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" && $TOPPROCESS != "VBoxSVC" && $TOPPROCESS != "VBoxXPCOMIPCD" ]]; then
   if [[ "$IOPROCMOD" -gt "$IOGUARD" && "${cpuusage%%.*}" -gt "$cpulimidle" && "$TOPPROCESSCPUUSAGE" -gt "$cpulimidle2" ]]; then
-	   if [ $IOTOPPROCESSPID = 0 ]
+     if [ $IOTOPPROCESSPID = 0 ]
 		   then
 	             invalid
 		   else
          echo stopping $IOTOPPROCESSPID IOPS
+         osascript -e 'display notification "your computer might be slower culprit $TOPPROCESS" with title "libreperf"'
          /Volumes/libreperfruntime/bin/kill -STOP $IOTOPPROCESSPID
          suspendedprocesseng5=$IOTOPPROCESSPID
          echo Suspending $IOTOPPROCESSPID
@@ -382,7 +357,8 @@ fi
 echo -----------------------------
 echo $irregulardelay Seconds of refresh
 echo -----------------------------
-
+batterylevel=$( ioreg -l | grep -i capacity | tr '\n' ' | ' | awk '{printf("%.2f%%\n", $10/$5 * 100)}' | sed 's/[^0-9]*//g' )
+echo $batterylevel
     #Finishing iops
     #TOPPROCESS=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}')
     #IOPROC=$(sudo iotop -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($0,$7))}') | IOPROC="$(echo "${IOPROC}" | tr -d '[:space:]' | sed 's/[^0-9]*//g')"
