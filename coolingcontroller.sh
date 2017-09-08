@@ -57,7 +57,7 @@ if [ $temp -gt "827" ]
       maxtemp=$(( ( ( RANDOM % 90 )  + 70 ) * 10 ))
       maxtemp=$maxtemp
       switchmode=$(( ( ( RANDOM % 65 )  + 55 ) * 10 ))
-      switchmode=650
+      switchmode=690
       echo $maxtemp temp limit
       echo 840 TURBO SWITCH MODE
       echo $switchmode switch mode
