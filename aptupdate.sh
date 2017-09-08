@@ -174,18 +174,19 @@ sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 
 clear
-
+sudo cp -r watchdog.sh /usr/local/bin
 sudo cp -r uptget.sh /usr/local/bin
 sudo cp -r aptupdate.sh /usr/local/bin
 sudo cp -r libreperf.sh /usr/local/bin
 #binary installation
+sudo cp -r 86idlesync.sh /usr/local/bin
 sudo cp -r cycletmpcheck /bin/
 sudo cp -r smc /bin/
 sudo cp -r coolingcontroller.sh /usr/local/bin
 sudo cp -r resourceguard.sh /usr/local/bin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
-sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
+#sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
 sudo sync
 sleep 2
 sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
@@ -252,6 +253,7 @@ echo setup will reconfigure your system in 2 seconds
 sleep 1
 echo setup will reconfigure your system in 1 seconds
 sleep 1
+sudo sh /usr/local/bin/libreperf.sh
 #installation ended
 #sudo killall loginwindow
 exit

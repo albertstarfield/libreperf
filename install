@@ -242,6 +242,7 @@ sudo cp -r krnvfssync.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 # Like it was a install process
+sudo cp -r watchdog.sh /usr/local/bin
 sudo cp -r uptget.sh /usr/local/bin
 sudo cp -r aptupdate.sh /usr/local/bin
 sudo cp -r libreperf.sh /usr/local/bin

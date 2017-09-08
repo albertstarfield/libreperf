@@ -325,8 +325,6 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.pl
 sudo mdutil -a -i off
 #sudo mdutil -E /
 
-osascript -e 'display notification "Initializing Power Management Settings" with title "libreperf"'
-#powermanagement settings
 
 echo stage 1
 Sleep 0
@@ -355,7 +353,12 @@ cp -r /usr/local/bin/coolingcontroller.sh /Volumes/libreperfruntime
 cp -r /usr/local/bin/resourceguard.sh /Volumes/libreperfruntime
 mkdir /Volumes/libreperfruntime/bin
 cp -r /bin/ /Volumes/libreperfruntime/bin
-
+cp -r /usr/local/bin/86idlesync.sh /Volumes/libreperfruntime
+osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'
+#powermanagement settings
+sudo sh /Volumes/libreperfruntime/86idlesync.sh &
+osascript -e 'display notification "Initializing ramdisk watchdog" with title "libreperf"'
+sudo sh /usr/local/bin/watchdog.sh &
 
 sysctl vm.swapusage
 sysctl -a vm.compressor_mode

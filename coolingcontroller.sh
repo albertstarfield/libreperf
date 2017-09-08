@@ -57,7 +57,7 @@ if [ $temp -gt "827" ]
       maxtemp=$(( ( ( RANDOM % 90 )  + 70 ) * 10 ))
       maxtemp=$maxtemp
       switchmode=$(( ( ( RANDOM % 65 )  + 55 ) * 10 ))
-      switchmode=690
+      switchmode=650
       echo $maxtemp temp limit
       echo 840 TURBO SWITCH MODE
       echo $switchmode switch mode
@@ -71,11 +71,19 @@ if [ $temp -gt "827" ]
           sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
           sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
         else
-          cycle=0
-          rpmopold=$minsaferpm
+          rpmopsum=$(( 0 + $rpmopold ))
+          rpmop=$(( $rpmopsum / $cycle ))
+          rpmopold=$rpmopsum
           sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-          sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
-          sleep 5
+          sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
+            if [ $rpmop -lt $minsaferpm ]
+              then
+                sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
+                sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
+              else
+                echo silencing the silo
+            fi
+          sleep 1
       fi
     fi
   fi

@@ -247,6 +247,7 @@ sudo cp -r uptget.sh /usr/local/bin
 sudo cp -r aptupdate.sh /usr/local/bin
 sudo cp -r libreperf.sh /usr/local/bin
 #binary installation
+sudo cp -r 86idlesync.sh /usr/local/bin
 sudo cp -r cycletmpcheck /bin/
 sudo cp -r smc /bin/
 sudo cp -r coolingcontroller.sh /usr/local/bin
