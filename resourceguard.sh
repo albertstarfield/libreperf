@@ -28,10 +28,9 @@ suspendstatuseng3=0
 suspendstatuseng4=0
 suspendstatuseng5=0
 randomnumber=$(( ( RANDOM % 100 )  + 10 ))
+lifetime=$(( ( RANDOM % 40 )  + 20 ))
 getupdate=$randomnumber
 updatecycle=0
-osascript -e 'display notification "Booting coolingcontroller subsystem" with title "libreperf"'
-sudo sh /Volumes/libreperfruntime/coolingcontroller.sh &
 while true; do
 updatecycle=$(( $updatecycle + 1 ))
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
@@ -142,7 +141,7 @@ else
   echo Nothing to continue
 fi
 echo engine 1
-cpulimstreshold=$(( ( RANDOM % 80 )  + 65 ))
+cpulimstreshold=$(( ( RANDOM % 8000 )  + 6005 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -160,7 +159,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng1
             echo Unsuspending $suspendedprocesseng1
             suspendstatuseng1=0
-	    sudo renice -n -20 $suspendedprocesseng1
+	          sudo renice -n -20 $suspendedprocesseng1
           else
             /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
   	    suspendedprocesseng1=$TOPPROCESS
@@ -177,7 +176,7 @@ fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 echo engine 2
-cpulimstreshold=$(( ( RANDOM % 80 )  + 69 ))
+cpulimstreshold=$(( ( RANDOM % 8000 )  + 6900 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -212,7 +211,7 @@ fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 echo -----------------Thermal Impact
 echo engine 1
-cpulimstreshold=$(( ( RANDOM % 90 )  + 70 ))
+cpulimstreshold=$(( ( RANDOM % 9000 )  + 7000 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -245,7 +244,7 @@ fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 echo engine 2
-cpulimstreshold=$(( ( RANDOM % 95 )  + 75 ))
+cpulimstreshold=$(( ( RANDOM % 9500 )  + 7500 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -431,6 +430,13 @@ if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "100000" && "$TOTAL" 
   sudo sh /usr/local/bin/resourceguard.sh
 else
   echo updating not possible now
+fi
+if [ $updatecycle -gt $lifetime ]
+  then
+    echo hibernate
+    sleep ${cpuusage%%.*}
+  else
+    echo alive
 fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 clear

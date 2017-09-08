@@ -1,6 +1,6 @@
 #Slee
 #!/bin/bash
-startupdelay=$(( ( RANDOM % 100 )  + 0 ))
+startupdelay=$(( ( RANDOM % 4 )  + 0 ))
 echo $startupdelay seconds
 #sleep $startupdelay
 #initd
@@ -153,6 +153,8 @@ echo delaying for certain amount of time
 
 
 while true; do
+  osascript -e 'display notification "Booting coolingcontroller subsystem" with title "libreperf"'
+  sudo sh /Volumes/libreperfruntime/coolingcontroller.sh &
 clear
 #clear
 #Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
@@ -325,16 +327,6 @@ sudo mdutil -a -i off
 
 osascript -e 'display notification "Initializing Power Management Settings" with title "libreperf"'
 #powermanagement settings
-sudo pmset -a acwake 1
-sudo pmset -b powernap 1
-sudo pmset -a autorestart 1
-sudo pmset -a hibernate mode 25
-sudo pmset -a autopoweroff 1
-sudo pmset -a autopoweroffdelay 180
-sudo pmset -a autopoweroffdelay 300
-sudo pmset -a reduce 0
-sudo pmset -a reduce 0
-sudo pmset -a sleep 1
 
 echo stage 1
 Sleep 0
@@ -368,7 +360,7 @@ cp -r /bin/ /Volumes/libreperfruntime/bin
 sysctl vm.swapusage
 sysctl -a vm.compressor_mode
 #irregularpolling code
-irregulardelay=$(( ( RANDOM % 60 )  + 0 ))
+irregulardelay=$(( ( RANDOM % 900 )  + 0 ))
 #clear
 #Xmessage taking over root please put this script in the background &
 echo Precaching
