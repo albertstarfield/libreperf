@@ -7,9 +7,9 @@ cycle=$(( $cycle + 1 ))
 cyclesample=$(( $cyclesample + 1 ))
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 isync=$(( ${cpuusage%%.*} * 6 ))
-if [ $isync -lt 300 ]
+if [ $isync -lt 230 ]
   then
-    isync=$(( $isync * 7 ))
+    isync=$(( $isync * 2 ))
     echo synctimeframe too small
   else
     echo nanimo
