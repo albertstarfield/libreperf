@@ -85,5 +85,13 @@ sleep $irregulardelay
         else
           echo wrong processes
   fi
-sleep 10
+  if [ "$TOTAL" -lt "2048" ];
+    then
+      echo Prefetching
+    else
+      sudo killall ls
+      sudo killall rsync
+      sudo killall periodic
+  fi
+sleep 4
 done

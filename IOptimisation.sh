@@ -50,6 +50,25 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     else
     echo Guarding system memory
 fi
+sleep 1
+FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
+FREE=$((($FREE_BLOCKS+SPECULATIVE_BLOCKS) * 4096 / 1048576))
+INACTIVE=$(($INACTIVE_BLOCKS * 4096 / 1048576))
+TOTAL=$((($FREE+$INACTIVE)))
+
+if [ "$TOTAL" -gt "2048" ];
+  then
+    osascript -e 'display notification "Prefetching files" with title "libreperf"'
+sudo open -a /Applications/*.app
+rsync -rva /
+sudo periodic daily weekly monthly
+ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+  else
+    echo wont cache
+fi
 
 sleep 5
 echo --------------------
