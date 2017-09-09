@@ -179,6 +179,11 @@ sudo cp -r uptget.sh /usr/local/bin
 sudo cp -r aptupdate.sh /usr/local/bin
 sudo cp -r libreperf.sh /usr/local/bin
 #binary installation
+sudo cp -r lowmemorykiller.sh /usr/local/bin
+sudo cp -r OOMkill.sh /usr/local/bin
+sudo cp -r onscreenpowerset.sh /usr/local/bin
+sudo cp -r renicecpu.sh /usr/local/bin
+sudo cp -r IOptimisation.sh /usr/local/bin
 sudo cp -r 86idlesync.sh /usr/local/bin
 sudo cp -r cycletmpcheck /bin/
 sudo cp -r smc /bin/

@@ -350,10 +350,16 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
 sudo chflags hidden /volumes/libreperfruntime
 sudo killall Finder
 cp -r /usr/local/bin/coolingcontroller.sh /Volumes/libreperfruntime
-cp -r /usr/local/bin/resourceguard.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/bin/resourceguard.sh /Volumes/libreperfruntime
 mkdir /Volumes/libreperfruntime/bin
 cp -r /bin/ /Volumes/libreperfruntime/bin
 cp -r /usr/local/bin/86idlesync.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/bin/lowmemorykiller.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/bin/OOMkill.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/bin/onscreenpowerset.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/bin/renicecpu.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/bin/IOptimisation.sh /Volumes/libreperfruntime
+
 osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'
 #powermanagement settings
 sudo sh /Volumes/libreperfruntime/86idlesync.sh &

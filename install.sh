@@ -242,11 +242,17 @@ sudo cp -r krnvfssync.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 # Like it was a install process
+sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
 clear
 sudo cp -r uptget.sh /usr/local/bin
 sudo cp -r aptupdate.sh /usr/local/bin
 sudo cp -r libreperf.sh /usr/local/bin
 #binary installation
+sudo cp -r lowmemorykiller.sh /usr/local/bin
+sudo cp -r OOMkill.sh /usr/local/bin
+sudo cp -r onscreenpowerset.sh /usr/local/bin
+sudo cp -r renicecpu.sh /usr/local/bin
+sudo cp -r IOptimisation.sh /usr/local/bin
 sudo cp -r 86idlesync.sh /usr/local/bin
 sudo cp -r cycletmpcheck /bin/
 sudo cp -r smc /bin/
@@ -254,7 +260,7 @@ sudo cp -r coolingcontroller.sh /usr/local/bin
 sudo cp -r resourceguard.sh /usr/local/bin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
-sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
+
 sudo sync
 sleep 2
 sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist

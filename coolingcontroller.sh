@@ -1,6 +1,8 @@
 #!/bin/bash
 #ThermalControl
 echo -----------------------Cooling systems
+cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+irregulardelay=1
 maxsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
 maxsaferpm=$( echo "${maxsaferpm}" | sed -n 7p | sed 's/[^0-9]*//g' )
 echo $maxsaferpm MAX RPM
@@ -87,7 +89,7 @@ if [ $temp -gt "827" ]
       fi
     fi
   fi
-if [[ $cycle -gt 256 ]]
+if [ "$cycle" -gt "256" ]
   then
     cycle=0
     rpmopold=$minsaferpm
@@ -95,5 +97,5 @@ if [[ $cycle -gt 256 ]]
     echo no need reset
 fi
 sleep 1
-clear
+
 done
