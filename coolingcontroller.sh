@@ -100,7 +100,8 @@ clamshellinfo=$(ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState 
 clamshellinfo=$( echo "${clamshellinfo}" | sed 's/[^A-Z]*//g' )
 echo $clamshellinfo
 #ACSN no its not closed ACSY yes its closed
-if [[ $clamshellinfo = ACSY && $TEMP -gt "600" ]]; then
+if [ $clamshellinfo = ACSY ]
+  then
     cycle=0
     rpmopold=$maxsaferpm
     sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
