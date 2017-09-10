@@ -64,6 +64,6 @@ if [[ $clamshellinfo = ACSN && $TOTAL -lt "1024" ]]; then
   else
     echo awaiting the moment
 fi
-sleep 5
+sleep 30
 echo --------------------
 done
