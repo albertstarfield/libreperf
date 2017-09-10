@@ -1,6 +1,6 @@
 while true; do
   cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
-  irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 10 ))
+  #irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 10 ))
   echo updatespeed $irregulardelay
   cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
   FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
@@ -31,13 +31,19 @@ while true; do
       echo not bad
   fi
   cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
-  if [ "${cpuusage%%.*}" -gt "90" ]
+  if [ "${cpuusage%%.*}" -gt "50" ]
     then
-      rammaxalloccpu=720
-      rammaxalloccrit=256
+      irregulardelay=0
+      rammaxalloccpu=1024
+      rammaxalloccrit=358
+      ramminalloccpu=512
+      ramminalloccrit=128
     else
+      irregulardelay=3
       rammaxalloccpu=512
       rammaxalloccrit=128
+      ramminalloccpu=358
+      ramminalloccrit=99
   fi
   ramclslv1=$(( ( RANDOM % $rammaxalloccpu )  + 128 ))
   ramclslv2=$(( ( RANDOM % $rammaxalloccrit )  + 64 ))
@@ -48,21 +54,28 @@ sleep $irregulardelay
 
   lineselect=$(( ( RANDOM % 20 )  + 10 ))
   rankmemusage=$(( $lineselect - 10 ))
-
+  cpulimidle2=$(( ( RANDOM % 300 )  + 210 ))
   TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
   TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | sed 1,"$lineselect"d | sed -n 3p)
   echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
   TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
-
   echo example "$TOPPROCESS" = "WindowServer"
   if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
     then
       TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+      TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $TOPPROCESS )
+      TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
       if [ "$TOTAL" -lt "$ramclslv1" ]
         then
           irregulardelay=0
-          sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
-          echo Memory freed
+          if [ "$TOPPROCESSCPUUSAGE" -lt "$cpulimidle2" ]
+            then
+              echo INNOCENT PROCESS
+            else
+              sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
+              echo Sacrificing bg apps $TOPPROCESS
+              echo Memory freed
+          fi
           if [ "$TOTAL" -lt "$ramclslv2" ]
           then
             lineselect=$(( ( RANDOM % 15 )  + 10 ))
@@ -93,5 +106,5 @@ sleep $irregulardelay
       sudo killall rsync
       sudo killall periodic
   fi
-sleep 4
+sleep $irregulardelay
 done
