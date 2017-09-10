@@ -57,19 +57,13 @@ SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.
 FREE=$((($FREE_BLOCKS+SPECULATIVE_BLOCKS) * 4096 / 1048576))
 INACTIVE=$(($INACTIVE_BLOCKS * 4096 / 1048576))
 TOTAL=$((($FREE+$INACTIVE)))
-
-if [ "$TOTAL" -gt "2048" ];
-  then
-    osascript -e 'display notification "Prefetching files" with title "libreperf"'
-sudo open -a /Applications/*.app
-rsync -rva /
-sudo periodic daily weekly monthly
-ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
-ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+if [[ $clamshellinfo = ACSN && $TOTAL -lt "1024" ]]; then
+    sudo killall periodic
+    sudo killall rsync
+    sudo killall ls
   else
-    echo wont cache
+    echo awaiting the moment
 fi
-
 sleep 5
 echo --------------------
 done

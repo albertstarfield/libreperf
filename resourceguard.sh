@@ -29,7 +29,7 @@ suspendstatuseng4=0
 suspendstatuseng5=0
 irregulardelay=1
 irregulardelayproc=1
-randomnumber=$(( ( RANDOM % 100 )  + 10 ))
+randomnumber=$(( ( RANDOM % 512 )  + 10 ))
 lifetime=$(( ( RANDOM % 40 )  + 20 ))
 getupdate=$randomnumber
 updatecycle=0
@@ -49,6 +49,8 @@ sudo sh /Volumes/libreperfruntime/onscreenpowerset.sh &
 sudo sh /Volumes/libreperfruntime/renicecpu.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/IOptimisation.sh &
+/Volumes/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /Volumes/libreperfruntime/sleepmana.sh &
 echo booting
 
 
@@ -68,7 +70,7 @@ updatecycle=$(( $updatecycle + 1 ))
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
 
-if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "100000" && "$TOTAL" -gt "1024" && $updatecycle -gt $getupdate ]]; then
+if [[ $updatecycle -gt $getupdate ]]; then
   sudo sh /usr/local/bin/uptget.sh
   updatecycle=0
   sudo sh /usr/local/bin/resourceguard.sh
@@ -82,6 +84,13 @@ if [ $updatecycle -gt $lifetime ]
   else
     echo alive
 fi
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
+batterylevel=$( ioreg -l | grep -i capacity | tr '\n' ' | ' | awk '{printf("%.2f%%\n", $10/$5 * 100)}' | sed 's/[^0-9]*//g' )
+if [ $batterylevel -lt 500 ]
+  then
+    pmset sleepnow
+  else
+    safe
+fi
+/Volumes/libreperfruntime/bin/sleep 1
 
 done

@@ -254,6 +254,7 @@ sudo cp -r onscreenpowerset.sh /usr/local/bin
 sudo cp -r renicecpu.sh /usr/local/bin
 sudo cp -r IOptimisation.sh /usr/local/bin
 sudo cp -r 86idlesync.sh /usr/local/bin
+sudo cp -r sleepmana.sh /usr/local/bin
 sudo cp -r cycletmpcheck /bin/
 sudo cp -r smc /bin/
 sudo cp -r coolingcontroller.sh /usr/local/bin

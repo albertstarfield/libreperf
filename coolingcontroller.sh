@@ -96,6 +96,19 @@ if [ "$cycle" -gt "256" ]
   else
     echo no need reset
 fi
+clamshellinfo=$(ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState | head -1 | sed -n 1p)
+clamshellinfo=$( echo "${clamshellinfo}" | sed 's/[^A-Z]*//g' )
+echo $clamshellinfo
+#ACSN no its not closed ACSY yes its closed
+if [ $clamshellinfo = ACSY ]
+  then
+    cycle=0
+    rpmopold=$turbosaferpm
+    sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
+    sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
+  else
+    echo lid on
+fi
 sleep 1
 
 done

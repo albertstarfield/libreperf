@@ -359,6 +359,7 @@ sudo cp -r /usr/local/bin/OOMkill.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/bin/onscreenpowerset.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/bin/renicecpu.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/bin/IOptimisation.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/bin/sleepmana.sh /Volumes/libreperfruntime
 
 osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'
 #powermanagement settings
