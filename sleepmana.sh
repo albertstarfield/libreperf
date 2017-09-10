@@ -20,11 +20,15 @@ if [ $clamshellinfo = ACSY ]
     if [ "$TOTAL" -gt "1024" ];
       then
         osascript -e 'display notification "Prefetching files" with title "libreperf"'
-        sudo open -a /Applications/*.app
+        sudo open -a /Applications/*.app &
         rsync -rva /
-        sudo periodic daily weekly monthly
+        sudo periodic daily weekly monthly &
         ls -R / | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
         ls -R /Volumes/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+        clamshellinfo=$(ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState | head -1 | sed -n 1p)
+        clamshellinfo=$( echo "${clamshellinfo}" | sed 's/[^A-Z]*//g' )
+        wakelock=$(( ( RANDOM % 100 )  + 60 ))
+        sleep $wakelock
         if [ $clamshellinfo = ACSY ]
           then
             pmset sleepnow

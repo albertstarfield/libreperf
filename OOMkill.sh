@@ -13,8 +13,10 @@ while true; do
   echo Inactive:   $INACTIVE MB
   echo Total free: $TOTAL MB
 echo emergencycrash
-ramclscrit=$(( ( RANDOM % 19 )  + 0 )) #its better to not change this setting
-ramclscfail=$(( ( RANDOM % 8 )  + 0 )) #DO NOT CHANGE THIS ONE
+#ramclscrit=$(( ( RANDOM % 32 )  + 0 )) #its better to not change this setting
+#ramclscfail=$(( ( RANDOM % 16 )  + 0 )) #DO NOT CHANGE THIS ONE
+ramclscrit=64
+ramclscfail=32
 sleep $irregulardelay
   if [ "$TOTAL" -lt "$ramclscrit" ]
     then

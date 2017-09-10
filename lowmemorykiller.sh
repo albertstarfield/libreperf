@@ -14,9 +14,22 @@ while true; do
   echo Inactive:   $INACTIVE MB
   echo Total free: $TOTAL MB
   cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
-  sleep $irregulardelay
-  if [ "$TOTAL" -lt "1024" ]
+  if [ "${cpuusage%%.*}" -gt "50" ]
     then
+      irregulardelay=1
+      rammaxalloccpu=1024
+      rammaxalloccrit=358
+      ramminalloccpu=512
+      ramminalloccrit=128
+    else
+      rammaxalloccpu=512
+      rammaxalloccrit=128
+      ramminalloccpu=358
+      ramminalloccrit=99
+  fi
+  if [ "$TOTAL" -lt "$rammaxalloccpu" ]
+    then
+      irregulardelay=1
       echo your memory is running out $TOTAL MB
       if [ "${cpuusage%%.*}" -lt "10" ]
         then
@@ -29,32 +42,18 @@ while true; do
     else
       #echo your memory still in good shape $TOTAL MB
       echo not bad
-  fi
-  cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
-  if [ "${cpuusage%%.*}" -gt "50" ]
-    then
-      irregulardelay=0
-      rammaxalloccpu=1024
-      rammaxalloccrit=358
-      ramminalloccpu=512
-      ramminalloccrit=128
-    else
       irregulardelay=3
-      rammaxalloccpu=512
-      rammaxalloccrit=128
-      ramminalloccpu=358
-      ramminalloccrit=99
   fi
+
   ramclslv1=$(( ( RANDOM % $rammaxalloccpu )  + 128 ))
   ramclslv2=$(( ( RANDOM % $rammaxalloccrit )  + 64 ))
 
-sleep $irregulardelay
   echo rammaxallocparam $ramclslv1 $ramclslv2 $ramclscrit $ramclscfail
   echo FREERAM $TOTAL MB
 
   lineselect=$(( ( RANDOM % 20 )  + 10 ))
   rankmemusage=$(( $lineselect - 10 ))
-  cpulimidle2=$(( ( RANDOM % 300 )  + 210 ))
+  cpulimidle2=$(( ( RANDOM % 270 )  + 100 ))
   TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
   TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | sed 1,"$lineselect"d | sed -n 3p)
   echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
