@@ -42,7 +42,7 @@ while true; do
     else
       #echo your memory still in good shape $TOTAL MB
       echo not bad
-      irregulardelay=3
+      irregulardelay=5
   fi
 
   ramclslv1=$(( ( RANDOM % $rammaxalloccpu )  + 128 ))

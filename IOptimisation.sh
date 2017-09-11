@@ -7,15 +7,18 @@ echo ------------------- Disk optimisation
 IOPROC=$(sudo iotop -C 1 1 -P | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
 #IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 4p | awk '{print substr($0, index($1,$7))}')
+sleep 1
 IOTOPPROCESSPID=$(sudo iotop -t 1 -C 1 1)
 IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{print substr($2, index($11,$7))}' )
+sleep 1
 #IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 #IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
 TOPPROCESS=$( /Volumes/libreperfruntime/bin/ps -c -p $IOTOPPROCESSPID )
 TOPPROCESS=$( echo "${TOPPROCESS}" | sed 1,1d | sed -n 1p |sed 's/[^a-zA-Z]*//g' )
+sleep 1
 TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $IOTOPPROCESSPID )
 TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
-
+sleep 1
 echo PROCESS BEING MONITORED $TOPPROCESS CPUUSAGE $TOPPROCESSCPUUSAGE
 sudo renice -n 20 $TOPPROCESSPID
 #/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
@@ -24,7 +27,7 @@ IOPROCMOD=$IOPROC
 IOGUARD=$(( ( RANDOM % 100000 )  + 10000 ))
 echo $IOGUARD IO LIMIT
 cpulimidle=$(( ( RANDOM % 7 )  + 4 ))
-cpulimidle2=$(( ( RANDOM % 500 )  + 290 ))
+cpulimidle2=$(( ( RANDOM % 100 )  + 50 ))
 echo $cpulimidle2 CPU DETECTION
 sleep $irregulardelay
 #ps -o %cpu -c -p 1143
@@ -50,7 +53,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     else
     echo Guarding system memory
 fi
-sleep 1
+sleep 2
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
 SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
@@ -64,6 +67,6 @@ if [[ $clamshellinfo = ACSN && $TOTAL -lt "1024" ]]; then
   else
     echo awaiting the moment
 fi
-sleep 30
+sleep 5
 echo --------------------
 done
