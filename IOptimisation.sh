@@ -1,4 +1,6 @@
 #!/bin/bash
+delay=$(( ( RANDOM % 1080 )  + 412 ))
+sleep $delay 
 while true; do
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
@@ -60,7 +62,7 @@ SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.
 FREE=$((($FREE_BLOCKS+SPECULATIVE_BLOCKS) * 4096 / 1048576))
 INACTIVE=$(($INACTIVE_BLOCKS * 4096 / 1048576))
 TOTAL=$((($FREE+$INACTIVE)))
-if [[ $clamshellinfo = ACSN && $TOTAL -lt "1024" ]]; then
+if [[ $clamshellinfo = ACSN && $TOTAL -lt "2500" ]]; then
     sudo killall periodic
     sudo killall rsync
     sudo killall ls
