@@ -26,9 +26,9 @@ sudo renice -n 20 $TOPPROCESSPID
 #/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
 echo IO VARIABLE $IOPROC 4999
 IOPROCMOD=$IOPROC
-IOGUARD=$(( ( RANDOM % 100000 )  + 10000 ))
+IOGUARD=$(( ( RANDOM % 10000 )  + 1000 ))
 echo $IOGUARD IO LIMIT
-cpulimidle=$(( ( RANDOM % 7 )  + 4 ))
+cpulimidle=$(( ( RANDOM % 15 )  + 4 ))
 cpulimidle2=$(( ( RANDOM % 100 )  + 50 ))
 echo $cpulimidle2 CPU DETECTION
 sleep $irregulardelay
