@@ -51,6 +51,7 @@ sudo clear
 sudo clear
 sudo clear
 sudo clear
+sudo mkdir /usr/local/lbpbin
 sudo clear
 Clear
 Sleep 0
@@ -244,21 +245,21 @@ sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 # Like it was a install process
 sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
 clear
-sudo cp -r uptget.sh /usr/local/bin
-sudo cp -r aptupdate.sh /usr/local/bin
-sudo cp -r libreperf.sh /usr/local/bin
+sudo cp -r uptget.sh /usr/local/lbpbin
+sudo cp -r aptupdate.sh /usr/local/lbpbin
+sudo cp -r libreperf.sh /usr/local/lbpbin
 #binary installation
-sudo cp -r lowmemorykiller.sh /usr/local/bin
-sudo cp -r OOMkill.sh /usr/local/bin
-sudo cp -r onscreenpowerset.sh /usr/local/bin
-sudo cp -r renicecpu.sh /usr/local/bin
-sudo cp -r IOptimisation.sh /usr/local/bin
-sudo cp -r 86idlesync.sh /usr/local/bin
-sudo cp -r sleepmana.sh /usr/local/bin
+sudo cp -r lowmemorykiller.sh /usr/local/lbpbin
+sudo cp -r OOMkill.sh /usr/local/lbpbin
+sudo cp -r onscreenpowerset.sh /usr/local/lbpbin
+sudo cp -r renicecpu.sh /usr/local/lbpbin
+sudo cp -r IOptimisation.sh /usr/local/lbpbin
+sudo cp -r 86idlesync.sh /usr/local/lbpbin
+sudo cp -r sleepmana.sh /usr/local/lbpbin
 sudo cp -r cycletmpcheck /bin/
 sudo cp -r smc /bin/
-sudo cp -r coolingcontroller.sh /usr/local/bin
-sudo cp -r resourceguard.sh /usr/local/bin
+sudo cp -r coolingcontroller.sh /usr/local/lbpbin
+sudo cp -r resourceguard.sh /usr/local/lbpbin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 

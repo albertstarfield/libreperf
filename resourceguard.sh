@@ -42,6 +42,8 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 irregulardelay=5
 sudo sh /Volumes/libreperfruntime/lowmemorykiller.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /Volumes/libreperfruntime/coolingcontroller.sh &
+/Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/OOMkill.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/onscreenpowerset.sh &
@@ -71,9 +73,9 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
 
 if [[ $updatecycle -gt $getupdate ]]; then
-  sudo sh /usr/local/bin/uptget.sh
+  sudo sh /usr/local/lbpbin/uptget.sh
   updatecycle=0
-  sudo sh /usr/local/bin/resourceguard.sh
+  sudo sh /usr/local/lbpbin/resourceguard.sh
 else
   echo updating not possible now
 fi
@@ -89,7 +91,7 @@ if [ $batterylevel -lt 500 ]
   then
     pmset sleepnow
   else
-    safe
+    echo safe
 fi
 /Volumes/libreperfruntime/bin/sleep 1
 

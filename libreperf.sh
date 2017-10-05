@@ -4,7 +4,7 @@ startupdelay=$(( ( RANDOM % 4 )  + 0 ))
 echo $startupdelay seconds
 #sleep $startupdelay
 #initd
-sudo sh /usr/local/bin/initd.sh &
+sudo sh /usr/local/lbpbin/initd.sh &
 osascript -e 'display notification "Booting initd subsystem" with title "libreperf"'
 caffeinate -t $startupdelay &
 #Licenses
@@ -70,7 +70,7 @@ sleep 2
 while :; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
 while :; do #clear; sudo nvram SystemAudioVolume="01%"; sleep 0.5; done &
 osascript -e 'display notification "Welcome Please wait while we preparing our flight" with title "libreperf"'
-#while :; do #clear; sudo sh /usr/local/bin/resourceguard.sh; sleep 27; done
+#while :; do #clear; sudo sh /usr/local/lbpbin/resourceguard.sh; sleep 27; done
 
 /LaunchDaemons/krnfilebuffer.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnfilebuffer.plist
@@ -119,7 +119,7 @@ sudo cp -r krnvfssync.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 
-sudo cp -r libreperf.sh /usr/local/bin
+sudo cp -r libreperf.sh /usr/local/lbpbin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 #sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
@@ -349,23 +349,23 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
   fi
 sudo chflags hidden /volumes/libreperfruntime
 sudo killall Finder
-cp -r /usr/local/bin/coolingcontroller.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/bin/resourceguard.sh /Volumes/libreperfruntime
-mkdir /Volumes/libreperfruntime/bin
-cp -r /bin/ /Volumes/libreperfruntime/bin
-cp -r /usr/local/bin/86idlesync.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/bin/lowmemorykiller.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/bin/OOMkill.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/bin/onscreenpowerset.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/bin/renicecpu.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/bin/IOptimisation.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/bin/sleepmana.sh /Volumes/libreperfruntime
+cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime
+sudo mkdir /Volumes/libreperfruntime/bin
+cp -r /bin/ /Volumes/libreperfruntime/bin/
+cp -r /usr/local/lbpbin/86idlesync.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/lowmemorykiller.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/OOMkill.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/onscreenpowerset.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/renicecpu.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/IOptimisation.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/sleepmana.sh /Volumes/libreperfruntime
 
 osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'
 #powermanagement settings
 sudo sh /Volumes/libreperfruntime/86idlesync.sh &
 osascript -e 'display notification "Initializing ramdisk watchdog" with title "libreperf"'
-sudo sh /usr/local/bin/watchdog.sh &
+sudo sh /usr/local/lbpbin/watchdog.sh &
 
 sysctl vm.swapusage
 sysctl -a vm.compressor_mode
@@ -393,8 +393,8 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 
 echo $irregulardelay seconds
 sudo sh /Volumes/libreperfruntime/resourceguard.sh
-sudo sh /usr/local/bin/uptget.sh
-sudo sh /usr/local/bin/libreperf.sh
+sudo sh /usr/local/lbpbin/uptget.sh
+sudo sh /usr/local/lbpbin/libreperf.sh
 Sleep $irregulardelay
 done
 done

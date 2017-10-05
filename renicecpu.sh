@@ -14,7 +14,7 @@ else
   echo Nothing to continue
 fi
 echo engine 1
-cpulimstreshold=$(( ( RANDOM % 8000 )  + 6005 ))
+cpulimstreshold=$(( ( RANDOM % 3600 )  + 3005 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -39,6 +39,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           echo $TOPPROCESS
   	    suspendedprocesseng1=$TOPPROCESS
             echo Suspending $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
             suspendstatuseng1=1
             sudo renice -n 20 $TOPPROCESS
         fi
@@ -51,7 +52,7 @@ fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 echo engine 2
-cpulimstreshold=$(( ( RANDOM % 8000 )  + 6900 ))
+cpulimstreshold=$(( ( RANDOM % 3600 )  + 3400 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -76,6 +77,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           echo $TOPPROCESS
   	    suspendedprocesseng2=$TOPPROCESS
             echo Suspending $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
             suspendstatuseng2=1
             sudo renice -n 20 $TOPPROCESS
         fi
@@ -113,6 +115,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           echo $TOPPROCESS
   	    suspendedprocesseng3=$TOPPROCESS
             echo Suspending $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
             sudo renice -n 20 $TOPPROCESS
             suspendstatuseng3=1
         fi
@@ -150,6 +153,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           echo $TOPPROCESS
   	    suspendedprocesseng4=$TOPPROCESS
             echo Suspending $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
             sudo renice -n 20 $TOPPROCESS
             suspendstatuseng4=1
         fi
