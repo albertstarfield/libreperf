@@ -29,7 +29,7 @@ IOPROCMOD=$IOPROC
 IOGUARD=$(( ( RANDOM % 10000 )  + 1000 ))
 echo $IOGUARD IO LIMIT
 cpulimidle=$(( ( RANDOM % 15 )  + 4 ))
-cpulimidle2=$(( ( RANDOM % 100 )  + 50 ))
+cpulimidle2=$(( ( RANDOM % 50 )  + 20 ))
 echo $cpulimidle2 CPU DETECTION
 sleep $irregulardelay
 #ps -o %cpu -c -p 1143
