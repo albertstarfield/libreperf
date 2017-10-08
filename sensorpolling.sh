@@ -14,7 +14,10 @@ mkdir /Volumes/libreperfruntime/sys/IOstats
 mkdir /Volumes/libreperfruntime/sys/energy
 mkdir /Volumes/libreperfruntime/sys/hwmorph
 mkdir /Volumes/libreperfruntime/sys/bridge
+cycleuptime=0
 while true; do
+cycleuptime=$(( $cycleuptime + 1 ))
+echo $cycleuptime > /Volumes/libreperfruntime/sys/uptimecycle
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 10 ))
