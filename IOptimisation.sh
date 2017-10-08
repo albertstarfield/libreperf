@@ -1,27 +1,31 @@
 #!/bin/bash
-delay=$(( ( RANDOM % 1080 )  + 412 ))
-sleep $delay 
+delay=$(( ( RANDOM % 600 )  + 412 ))
+sleep $delay
 while true; do
-cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
+
+FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
+INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
+TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+echo Free:       $FREE MB
+echo Inactive:   $INACTIVE MB
+echo Total free: $TOTAL MB
+if [[ ${cpuusage%%.*} -gt 15 && ${cpuusage%%.*} -lt 32 && $FREE -gt 128 ]]; then
 echo ------------------- Disk optimisation
 #sudo iotop -t 1 -C 1 1
-IOPROC=$(sudo iotop -C 1 1 -P | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
-IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
+IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
 #IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 4p | awk '{print substr($0, index($1,$7))}')
 sleep 1
-IOTOPPROCESSPID=$(sudo iotop -t 1 -C 1 1)
-IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{print substr($2, index($11,$7))}' )
+IOTOPPROCESSPID=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOTOPPROCESSPID )
 sleep 1
 #IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 #IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
-TOPPROCESS=$( /Volumes/libreperfruntime/bin/ps -c -p $IOTOPPROCESSPID )
-TOPPROCESS=$( echo "${TOPPROCESS}" | sed 1,1d | sed -n 1p |sed 's/[^a-zA-Z]*//g' )
+TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/TOPPROCESS )
 sleep 1
-TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $IOTOPPROCESSPID )
-TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
+TOPPROCESSCPUUSAGE=$( /Volume/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/TOPPROCESSCPUUSAGE )
 sleep 1
-echo PROCESS BEING MONITORED $TOPPROCESS CPUUSAGE $TOPPROCESSCPUUSAGE
+echo PROCESS BEING MONITORED $TOPPROCESS $IOTOPPROCESSPID CPUUSAGE $TOPPROCESSCPUUSAGE
 sudo renice -n 20 $TOPPROCESSPID
 #/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
 echo IO VARIABLE $IOPROC 4999
@@ -56,18 +60,21 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
     echo Guarding system memory
 fi
 sleep 2
-FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
-INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
-SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
-FREE=$((($FREE_BLOCKS+SPECULATIVE_BLOCKS) * 4096 / 1048576))
-INACTIVE=$(($INACTIVE_BLOCKS * 4096 / 1048576))
-TOTAL=$((($FREE+$INACTIVE)))
+
+FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
+INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
+TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+clamshellinfo=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/hwmorph/clamshellinfo )
 if [[ $clamshellinfo = ACSN && $TOTAL -lt "2500" ]]; then
     sudo killall periodic
     sudo killall rsync
     sudo killall ls
   else
     echo awaiting the moment
+fi
+  else
+    echo High demand resources mode enabled
+    sleep 10
 fi
 sleep 5
 echo --------------------

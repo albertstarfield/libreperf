@@ -360,6 +360,8 @@ sudo cp -r /usr/local/lbpbin/onscreenpowerset.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/renicecpu.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/IOptimisation.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/sleepmana.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/sensorpolling.sh /Volumes/libreperfruntime
+
 
 osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'
 #powermanagement settings

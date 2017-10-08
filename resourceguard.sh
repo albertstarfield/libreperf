@@ -40,6 +40,8 @@ updatecycle=0
 #processlaunch
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 irregulardelay=5
+sudo sh /Volumes/libreperfruntime/sensorpolling.sh &
+/Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/lowmemorykiller.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/coolingcontroller.sh &

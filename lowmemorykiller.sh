@@ -1,14 +1,11 @@
 while true; do
-  cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+ cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
   #irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 10 ))
   echo updatespeed $irregulardelay
-  cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
-  FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
-  INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
-  SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
-  FREE=$((($FREE_BLOCKS+SPECULATIVE_BLOCKS) * 4096 / 1048576))
-  INACTIVE=$(($INACTIVE_BLOCKS * 4096 / 1048576))
-  TOTAL=$((($FREE+$INACTIVE)))
+ cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+  FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
+  INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
+  TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
   echo ------------------- Ram management
   echo Free:       $FREE MB
   echo Inactive:   $INACTIVE MB
@@ -52,18 +49,18 @@ while true; do
   echo FREERAM $TOTAL MB
 
   lineselect=$(( ( RANDOM % 20 )  + 10 ))
+  echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lightLMKline
   rankmemusage=$(( $lineselect - 10 ))
   cpulimidle2=$(( ( RANDOM % 270 )  + 100 ))
-  TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
-  TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | sed 1,"$lineselect"d | sed -n 3p)
+  TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/Pname )
+  TOPPROCESSMEMUSAGE=$( /Volumes/libreperfruntime/bin/cat Volumes/libreperfruntime/sys/mem/lightLMK/Pmemusage )
   echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
   TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
   echo example "$TOPPROCESS" = "WindowServer"
   if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
     then
-      TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
-      TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $TOPPROCESS )
-      TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
+      TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/PID )
+      TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/Pcpuusage )
       if [ "$TOTAL" -lt "$ramclslv1" ]
         then
           irregulardelay=0
@@ -78,12 +75,13 @@ while true; do
           if [ "$TOTAL" -lt "$ramclslv2" ]
           then
             lineselect=$(( ( RANDOM % 15 )  + 10 ))
-            TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
+            echo $lineselect > /Volumes/libreperfruntime/sys/bridge/heavyLMKline
+            TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname )
             TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
             echo Process Scanned $TOPPROCESS
             if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
               then
-                TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+                TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/heavyLMK/PID )
                 sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
                 osascript -e 'display notification "Memory have reached the limit sacrificed $TOPPROCESS" with title "libreperf"'
                 irregulardelay=0

@@ -1,7 +1,7 @@
 #!/bin/bash
 #ThermalControl
 echo -----------------------Cooling systems
-cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=1
 maxsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
 maxsaferpm=$( echo "${maxsaferpm}" | sed -n 7p | sed 's/[^0-9]*//g' )
@@ -12,14 +12,13 @@ minsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
 minsaferpm=$( echo "${minsaferpm}" | sed -n 6p | sed 's/[^0-9]*//g' )
 echo $minsaferpm MIN DETERMINED RPM
 cpulimidle=$(( ( RANDOM % 50 )  + 49 ))
-temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
-temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
+temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
 osascript -e 'display notification "monitoring thermal systems" with title "libreperf"'
 cycle=0
 rpmopold=$minsaferpm
 while true; do
 cycle=$(( $cycle + 1 ))
-cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
   echo -----------------------Cooling systems
   maxsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
   maxsaferpm=$( echo "${maxsaferpm}" | sed -n 7p | sed 's/[^0-9]*//g' )
@@ -30,8 +29,7 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
   minsaferpm=$( echo "${minsaferpm}" | sed -n 6p | sed 's/[^0-9]*//g' )
   echo $minsaferpm MIN DETERMINED RPM
   cpulimidle=$(( ( RANDOM % 50 )  + 32 ))
-  temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
-  temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
+  temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
 echo $cpulimidle percent limit processing cooling
 if [ $temp -gt "827" ]
   then
@@ -53,8 +51,7 @@ if [ $temp -gt "827" ]
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
     else
       echo SERVO RPM MODE
-      temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
-      temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
+      temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
       echo $temp Celsius
       maxtemp=$(( ( ( RANDOM % 90 )  + 70 ) * 10 ))
       maxtemp=$maxtemp
@@ -97,8 +94,7 @@ if [ "$cycle" -gt "256" ]
   else
     echo no need reset
 fi
-clamshellinfo=$(ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState | head -1 | sed -n 1p)
-clamshellinfo=$( echo "${clamshellinfo}" | sed 's/[^A-Z]*//g' )
+clamshellinfo=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/hwmorph/clamshellinfo )
 echo $clamshellinfo
 #ACSN no its not closed ACSY yes its closed
 if [[ $clamshellinfo = ACSY && $TEMP -gt 750 ]]; then

@@ -9,7 +9,7 @@ pmset relative wake 30
 while true; do
 cycle=$(( $cycle + 1 ))
 cyclesample=$(( $cyclesample + 1 ))
-cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 isync=$(( ${cpuusage%%.*} * 7 ))
 pmset relative wake $isync
 if [ $isync -lt 60 ]

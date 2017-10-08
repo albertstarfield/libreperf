@@ -1,6 +1,6 @@
 while true; do
 
-cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 3 ))
 irregulardelayproc=$irregulardelay
 echo ----------------------- Cpu Management
@@ -16,17 +16,18 @@ fi
 echo engine 1
 cpulimstreshold=$(( ( RANDOM % 3600 )  + 3005 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
+echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine1
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
-TOPPROCESS=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender1/Pname )
 sleep 1
-TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender1/Pcpuusage )
 sleep 1
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
 echo Process Intimidated $TOPPROCESS $TOPPROCESSCPUUSAGE rank $lineselect
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" && $TOPPROCESS != "VBoxSVC" && $TOPPROCESS != "VBoxXPCOMIPCD" ]]
   then
-    TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender1/PID )
     if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
       then
         if [ $suspendstatuseng1 = "1" ]
@@ -54,17 +55,18 @@ fi
 echo engine 2
 cpulimstreshold=$(( ( RANDOM % 3600 )  + 3400 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
+echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine2
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
-TOPPROCESS=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender2/Pname )
 sleep 1
-TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender2/Pcpuusage )
 sleep 1
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
 echo Process Intimidated $TOPPROCESS $TOPPROCESSCPUUSAGE rank $lineselect
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
   then
-    TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender2/PID )
     if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
       then
         if [ $suspendstatuseng2 = "1" ]
@@ -92,17 +94,18 @@ echo -----------------Thermal Impact
 echo engine 1
 cpulimstreshold=$(( ( RANDOM % 9000 )  + 7000 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
+echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine3
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
-TOPPROCESS=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender3/Pname )
 sleep 1
-TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender3/Pcpuusage )
 sleep 1
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
 echo Process Intimidated $TOPPROCESS pwr $TOPPROCESSPOWERUSAGE line $lineselect
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
   then
-    TOPPROCESS=$(top -l 2 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender3/PID )
     if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
       then
         if [ $suspendstatuseng3 = "1" ]
@@ -130,17 +133,18 @@ fi
 echo engine 2
 cpulimstreshold=$(( ( RANDOM % 9500 )  + 7500 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
+echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine4
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
-TOPPROCESS=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender4/Pname )
 sleep 1
-TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender4/Pcpuuusage )
 sleep 1
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
 echo Process Intimidated $TOPPROCESS pwr $TOPPROCESSPOWERUSAGE line $lineselect
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
   then
-    TOPPROCESS=$(top -l 2 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+    TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/enginesuspender4/PID )
     if [ "${cpuusage%%.*}" -gt "$cpulimstreshold" ]
       then
         if [ $suspendstatuseng4 = "1" ]

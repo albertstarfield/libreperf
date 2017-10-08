@@ -1,13 +1,10 @@
 #!/bin/bash
 while true; do
-  cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+  cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
   irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 4 ))
-  FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
-  INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
-  SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
-  FREE=$((($FREE_BLOCKS+SPECULATIVE_BLOCKS) * 4096 / 1048576))
-  INACTIVE=$(($INACTIVE_BLOCKS * 4096 / 1048576))
-  TOTAL=$((($FREE+$INACTIVE)))
+  FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
+  INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
+  TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
   echo ------------------- Ram management
   echo Free:       $FREE MB
   echo Inactive:   $INACTIVE MB

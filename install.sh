@@ -250,6 +250,7 @@ sudo cp -r aptupdate.sh /usr/local/lbpbin
 sudo cp -r libreperf.sh /usr/local/lbpbin
 #binary installation
 sudo cp -r lowmemorykiller.sh /usr/local/lbpbin
+sudo cp -r sensorpolling.sh /usr/local/lbpbin
 sudo cp -r OOMkill.sh /usr/local/lbpbin
 sudo cp -r onscreenpowerset.sh /usr/local/lbpbin
 sudo cp -r renicecpu.sh /usr/local/lbpbin
