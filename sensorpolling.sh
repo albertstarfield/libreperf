@@ -20,7 +20,7 @@ cycleuptime=$(( $cycleuptime + 1 ))
 echo $cycleuptime > /Volumes/libreperfruntime/sys/uptimecycle
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
-irregulardelay=$(( ( ${cpuusage%%.*} ) / 10 ))
+irregulardelay=$(( ( ${cpuusage%%.*} ) / 7 ))
 irregulardelayprocdec=9
 if [ $irregulardelay -lt 1 ]; then
   irregulardelay=1
