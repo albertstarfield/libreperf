@@ -9,8 +9,9 @@ pmset relative wake 30
 while true; do
 cycle=$(( $cycle + 1 ))
 cyclesample=$(( $cyclesample + 1 ))
+batterylevel=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/energy/batt )
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
-isync=$(( ${cpuusage%%.*} * 7 ))
+isync=$(( ${cpuusage%%.*} * 7 + ( ( 100 - $batterylevel ) * 2 ) ))
 pmset relative wake $isync
 if [ $isync -lt 60 ]
   then

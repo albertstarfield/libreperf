@@ -11,7 +11,7 @@ TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/tot
 echo Free:       $FREE MB
 echo Inactive:   $INACTIVE MB
 echo Total free: $TOTAL MB
-if [[ ${cpuusage%%.*} -gt 15 && ${cpuusage%%.*} -lt 32 && $FREE -gt 128 ]]; then
+if [[ ${cpuusage%%.*} -gt 15 && ${cpuusage%%.*} -lt 77 && $FREE -gt 128 ]]; then
 echo ------------------- Disk optimisation
 #sudo iotop -t 1 -C 1 1
 IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
