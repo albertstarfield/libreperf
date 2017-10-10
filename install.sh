@@ -273,7 +273,7 @@ echo phase
 sudo defaults write com.apple.CrashReporter DialogType nano
 defaults write com.apple.CrashReporter DialogType developer
 defaults write com.apple.dock single-app -bool true
-defaults write com.apple.universalaccess reduceTransparency -bool false
+defaults write com.apple.universalaccess reduceTransparency -bool true
 defaults write com.apple.dashboard mcx-disabled -boolean YES
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 defaults write -g QLPanelAnimationDuration -float 0
