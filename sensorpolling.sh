@@ -15,13 +15,20 @@ mkdir /Volumes/libreperfruntime/sys/energy
 mkdir /Volumes/libreperfruntime/sys/hwmorph
 mkdir /Volumes/libreperfruntime/sys/bridge
 cycleuptime=0
-while true; do
-cycleuptime=$(( $cycleuptime + 1 ))
-echo $cycleuptime > /Volumes/libreperfruntime/sys/uptimecycle
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
+idlog=$(( ( RANDOM % 1000 )  + 1 ))
+sudo mkdir /var/log/libreperfkernelmanagement
+sudo mkdir /var/log/libreperfkernelmanagement/$idlog
+while true; do
+cycleuptime=$(( $cycleuptime + 1 ))
+echo $cycleuptime
+echo $cycleuptime > /Volumes/libreperfruntime/sys/uptimecycle
+
+
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 7 ))
 irregulardelayprocdec=9
+
 if [ $irregulardelay -lt 1 ]; then
   irregulardelay=1
 else
@@ -37,6 +44,13 @@ TOTAL=$((($FREE+$INACTIVE)))
 echo $FREE > /Volumes/libreperfruntime/sys/mem/free
 echo $INACTIVE > /Volumes/libreperfruntime/sys/mem/inactive
 echo $TOTAL > /Volumes/libreperfruntime/sys/mem/total
+if [ $TOTAL -lt 999 ]
+  then
+    irregulardelay=1
+    irregulardelayprocdec=1
+  else
+    irregulardelay=$irregulardelay
+fi
 #lightLMK
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lightLMKline )
 TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
@@ -67,7 +81,9 @@ sleep 0.$irregulardelayprocdec
 #CPUUSAGE
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
-#/Volumes/libreperfruntime/bin/cat
+# to read sys data /Volumes/libreperfruntime/bin/cat
+if [ $cpuusage -gt 10 ]
+  then
 #checking processcpuusage
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lineselectengine1 )
 TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
@@ -108,9 +124,14 @@ echo $TOPPROCESSNAME > /Volumes/libreperfruntime/sys/cpu/enginesuspender4/Pname
 echo $TOPPROCESSCPUUSAGE > /Volumes/libreperfruntime/sys/cpu/enginesuspender4/Pcpuusage
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/cpu/enginesuspender4/PID
 sleep 0.$irregulardelayprocdec
+  else
+    echo halting scan process saving resources entering power save mode
+fi
 
 echo $cpuusage > /Volumes/libreperfruntime/sys/cpu/cpuusage
 sleep 0.$irregulardelayprocdec
+
+if [[ $cpuusage -gt "50" && $FREE -lt "256" ]]; then
 #checkIOSTATS
 IOPROC=$(sudo iotop -C 1 1 -P | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
@@ -130,6 +151,14 @@ echo $IOPROC > /Volumes/libreperfruntime/sys/IOstats/IOPROC
 echo $IOTOPPROCESSPID > /Volumes/libreperfruntime/sys/IOstats/IOTOPPROCESSPID
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/IOstats/TOPPROCESS
 echo $TOPPROCESSCPUUSAGE > /Volumes/libreperfruntime/sys/IOstats/TOPPROCESSCPUUSAGE
+  else
+    echo IO dtrace resource busy
+    echo might be fixed by flushing cache and adding additional memory
+    echo 0 > /Volumes/libreperfruntime/sys/IOstats/IOPROC
+    echo 999999 > /Volumes/libreperfruntime/sys/IOstats/IOTOPPROCESSPID
+    echo dtrace > /Volumes/libreperfruntime/sys/IOstats/TOPPROCESS
+    echo 0 > /Volumes/libreperfruntime/sys/IOstats/TOPPROCESSCPUUSAGE
+fi
 sleep 0.$irregulardelayprocdec
 #batteryleft
 batterylevel=$( ioreg -l | grep -i capacity | tr '\n' ' | ' | awk '{printf("%.2f%%\n", $10/$5 * 100)}' | sed 's/[^0-9]*//g' )
@@ -145,7 +174,7 @@ temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
 temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
 echo $temp > /Volumes/libreperfruntime/sys/temp/cputherm
 sleep 0.$irregulardelayprocdec
-
+cp -f -a /Volumes/libreperfruntime/sys/ /var/log/libreperfkernelmanagement/$idlog
 echo $irregulardelay
 sleep $irregulardelay
 done
