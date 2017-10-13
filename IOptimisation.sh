@@ -36,6 +36,19 @@ cpulimidle=$(( ( RANDOM % 15 )  + 4 ))
 cpulimidle2=$(( ( RANDOM % 50 )  + 20 ))
 echo $cpulimidle2 CPU DETECTION
 sleep $irregulardelay
+if [ $IOPROCMOD -gt $IOGUARD ]
+  then
+    sudo sysctl -w kern.maxfiles=100
+    sudo sysctl -w kern.maxfilesperproc=32 #9990000
+    sudo sysctl -w kern.sysv.shmmax=16106
+    sudo launchctl limit maxfiles 100 100
+  else
+    sudo sysctl -w kern.maxfiles=19990000
+    sudo sysctl -w kern.maxfilesperproc=9990000 #9990000
+    sudo sysctl -w kern.sysv.shmmax=1610612736
+    sudo launchctl limit maxfiles 1000000 1000000
+fi
+sleep 0.$irregulardelay
 #ps -o %cpu -c -p 1143
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" && $TOPPROCESS != "VBoxSVC" && $TOPPROCESS != "VBoxXPCOMIPCD" ]]; then
   if [[ "$IOPROCMOD" -gt "$IOGUARD" && "${cpuusage%%.*}" -gt "$cpulimidle" && "$TOPPROCESSCPUUSAGE" -lt "$cpulimidle2" ]]; then
@@ -43,10 +56,6 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
 		   then
 	             invalid
 		   else
-         sudo sysctl -w kern.maxfiles=100
-         sudo sysctl -w kern.maxfilesperproc=32 #9990000
-         sudo sysctl -w kern.sysv.shmmax=16106
-         sudo launchctl limit maxfiles 100 100
          echo stopping $IOTOPPROCESSPID IOPS
          osascript -e 'display notification "your computer might be slower culprit $TOPPROCESS" with title "libreperf"'
          /Volumes/libreperfruntime/bin/kill -STOP $IOTOPPROCESSPID
@@ -55,10 +64,6 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
          suspendstatuseng5=1
 	      fi
       else
-        sudo sysctl -w kern.maxfiles=19990000
-        sudo sysctl -w kern.maxfilesperproc=9990000 #9990000
-        sudo sysctl -w kern.sysv.shmmax=1610612736
-        sudo launchctl limit maxfiles 1000000 1000000
         echo continuing $IOTOPPROCESSPID IOPS
         /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
         echo Unsuspending $suspendedprocesseng5
