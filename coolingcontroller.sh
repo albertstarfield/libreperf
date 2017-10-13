@@ -15,6 +15,7 @@ cpulimidle=$(( ( RANDOM % 50 )  + 49 ))
 temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
 osascript -e 'display notification "monitoring thermal systems" with title "libreperf"'
 cycle=0
+rpmop=0
 rpmopold=$minsaferpm
 while true; do
 cycle=$(( $cycle + 1 ))
@@ -38,7 +39,7 @@ if [ $temp -gt "827" ]
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
       cycle=0
-      rpmopold=$turbosaferpm
+      rpmopold=$rpmop
   else
   if [ ${cpuusage%%.*} -gt $cpulimidle ]
     then
@@ -86,10 +87,10 @@ if [ $temp -gt "827" ]
       fi
     fi
   fi
-if [ "$cycle" -gt "256" ]
+if [ "$cycle" -gt "1024" ]
   then
     cycle=0
-    rpmopold=$minsaferpm
+    rpmopold=$rpmop
     sudo sh /Volumes/libreperfruntime/coolingcontroller.sh
   else
     echo no need reset
@@ -99,7 +100,7 @@ echo $clamshellinfo
 #ACSN no its not closed ACSY yes its closed
 if [[ $clamshellinfo = ACSY && $TEMP -gt 750 ]]; then
     cycle=0
-    rpmopold=$maxsaferpm
+    rpmopold=$rpmop
     sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
     sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
   else

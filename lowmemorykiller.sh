@@ -13,12 +13,26 @@ while true; do
   cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
   if [ "${cpuusage%%.*}" -gt "50" ]
     then
+      sudo sysctl -w vfs.generic.sync_timeout=150
+      sudo sysctl -w kern.memorystatus_sync_on_critical=5
+      sudo sysctl -w kern.memorystatus_sync_on_urgent=4
+      sudo sysctl -w kern.memorystatus_sync_on_warning=3
+      sudo sysctl -w kern.memorystatus_apps_idle_delay_time=1
+      sudo sysctl -w kern.memorystatus_sysprocs_idle_delay_time=1
+      sudo sysctl -w kern.maxnbuf=1024000 #16384
       irregulardelay=1
       rammaxalloccpu=1024
       rammaxalloccrit=358
       ramminalloccpu=512
       ramminalloccrit=128
     else
+      sudo sysctl -w vfs.generic.sync_timeout=27
+      sudo sysctl -w kern.memorystatus_sync_on_critical=20
+      sudo sysctl -w kern.memorystatus_sync_on_urgent=28
+      sudo sysctl -w kern.memorystatus_sync_on_warning=30
+      sudo sysctl -w kern.memorystatus_apps_idle_delay_time=1
+      sudo sysctl -w kern.memorystatus_sysprocs_idle_delay_time=1
+      sudo sysctl -w kern.maxnbuf=10240 #16384
       rammaxalloccpu=512
       rammaxalloccrit=128
       ramminalloccpu=358
@@ -103,5 +117,6 @@ while true; do
       sudo killall rsync
       sudo killall periodic
   fi
+
 sleep $irregulardelay
 done

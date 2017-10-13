@@ -44,8 +44,7 @@ TOTAL=$((($FREE+$INACTIVE)))
 echo $FREE > /Volumes/libreperfruntime/sys/mem/free
 echo $INACTIVE > /Volumes/libreperfruntime/sys/mem/inactive
 echo $TOTAL > /Volumes/libreperfruntime/sys/mem/total
-if [ $TOTAL -lt 999 ]
-  then
+if [[ $TOTAL -lt 999 && $cpuusage -gt 50 ]]; then
     irregulardelay=1
     irregulardelayprocdec=1
   else
@@ -131,7 +130,7 @@ fi
 echo $cpuusage > /Volumes/libreperfruntime/sys/cpu/cpuusage
 sleep 0.$irregulardelayprocdec
 
-if [[ $cpuusage -gt "50" && $FREE -lt "256" ]]; then
+if [[ $cpuusage -gt "90" && $FREE -lt "256" ]]; then
 #checkIOSTATS
 IOPROC=$(sudo iotop -C 1 1 -P | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')

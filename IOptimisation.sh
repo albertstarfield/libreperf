@@ -43,6 +43,10 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
 		   then
 	             invalid
 		   else
+         sudo sysctl -w kern.maxfiles=100
+         sudo sysctl -w kern.maxfilesperproc=32 #9990000
+         sudo sysctl -w kern.sysv.shmmax=16106
+         sudo launchctl limit maxfiles 100 100
          echo stopping $IOTOPPROCESSPID IOPS
          osascript -e 'display notification "your computer might be slower culprit $TOPPROCESS" with title "libreperf"'
          /Volumes/libreperfruntime/bin/kill -STOP $IOTOPPROCESSPID
@@ -51,6 +55,10 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
          suspendstatuseng5=1
 	      fi
       else
+        sudo sysctl -w kern.maxfiles=19990000
+        sudo sysctl -w kern.maxfilesperproc=9990000 #9990000
+        sudo sysctl -w kern.sysv.shmmax=1610612736
+        sudo launchctl limit maxfiles 1000000 1000000
         echo continuing $IOTOPPROCESSPID IOPS
         /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
         echo Unsuspending $suspendedprocesseng5
