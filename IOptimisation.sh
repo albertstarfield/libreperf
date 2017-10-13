@@ -40,8 +40,8 @@ if [ $IOPROCMOD -gt $IOGUARD ]
   then
     sudo sysctl -w kern.maxfiles=100
     sudo sysctl -w kern.maxfilesperproc=32 #9990000
-    sudo sysctl -w kern.sysv.shmmax=16106
-    sudo launchctl limit maxfiles 100 100
+    sudo sysctl -w kern.sysv.shmmax=2560
+    sudo launchctl limit maxfiles 32 48
   else
     sudo sysctl -w kern.maxfiles=19990000
     sudo sysctl -w kern.maxfilesperproc=9990000 #9990000
