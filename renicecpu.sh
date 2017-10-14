@@ -26,9 +26,6 @@ sleep 1
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
 if [ "${cpuusage%%.*}" -gt "60" ]
   then
-    sudo sysctl -w kern.maxvnodes=3000
-    sudo sysctl -w kern.maxproc=1000
-    sudo sysctl -w kern.maxprocperuid=100
     sudo sysctl -w kern.ipc.maxsockbuf=8388608
     sudo sysctl -w kern.ipc.somaxconn=1024
     sudo sysctl -w kern.ipc.nmbclusters=6553
