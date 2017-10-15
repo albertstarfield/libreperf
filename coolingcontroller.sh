@@ -32,7 +32,7 @@ cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/
   cpulimidle=$(( ( RANDOM % 50 )  + 32 ))
   temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
 echo $cpulimidle percent limit processing cooling
-if [ $temp -gt "827" ]
+if [ $temp -gt "790" ]
   then
       echo CRITICAL TEMPRATURE
       echo OVERDRIVING FAN ENABLED $turbosaferpm rpm
@@ -59,7 +59,7 @@ if [ $temp -gt "827" ]
       switchmode=$(( ( ( RANDOM % 65 )  + 55 ) * 10 ))
       switchmode=690
       echo $maxtemp temp limit
-      echo 840 TURBO SWITCH MODE
+      echo 790 TURBO SWITCH MODE
       echo $switchmode switch mode
       if [[ $temp -gt $switchmode ]]; then
           rpmop=$(( $temp * $maxsaferpm / $maxtemp ))

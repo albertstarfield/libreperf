@@ -38,7 +38,7 @@ updatecycle=0
 #irregulardelay=$(( ( RANDOM % $irregulardelaycpuoverride )  + 0 ))
 
 #processlaunch
-cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=5
 sudo sh /Volumes/libreperfruntime/sensorpolling.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
@@ -69,12 +69,16 @@ echo booting
 #TOPPROCESS=$(top -l 1 -o power -stats pid | sed 1,10d | sed -n 3p)
 #BATTLEFT=$(sudo pmset -g batt | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}') | IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 33 | sed 's/[^0-9]*//g')
 #echo $BATTLEFT mins left
+compusagesum=0
 while true; do
 updatecycle=$(( $updatecycle + 1 ))
-cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
-
-if [[ $updatecycle -gt $getupdate ]]; then
+compusage=$cpuusage
+compusagesum=$(( $compusage + $compusagesum ))
+compusage=$(( $compusagesum / $updatecycle ))
+echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
+if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then
   sudo sh /usr/local/lbpbin/uptget.sh
   updatecycle=0
   sudo sh /usr/local/lbpbin/resourceguard.sh
