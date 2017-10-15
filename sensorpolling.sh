@@ -130,7 +130,7 @@ fi
 echo $cpuusage > /Volumes/libreperfruntime/sys/cpu/cpuusage
 sleep 0.$irregulardelayprocdec
 
-if [[ $cpuusage -gt "90" && $FREE -lt "256" ]]; then
+if [[ $cpuusage -lt "50" && $FREE -gt "382" ]]; then
 #checkIOSTATS
 IOPROC=$(sudo iotop -C 1 1 -P | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')

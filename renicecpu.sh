@@ -48,7 +48,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng1
             echo Unsuspending $suspendedprocesseng1
             suspendstatuseng1=0
-	          sudo renice -n 0 $suspendedprocesseng1
+	          sudo renice -n 20 $suspendedprocesseng1
           else
           echo $TOPPROCESS
   	    suspendedprocesseng1=$TOPPROCESS
@@ -87,7 +87,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng2
             echo Unsuspending $suspendedprocesseng2
             suspendstatuseng2=0
-            sudo renice -n 0 $suspendedprocesseng2
+            sudo renice -n 20 $suspendedprocesseng2
           else
           echo $TOPPROCESS
   	    suspendedprocesseng2=$TOPPROCESS
@@ -125,7 +125,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           then
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng3
             echo Unsuspending $suspendedprocess3
-            sudo renice -n 0 $suspendedprocesseng3
+            sudo renice -n 20 $suspendedprocesseng3
             suspendstatuseng3=0
           else
           echo $TOPPROCESS
@@ -164,7 +164,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           then
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng4
             echo Unsuspending $suspendedprocesseng4
-            sudo renice -n 0 $suspendedprocesseng4
+            sudo renice -n 20 $suspendedprocesseng4
             suspendstatuseng4=0
           else
           echo $TOPPROCESS
