@@ -36,12 +36,12 @@ cpulimidle=$(( ( RANDOM % 15 )  + 4 ))
 cpulimidle2=$(( ( RANDOM % 50 )  + 20 ))
 echo $cpulimidle2 CPU DETECTION
 sleep $irregulardelay
-if [ $IOPROCMOD -gt $IOGUARD ]
+if [ $IOPROC -gt "5000" ]
   then
-    sudo sysctl -w kern.maxfiles=100
+    sudo sysctl -w kern.maxfiles=100000
     sudo sysctl -w kern.maxfilesperproc=32 #9990000
     sudo sysctl -w kern.sysv.shmmax=2560
-    sudo launchctl limit maxfiles 32 48
+    sudo launchctl limit maxfiles 64 10000
   else
     sudo sysctl -w kern.maxfiles=19990000
     sudo sysctl -w kern.maxfilesperproc=9990000 #9990000
