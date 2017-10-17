@@ -154,7 +154,6 @@ echo delaying for certain amount of time
 
 while true; do
   osascript -e 'display notification "Booting coolingcontroller subsystem" with title "libreperf"'
-  sudo sh /Volumes/libreperfruntime/coolingcontroller.sh &
 clear
 #clear
 #Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
