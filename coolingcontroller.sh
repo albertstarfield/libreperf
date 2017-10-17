@@ -36,10 +36,11 @@ if [ $temp -gt "790" ]
   then
       echo CRITICAL TEMPRATURE
       echo OVERDRIVING FAN ENABLED $turbosaferpm rpm
+      rpmopsum=$(( $turbosaferpm + $rpmopold ))
+      rpmop=$(( $rpmopsum / $cycle ))
+      rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
-      cycle=0
-      rpmopold=$rpmop
+      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
   else
   if [ ${cpuusage%%.*} -gt $cpulimidle ]
     then

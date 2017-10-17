@@ -21,7 +21,7 @@ while true; do
       sudo sysctl -w kern.memorystatus_sysprocs_idle_delay_time=1
       sudo sysctl -w kern.maxnbuf=1024000 #16384
       irregulardelay=1
-      rammaxalloccpu=1024
+      rammaxalloccpu=1699
       rammaxalloccrit=358
       ramminalloccpu=512
       ramminalloccrit=128
@@ -65,7 +65,7 @@ while true; do
   lineselect=$(( ( RANDOM % 20 )  + 10 ))
   echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lightLMKline
   rankmemusage=$(( $lineselect - 10 ))
-  cpulimidle2=$(( ( RANDOM % 270 )  + 100 ))
+  cpulimidle2=$(( ( RANDOM % 190 )  + 100 ))
   TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/Pname )
   TOPPROCESSMEMUSAGE=$( /Volumes/libreperfruntime/bin/cat Volumes/libreperfruntime/sys/mem/lightLMK/Pmemusage )
   echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
