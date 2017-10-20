@@ -44,7 +44,7 @@ TOTAL=$((($FREE+$INACTIVE)))
 echo $FREE > /Volumes/libreperfruntime/sys/mem/free
 echo $INACTIVE > /Volumes/libreperfruntime/sys/mem/inactive
 echo $TOTAL > /Volumes/libreperfruntime/sys/mem/total
-if [[ $TOTAL -lt 999 && $cpuusage -gt 50 ]]; then
+if [[ $TOTAL -lt 1000 && $cpuusage -gt 30 && $cpuusage -lt 70 ]]; then
     irregulardelay=1
     irregulardelayprocdec=1
   else

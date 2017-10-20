@@ -21,7 +21,7 @@ while true; do
       sudo sysctl -w kern.memorystatus_sysprocs_idle_delay_time=1
       sudo sysctl -w kern.maxnbuf=1024000 #16384
       irregulardelay=1
-      rammaxalloccpu=1699
+      rammaxalloccpu=1024
       rammaxalloccrit=358
       ramminalloccpu=512
       ramminalloccrit=128
@@ -69,7 +69,6 @@ while true; do
   TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/Pname )
   TOPPROCESSMEMUSAGE=$( /Volumes/libreperfruntime/bin/cat Volumes/libreperfruntime/sys/mem/lightLMK/Pmemusage )
   echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
-  TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
   echo example "$TOPPROCESS" = "WindowServer"
   if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
     then
@@ -77,7 +76,7 @@ while true; do
       TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/Pcpuusage )
       if [ "$TOTAL" -lt "$ramclslv1" ]
         then
-          irregulardelay=0
+          irregulardelay=$irregulardelay
           if [ "$TOPPROCESSCPUUSAGE" -lt "$cpulimidle2" ]
             then
               echo INNOCENT PROCESS
@@ -91,14 +90,14 @@ while true; do
             lineselect=$(( ( RANDOM % 15 )  + 10 ))
             echo $lineselect > /Volumes/libreperfruntime/sys/bridge/heavyLMKline
             TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname )
-            TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
+
             echo Process Scanned $TOPPROCESS
             if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
               then
                 TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/heavyLMK/PID )
                 sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
                 osascript -e 'display notification "Memory have reached the limit sacrificed $TOPPROCESS" with title "libreperf"'
-                irregulardelay=0
+                irregulardelay=$irregulardelay
               fi
             else
               echo LMK finished

@@ -11,7 +11,7 @@ echo $turbosaferpm MAX TURBOBOOST RPM
 minsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
 minsaferpm=$( echo "${minsaferpm}" | sed -n 6p | sed 's/[^0-9]*//g' )
 echo $minsaferpm MIN DETERMINED RPM
-cpulimidle=$(( ( RANDOM % 50 )  + 49 ))
+cpulimidle=$(( ( RANDOM % 24 )  + 19 ))
 temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
 osascript -e 'display notification "monitoring thermal systems" with title "libreperf"'
 cycle=0
