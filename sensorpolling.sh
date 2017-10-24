@@ -51,6 +51,10 @@ if [[ $TOTAL -lt 1000 && $cpuusage -gt 30 && $cpuusage -lt 70 ]]; then
     irregulardelay=$irregulardelay
 fi
 #lightLMK
+#patch for unsyncronized module killing
+echo unidentified > /Volumes/libreperfruntime/sys/mem/lightLMK/PID
+echo unidentified > /Volumes/libreperfruntime/sys/mem/heavyLMK/PID
+
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lightLMKline )
 TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
