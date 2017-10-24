@@ -40,7 +40,7 @@ if [ $temp -gt "790" ]
       rpmop=$(( $rpmopsum / $cycle ))
       rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
+      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
   else
   if [ ${cpuusage%%.*} -gt $cpulimidle ]
     then
