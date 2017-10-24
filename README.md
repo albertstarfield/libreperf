@@ -1,9 +1,9 @@
 # libreperf 0.5b "OSX Darwin kernel" based OS performance improvement project
 ------------
 # Current stabiliby on version 0.5b
-# System usability 74%
-# script stability 78%
-# resource efficiency 88%
+System usability 44%~
+script stability 78%
+resource efficiency 88%
 
 # what is Libreperf?
 An project of attempting to remove macOS (10.12+ 10.13+) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices using various command and modification from multiple source or website and replacing some system management and adding some management to the system
