@@ -174,6 +174,7 @@ sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 
 clear
+sudo cp -r killengine.sh /usr/local/lbpbin
 sudo cp -r watchdog.sh /usr/local/lbpbin
 sudo cp -r uptget.sh /usr/local/lbpbin
 sudo cp -r aptupdate.sh /usr/local/lbpbin

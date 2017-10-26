@@ -81,7 +81,7 @@ while true; do
             then
               echo INNOCENT PROCESS
             else
-              sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
+              echo $TOPPROCESS > /Volumes/libreperfruntime/sys/killconfirm
               echo Sacrificing bg apps $TOPPROCESS
               echo Memory freed
           fi
@@ -95,7 +95,7 @@ while true; do
             if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
               then
                 TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/heavyLMK/PID )
-                sudo /Volumes/libreperfruntime/bin/kill -9 $TOPPROCESS
+                echo $TOPPROCESS > /Volumes/libreperfruntime/sys/killconfirm
                 osascript -e 'display notification "Memory have reached the limit sacrificed $TOPPROCESS" with title "libreperf"'
                 irregulardelay=$irregulardelay
               fi

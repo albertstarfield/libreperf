@@ -42,15 +42,14 @@ if [ $temp -gt "790" ]
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
   else
-  if [ ${cpuusage%%.*} -gt $cpulimidle ]
-    then
+  if [[ ${cpuusage%%.*} -gt $cpulimidle && $temp -gt "750" ]]; then
       echo MAXIMUM RPM MODE
       echo Current temprature $temp temprature
       rpmopsum=$(( $maxsaferpm + $rpmopold ))
       rpmop=$(( $rpmopsum / $cycle ))
       rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
+      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
     else
       echo SERVO RPM MODE
       temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )

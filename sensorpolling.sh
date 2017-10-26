@@ -52,6 +52,8 @@ if [[ $TOTAL -lt 1000 && $cpuusage -gt 30 && $cpuusage -lt 70 ]]; then
 fi
 #lightLMK
 #patch for unsyncronized module killing
+echo loginwindow > /Volumes/libreperfruntime/sys/mem/lightLMK/Pname
+echo loginwindow > /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname
 echo unidentified > /Volumes/libreperfruntime/sys/mem/lightLMK/PID
 echo unidentified > /Volumes/libreperfruntime/sys/mem/heavyLMK/PID
 

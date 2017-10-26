@@ -257,6 +257,7 @@ sudo cp -r renicecpu.sh /usr/local/lbpbin
 sudo cp -r IOptimisation.sh /usr/local/lbpbin
 sudo cp -r 86idlesync.sh /usr/local/lbpbin
 sudo cp -r sleepmana.sh /usr/local/lbpbin
+sudo cp -r killengine.sh /usr/local/lbpbin
 sudo cp -r cycletmpcheck /bin/
 sudo cp -r smc /bin/
 sudo cp -r coolingcontroller.sh /usr/local/lbpbin

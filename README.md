@@ -1,12 +1,7 @@
-# libreperf 0.5b "OSX Darwin kernel" based OS performance improvement project
+# libreperf 0.3b "OSX Darwin kernel" based OS performance improvement project
 ------------
-# Current stabiliby on version 0.5b
-System usability 44%~
-script stability 78%
-resource efficiency 88%
-
 # what is Libreperf?
-An project of attempting to remove macOS (10.12+ 10.13+) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices using various command and modification from multiple source or website and replacing some system management and adding some management to the system
+An project of attempting to remove macOS (10.12) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices using various command and modification from multiple source or website and replacing some system management and adding some management to the system
 ------------
 # what does "Libreperf" mean?
 libre = free
@@ -41,7 +36,7 @@ here is the list
 7. kernel_task throtlling disabled
 8. Preloading User Installed Apps
 9. Preloading Some Data
-10. modifying default macOS memory paging system with custom memory management system (maybe)
+10. Replacing default macOS memory paging system with custom memory management system (maybe)
 11. /usr/local/bin/initd.sh script start at boot
 12. custom CPU resource management 
 13. custom I/O management (Kinda having some broken algorithm issues)(issues somewhat fixed)
