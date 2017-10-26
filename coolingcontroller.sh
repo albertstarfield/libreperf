@@ -42,7 +42,7 @@ if [ $temp -gt "790" ]
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
   else
-  if [[ ${cpuusage%%.*} -gt $cpulimidle && $temp -gt "750" ]]; then
+  if [[ ${cpuusage%%.*} -gt $cpulimidle && $temp -gt "700" ]]; then
       echo MAXIMUM RPM MODE
       echo Current temprature $temp temprature
       rpmopsum=$(( $maxsaferpm + $rpmopold ))
