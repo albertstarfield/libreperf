@@ -20,7 +20,9 @@ if [ $clamshellinfo = ACSY ]
         ls -R /Applications/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
         ls -R /Users/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
         clamshellinfo=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/hwmorph/clamshellinfo )
-        wakelock=$(( ( RANDOM % 100 )  + 60 ))
+        batterylevel=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/energy/batt )
+        wakelockmax=$(( $batterylevel * 3 ))
+        wakelock=$(( ( RANDOM % $wakelockmax )  + $batterylevel ))
         sleep $wakelock
         if [ $clamshellinfo = ACSY ]
           then
