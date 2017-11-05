@@ -41,6 +41,7 @@ if [ $temp -gt "790" ]
       rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
+      sleep 10
   else
   if [[ ${cpuusage%%.*} -gt $cpulimidle && $temp -gt "700" ]]; then
       echo MAXIMUM RPM MODE
@@ -50,6 +51,7 @@ if [ $temp -gt "790" ]
       rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
+      sleep 10
     else
       echo SERVO RPM MODE
       temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )

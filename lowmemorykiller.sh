@@ -38,6 +38,45 @@ while true; do
       ramminalloccpu=358
       ramminalloccrit=99
   fi
+if [[ $TOTAL -lt 1500 && "${cpuusage%%.*}" -gt "30" ]]; then
+FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
+FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
+INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
+TOTAL=$((($FREE+$INACTIVE)))
+echo $FREE > /Volumes/libreperfruntime/sys/mem/free
+echo $INACTIVE > /Volumes/libreperfruntime/sys/mem/inactive
+echo $TOTAL > /Volumes/libreperfruntime/sys/mem/total
+if [[ $TOTAL -lt 1000 && $cpuusage -gt 30 && $cpuusage -lt 70 ]]; then
+    irregulardelay=1
+    irregulardelayprocdec=1
+  else
+    irregulardelay=$irregulardelay
+fi
+#lightLMK
+#patch for unsyncronized module killing
+echo loginwindow > /Volumes/libreperfruntime/sys/mem/lightLMK/Pname
+echo loginwindow > /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname
+echo unidentified > /Volumes/libreperfruntime/sys/mem/lightLMK/PID
+echo unidentified > /Volumes/libreperfruntime/sys/mem/heavyLMK/PID
+
+lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lightLMKline )
+TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
+echo $TOPPROCESS > /Volumes/libreperfruntime/sys/mem/lightLMK/Pname
+TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | sed 1,"$lineselect"d | sed -n 3p)
+echo $TOPPROCESSMEMUSAGE > /Volumes/libreperfruntime/sys/mem/lightLMK/Pmemusage
+TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+echo $TOPPROCESS > /Volumes/libreperfruntime/sys/mem/lightLMK/PID
+TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $TOPPROCESS )
+TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
+echo $TOPPROCESSCPUUSAGE > /Volumes/libreperfruntime/sys/mem/heavyLMK/Pcpuusage
+echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
+	else
+	   echo using normal pipeline
+ fi
+
   if [ "$TOTAL" -lt "$rammaxalloccpu" ]
     then
       irregulardelay=1
