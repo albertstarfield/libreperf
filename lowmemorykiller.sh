@@ -38,6 +38,8 @@ while true; do
       ramminalloccpu=358
       ramminalloccrit=99
   fi
+
+
 if [[ $TOTAL -lt 1500 && "${cpuusage%%.*}" -gt "30" ]]; then
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
@@ -48,11 +50,11 @@ TOTAL=$((($FREE+$INACTIVE)))
 echo $FREE > /Volumes/libreperfruntime/sys/mem/free
 echo $INACTIVE > /Volumes/libreperfruntime/sys/mem/inactive
 echo $TOTAL > /Volumes/libreperfruntime/sys/mem/total
-if [[ $TOTAL -lt 1000 && $cpuusage -gt 30 && $cpuusage -lt 70 ]]; then
+if [[ $TOTAL -lt 1000 && $cpuusage -gt 60 && $cpuusage -lt 80 ]]; then
     irregulardelay=1
     irregulardelayprocdec=1
   else
-    irregulardelay=$irregulardelay
+    irregulardelay=3
 fi
 #lightLMK
 #patch for unsyncronized module killing
