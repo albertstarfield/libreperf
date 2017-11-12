@@ -230,9 +230,10 @@ sudo launchctl limit maxfiles 1000000 1000000
 #it seems that 0x8 0x10 0x20 does freeze the os instantly so dont use it
 # using 2 is the most balanced settings
 # using 1 probably OOM killer will be kicked on to save the day
-sudo nvram boot-args="-v -f kext-dev-mode=1 vm_compressor=4 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
+sudo nvram boot-args="-v -f kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm /private/var/vm/swapfile*
+sudo systemsetup -setwaitforstartupafterpowerfailure 30
 sudo sysctl debug.lowpri_throttle_enabled=0
 sudo systemsetup -setrestartfreeze on
 sudo nvram SystemAudioVolume="01%"
@@ -306,6 +307,7 @@ defaults write com.apple.finder DisableAllAnimations -bool true
 defaults write com.apple.CrashReporter DialogType none
 defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
 echo phase
+sudo defaults write /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled -bool true
 defaults write -g NSScrollAnimationEnabled -bool false
 defaults write -g NSWindowResizeTime -float 0.001
 defaults write -g QLPanelAnimationDuration -float 0
@@ -361,6 +363,7 @@ sudo cp -r /usr/local/lbpbin/IOptimisation.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/sleepmana.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/sensorpolling.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/killengine.sh /Volumes/libreperfruntime
+sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /Volumes/libreperfruntime
 
 
 osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'

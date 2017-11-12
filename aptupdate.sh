@@ -180,6 +180,8 @@ sudo cp -r uptget.sh /usr/local/lbpbin
 sudo cp -r aptupdate.sh /usr/local/lbpbin
 sudo cp -r libreperf.sh /usr/local/lbpbin
 #binary installation
+sudo cp -r uiperfpatch.sh /usr/local/lbpbin
+
 sudo cp -r lowmemorykiller.sh /usr/local/lbpbin
 sudo cp -r OOMkill.sh /usr/local/lbpbin
 sudo cp -r onscreenpowerset.sh /usr/local/lbpbin

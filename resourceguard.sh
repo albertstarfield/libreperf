@@ -40,6 +40,8 @@ updatecycle=0
 #processlaunch
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=5
+sudo sh /Volumes/libreperfruntime/uiperfpatch.sh &
+/Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/killengine.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/sensorpolling.sh &

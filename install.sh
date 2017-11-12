@@ -44,6 +44,20 @@ echo " \ \___\_\\ \_____\\ \_____\\/\_____\  \ \_\ \ \_\\\"\_\\ \_\ \_\\ \____- 
 echo "  \/___/_/ \/_____/ \/_____/ \/_____/   \/_/  \/_/ \/_/ \/_/\/_/ \/____/  \/_____/ \/_/\/_/ ";
 echo "                                                                                            ";
 echo requesting root access
+sleep 2
+sudo echo access gained
+sleep 2
+sudo echo creating bin folder
+sleepstability=$(( ( RANDOM % 5 )  + 0 ))
+sleep $sleepstability
+sudo echo initializing variables
+sleepstability=$(( ( RANDOM % 5 )  + 0 ))
+sleep $sleepstability
+sudo echo preparing setup
+sleepstability=$(( ( RANDOM % 5 )  + 0 ))
+sleep $sleepstability
+sudo echo handingover to the install handler
+sleep 3
 sudo clear
 sudo clear
 sudo clear
@@ -64,25 +78,254 @@ Sleep 0
 Echo your Mac will reboot automatically after installation process finished
 echo Exception on the newer version
 echo Installing no longer need reboot
+Clear
+echo ctrl + c to cancel
 Sleep 0
-echo setup will start in 9 seconds
+clear
+echo "                   ";
+echo "                   ";
+echo "     999999999     ";
+echo "   99:::::::::99   ";
+echo " 99:::::::::::::99 ";
+echo "9::::::99999::::::9";
+echo "9:::::9     9:::::9";
+echo "9:::::9     9:::::9";
+echo " 9:::::99999::::::9";
+echo "  99::::::::::::::9";
+echo "    99999::::::::9 ";
+echo "         9::::::9  ";
+echo "        9::::::9   ";
+echo "       9::::::9    ";
+echo "      9::::::9     ";
+echo "     9::::::9      ";
+echo "    9::::::9       ";
+echo "   99999999        ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
 sleep 1
-echo setup will start in 8 seconds
+clear
+echo "                   ";
+echo "                   ";
+echo "     888888888     ";
+echo "   88:::::::::88   ";
+echo " 88:::::::::::::88 ";
+echo "8::::::88888::::::8";
+echo "8:::::8     8:::::8";
+echo "8:::::8     8:::::8";
+echo " 8:::::88888:::::8 ";
+echo "  8:::::::::::::8  ";
+echo " 8:::::88888:::::8 ";
+echo "8:::::8     8:::::8";
+echo "8:::::8     8:::::8";
+echo "8:::::8     8:::::8";
+echo "8::::::88888::::::8";
+echo " 88:::::::::::::88 ";
+echo "   88:::::::::88   ";
+echo "     888888888     ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
 sleep 1
-echo setup will start in 7 seconds
+clear
+echo "                    ";
+echo "                    ";
+echo "77777777777777777777";
+echo "7::::::::::::::::::7";
+echo "7::::::::::::::::::7";
+echo "777777777777:::::::7";
+echo "           7::::::7 ";
+echo "          7::::::7  ";
+echo "         7::::::7   ";
+echo "        7::::::7    ";
+echo "       7::::::7     ";
+echo "      7::::::7      ";
+echo "     7::::::7       ";
+echo "    7::::::7        ";
+echo "   7::::::7         ";
+echo "  7::::::7          ";
+echo " 7::::::7           ";
+echo "77777777            ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
 sleep 1
-echo setup will start in 6 seconds
+clear
+echo "                   ";
+echo "                   ";
+echo "        66666666   ";
+echo "       6::::::6    ";
+echo "      6::::::6     ";
+echo "     6::::::6      ";
+echo "    6::::::6       ";
+echo "   6::::::6        ";
+echo "  6::::::6         ";
+echo " 6::::::::66666    ";
+echo "6::::::::::::::66  ";
+echo "6::::::66666:::::6 ";
+echo "6:::::6     6:::::6";
+echo "6:::::6     6:::::6";
+echo "6::::::66666::::::6";
+echo " 66:::::::::::::66 ";
+echo "   66:::::::::66   ";
+echo "     666666666     ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
 sleep 1
-echo setup will start in 5 seconds
+clear
+echo "                   ";
+echo "                   ";
+echo "555555555555555555 ";
+echo "5::::::::::::::::5 ";
+echo "5::::::::::::::::5 ";
+echo "5:::::555555555555 ";
+echo "5:::::5            ";
+echo "5:::::5            ";
+echo "5:::::5555555555   ";
+echo "5:::::::::::::::5  ";
+echo "555555555555:::::5 ";
+echo "            5:::::5";
+echo "            5:::::5";
+echo "5555555     5:::::5";
+echo "5::::::55555::::::5";
+echo " 55:::::::::::::55 ";
+echo "   55:::::::::55   ";
+echo "     555555555     ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
 sleep 1
-echo setup will start in 4 seconds
+clear
+echo "                  ";
+echo "                  ";
+echo "       444444444  ";
+echo "      4::::::::4  ";
+echo "     4:::::::::4  ";
+echo "    4::::44::::4  ";
+echo "   4::::4 4::::4  ";
+echo "  4::::4  4::::4  ";
+echo " 4::::4   4::::4  ";
+echo "4::::444444::::444";
+echo "4::::::::::::::::4";
+echo "4444444444:::::444";
+echo "          4::::4  ";
+echo "          4::::4  ";
+echo "          4::::4  ";
+echo "        44::::::44";
+echo "        4::::::::4";
+echo "        4444444444";
+echo "                  ";
+echo "                  ";
+echo "                  ";
+echo "                  ";
+echo "                  ";
+echo "                  ";
+echo "                  ";
 sleep 1
-echo setup will start in 3 seconds
+clear
+echo "                   ";
+echo "                   ";
+echo " 333333333333333   ";
+echo "3:::::::::::::::33 ";
+echo "3::::::33333::::::3";
+echo "3333333     3:::::3";
+echo "            3:::::3";
+echo "            3:::::3";
+echo "    33333333:::::3 ";
+echo "    3:::::::::::3  ";
+echo "    33333333:::::3 ";
+echo "            3:::::3";
+echo "            3:::::3";
+echo "            3:::::3";
+echo "3333333     3:::::3";
+echo "3::::::33333::::::3";
+echo "3:::::::::::::::33 ";
+echo " 333333333333333   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
+echo "                   ";
 sleep 1
-echo setup will start in 2 seconds
+clear
+echo "                    ";
+echo "                    ";
+echo " 222222222222222    ";
+echo "2:::::::::::::::22  ";
+echo "2::::::222222:::::2 ";
+echo "2222222     2:::::2 ";
+echo "            2:::::2 ";
+echo "            2:::::2 ";
+echo "         2222::::2  ";
+echo "    22222::::::22   ";
+echo "  22::::::::222     ";
+echo " 2:::::22222        ";
+echo "2:::::2             ";
+echo "2:::::2             ";
+echo "2:::::2       222222";
+echo "2::::::2222222:::::2";
+echo "2::::::::::::::::::2";
+echo "22222222222222222222";
+echo "                    ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
+echo "                    ";
 sleep 1
-echo setup will start in 1 seconds
+clear
+echo "            ";
+echo "            ";
+echo "  1111111   ";
+echo " 1::::::1   ";
+echo "1:::::::1   ";
+echo "111:::::1   ";
+echo "   1::::1   ";
+echo "   1::::1   ";
+echo "   1::::1   ";
+echo "   1::::l   ";
+echo "   1::::l   ";
+echo "   1::::l   ";
+echo "   1::::l   ";
+echo "   1::::l   ";
+echo "111::::::111";
+echo "1::::::::::1";
+echo "1::::::::::1";
+echo "111111111111";
+echo "            ";
+echo "            ";
+echo "            ";
+echo "            ";
+echo "            ";
+echo "            ";
+echo "            ";
 sleep 1
+echo ctrl + c to cancel
+sleep 4
 clear
 echo " ___      ___   _______  ______    _______  _______  _______  ______    _______ ";
 echo "|   |    |   | |  _    ||    _ |  |       ||       ||       ||    _ |  |       |";
@@ -136,7 +379,8 @@ echo -------------------------------------
 
 echo Thanks to all of you guys thanks for the community yay
 echo References
-echo deprecated Copyright 2011  0x46616c6b for ramdisk
+echo Copyright 2011  0x46616c6b for ramdisk
+echo http://patorjk.com/software/taag/#p=display&c=echo&f=Doh&t=1
 echo deprecated 2010 Alec Muffett Alec.Muffett@gmail.com Dynamic pager
 echo http://is.gd/9qZIX or http://bit.ly/axANub
 echo https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
@@ -173,14 +417,6 @@ Uptime
 #hidden IO boost
 #multiple pilots install
 #https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
-echo installing some GNU stuff into your proprietary OS
-echo Compability issues with the built in features
-
-
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install gnu-sed
-brew install git
-
 
 echo installing some driver
 sudo cp -r maxdrive.plist /Library/LaunchDaemons/
@@ -263,6 +499,8 @@ sudo cp -r smc /bin/
 sudo cp -r coolingcontroller.sh /usr/local/lbpbin
 sudo cp -r resourceguard.sh /usr/local/lbpbin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
+sudo cp -r uiperfpatch.sh /usr/local/lbpbin
+
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 
 sudo sync
@@ -272,67 +510,16 @@ sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
 #UXOptimization
 echo phase
 sudo defaults write com.apple.CrashReporter DialogType nano
-defaults write com.apple.CrashReporter DialogType developer
-defaults write com.apple.dock single-app -bool false
-defaults write com.apple.universalaccess reduceTransparency -bool false
-defaults write com.apple.dashboard mcx-disabled -boolean YES
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
-defaults write -g QLPanelAnimationDuration -float 0
-defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
-defaults write com.apple.dock launchanim -bool false
-defaults write com.apple.dock expose-animation-duration -float 0.1
-defaults write com.apple.Dock autohide-delay -float 0
-defaults write com.apple.finder DisableAllAnimations -bool true
-defaults write com.apple.mail DisableReplyAnimations -bool true
-defaults write com.apple.mail DisableSendAnimations -bool true
-defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25
-defaults delete NSDisableAutomaticTermination
-echo phase
-defaults write -g NSDisableAutomaticTermination -bool no
-defaults write com.google.Chrome NSQuitAlwaysKeepsWindows -bool false
-defaults write com.apple.Safari NSQuitAlwaysKeepsWindows -bool false
-#defaults write com.apple.dock single-app -bool true
-defaults write com.apple.dock mineffect -string scale
-defaults write NSGlobalDomain NSAppSleepDisabled -bool no
-defaults write com.apple.finder DisableAllAnimations -bool true
-defaults write com.apple.CrashReporter DialogType none
-defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
-echo phase
-defaults write -g NSScrollAnimationEnabled -bool false
-defaults write -g NSWindowResizeTime -float 0.001
-defaults write -g QLPanelAnimationDuration -float 0
-defaults write -g NSScrollViewRubberbanding -bool false
-defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
-defaults write -g NSToolbarFullScreenAnimationDuration -float 0
-defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
-defaults write com.apple.dashboard devmode YES
-defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
 sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
 echo phase
-defaults write com.apple.dock showhidden -bool true
 
 echo applying settings
 echo your Macintosh may go blank but your application will be restored
 Clear
 echo we are done
-echo setup will reconfigure your system in 9 seconds
-sleep 1
-echo setup will reconfigure your system in 8 seconds
-sleep 1
-echo setup will reconfigure your system in 7 seconds
-sleep 1
-echo setup will reconfigure your system in 6 seconds
-sleep 1
-echo setup will reconfigure your system in 5 seconds
-sleep 1
-echo setup will reconfigure your system in 4 seconds
-sleep 1
-echo setup will reconfigure your system in 3 seconds
-sleep 1
-echo setup will reconfigure your system in 2 seconds
-sleep 1
-echo setup will reconfigure your system in 1 seconds
-sleep 1
+echo thank you for installing libreperf
+echo updates will be delivered automatically to your system fresh from github
+echo questandachievement signing out
 #installation ended
 #sudo killall loginwindow
 exit
