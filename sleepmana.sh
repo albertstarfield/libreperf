@@ -15,7 +15,6 @@ if [ $clamshellinfo = ACSY ]
     if [ "$TOTAL" -gt "1024" ];
       then
         osascript -e 'display notification "Prefetching files" with title "libreperf"'
-        for i in /Applications/*; do open -a "$i"; done
         rsync -rva /Applications/
         sudo periodic daily weekly monthly &
         ls -R /Applications/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'

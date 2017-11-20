@@ -24,7 +24,7 @@ cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSDisableAutomaticTerm
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.google.Chrome NSQuitAlwaysKeepsWindows -bool false; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.Safari NSQuitAlwaysKeepsWindows -bool false; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock single-app -bool false; done
-cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock mineffect -string scale; done
+cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock mineffect -string genie; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write NSGlobalDomain NSAppSleepDisabled -bool no; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.finder DisableAllAnimations -bool true; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.CrashReporter DialogType none; done
