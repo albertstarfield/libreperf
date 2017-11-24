@@ -40,7 +40,7 @@ if [ $temp -gt "790" ]
       rpmop=$(( $rpmopsum / $cycle ))
       rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
+      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
       sleep 10
   else
   if [[ ${cpuusage%%.*} -gt $cpulimidle && $temp -gt "700" ]]; then
@@ -50,7 +50,7 @@ if [ $temp -gt "790" ]
       rpmop=$(( $rpmopsum / $cycle ))
       rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
+      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
       sleep 10
     else
       echo SERVO RPM MODE
@@ -89,7 +89,7 @@ if [ $temp -gt "790" ]
       fi
     fi
   fi
-if [ "$cycle" -gt "1024" ]
+if [ "$cycle" -gt "256" ]
   then
     cycle=0
     rpmopold=$rpmop

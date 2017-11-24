@@ -39,6 +39,24 @@ while true; do
       ramminalloccrit=99
   fi
 
+if [ $TOTAL -lt 1000 ]
+   then
+      rammaxalloccpu=1500
+      rammaxalloccrit=666
+      ramminalloccpu=512
+      ramminalloccrit=99
+   else
+      echo awaiting for another adjustment
+fi
+if [ $TOTAL -gt 1667 ]
+  then
+      rammaxalloccpu=512
+      rammaxalloccrit=128
+      ramminalloccpu=358
+      ramminalloccrit=99
+  else
+      echo awaiting for another adjustment
+fi
 
 if [[ $TOTAL -lt 1500 && "${cpuusage%%.*}" -gt "30" ]]; then
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
