@@ -1,4 +1,9 @@
+TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+ramlim=$(( $TOTAL / 4 ))
+ramlimcrit=$(( $TOTAL - ( $TOTAL / 5 ) ))
+cycleramlim=0
 while true; do
+cycleramlim=$(( $cycleramlim + 1 ))
  cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
   #irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 10 ))
   echo updatespeed $irregulardelay
@@ -38,13 +43,21 @@ while true; do
       ramminalloccpu=358
       ramminalloccrit=99
   fi
-
+if [[ $cycleramlim -gt 256 && $TOTAL -lt 1024 ]];then
+      echo Doing some memory usage calibration
+      TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+      ramlim=$(( $TOTAL / 4 ))
+      ramlimcrit=$(( $TOTAL - ( $TOTAL / 5 ) ))
+      cycleramlim=0
+   else
+      echo memory management does not need calibration yet
+fi
 if [ $TOTAL -lt 1000 ]
    then
-      rammaxalloccpu=1500
-      rammaxalloccrit=666
-      ramminalloccpu=512
-      ramminalloccrit=99
+      rammaxalloccpu=$ramlim
+      rammaxalloccrit=$ramlimcrit
+      ramminalloccpu=$ramlim
+      ramminalloccrit=$ramlimcrit
    else
       echo awaiting for another adjustment
 fi

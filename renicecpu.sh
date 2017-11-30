@@ -1,8 +1,9 @@
 while true; do
 
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
-irregulardelay=$(( ( ${cpuusage%%.*} ) / 3 ))
+irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 7 ))
 irregulardelayproc=$irregulardelay
+echo delay PROCESSING $irregulardelay
 echo ----------------------- Cpu Management
 echo engine1=$suspendstatuseng1
 echo engine2=$suspendstatuseng2
@@ -14,7 +15,7 @@ else
   echo Nothing to continue
 fi
 echo engine 1
-cpulimstreshold=$(( ( RANDOM % 3600 )  + 3005 ))
+cpulimstreshold=$(( ( RANDOM % 60 )  + 30 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine1
 rankcpuusage=$(( $lineselect - 10 ))
@@ -66,7 +67,7 @@ fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 echo engine 2
-cpulimstreshold=$(( ( RANDOM % 3600 )  + 3400 ))
+cpulimstreshold=$(( ( RANDOM % 64 )  + 32 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine2
 rankcpuusage=$(( $lineselect - 10 ))
@@ -105,7 +106,7 @@ fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 echo -----------------Thermal Impact
 echo engine 1
-cpulimstreshold=$(( ( RANDOM % 9000 )  + 7000 ))
+cpulimstreshold=$(( ( RANDOM % 90 )  + 70 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine3
 rankcpuusage=$(( $lineselect - 10 ))
@@ -144,7 +145,7 @@ fi
 /Volumes/libreperfruntime/bin/sleep $irregulardelayproc
 
 echo engine 2
-cpulimstreshold=$(( ( RANDOM % 9500 )  + 7500 ))
+cpulimstreshold=$(( ( RANDOM % 95 )  + 75 ))
 lineselect=$(( ( RANDOM % 20 )  + 10 ))
 echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine4
 rankcpuusage=$(( $lineselect - 10 ))

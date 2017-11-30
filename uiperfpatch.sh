@@ -13,7 +13,7 @@ cd /Users/; for i in *; do sudo -u "$i" defaults write NSGlobalDomain NSWindowRe
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock launchanim -bool false; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock expose-animation-duration -float 0.1; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.Dock autohide-delay -float 0; done
-cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.finder DisableAllAnimations -bool true; done
+cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.finder DisableAllAnimations -bool false; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.mail DisableReplyAnimations -bool true; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.mail DisableSendAnimations -bool true; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25; done
@@ -26,12 +26,12 @@ cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.Safari NSQuitAl
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock single-app -bool false; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock mineffect -string genie; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write NSGlobalDomain NSAppSleepDisabled -bool no; done
-cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.finder DisableAllAnimations -bool true; done
+cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.finder DisableAllAnimations -bool false; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.CrashReporter DialogType none; done
-cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSAutomaticWindowAnimationsEnabled -bool false; done
+cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSAutomaticWindowAnimationsEnabled -bool true; done
 echo phase
 sleep 4
-cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSScrollAnimationEnabled -bool false; done
+cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSScrollAnimationEnabled -bool true; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSWindowResizeTime -float 0.001; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write -g QLPanelAnimationDuration -float 0; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSScrollViewRubberbanding -bool false; done

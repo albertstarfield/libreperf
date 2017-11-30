@@ -230,7 +230,7 @@ sudo launchctl limit maxfiles 1000000 1000000
 #it seems that 0x8 0x10 0x20 does freeze the os instantly so dont use it
 # using 2 is the most balanced settings
 # using 1 probably OOM killer will be kicked on to save the day
-sudo nvram boot-args="-v -f kext-dev-mode=1 vm_compressor=8 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
+sudo nvram boot-args="-v -f kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm /private/var/vm/swapfile*
 sudo systemsetup -setwaitforstartupafterpowerfailure 30
@@ -340,7 +340,13 @@ sleep 0
 #mkdir "$ramdisk/Caches"
 #ln -s "$ramdisk/Caches" "/Users/$LOGIN/Library"
 #reporting
-
+FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
+FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
+INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
+TOTAL=$((($FREE+$INACTIVE)))
+size=$TOTAL
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
 if [ ! -d "/Volumes/libreperfruntime/" ]; then
@@ -348,6 +354,11 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
   else
     echo volume exist
   fi
+  if [ ! -d "/Volumes/fastcache/" ]; then
+  diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
+    else
+      echo volume exist
+    fi
 sudo chflags hidden /volumes/libreperfruntime
 sudo killall Finder
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime

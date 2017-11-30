@@ -481,6 +481,8 @@ sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 # Like it was a install process
 sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
 clear
+sudo mv /sbin/mount_ntfs /sbin/mount_ntfs.original
+sudo cp -r mount_ntfs /sbin
 sudo cp -r uptget.sh /usr/local/lbpbin
 sudo cp -r aptupdate.sh /usr/local/lbpbin
 sudo cp -r libreperf.sh /usr/local/lbpbin
