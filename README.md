@@ -1,7 +1,7 @@
-# libreperf 0.3b "OSX Darwin kernel" based OS performance improvement project
+# libreperf 0.7b "OSX Darwin kernel" based OS performance improvement project
 ------------
 # what is Libreperf?
-An project of attempting to remove macOS (10.12) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices using various command and modification from multiple source or website and replacing some system management and adding some management to the system
+An project of attempting to remove macOS (10.13) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices using various command and modification from multiple source or website and replacing some system management and adding some management to the system and adding responsiveness while handling heavy tasks I/O and other things
 ------------
 # what does "Libreperf" mean?
 libre = free
@@ -27,21 +27,21 @@ http://www.manpagez.com/man/8/sysctl/
 # what does it do?
 here is the list
 
-1. modifying some unix parameter by using launchctl and sysctl -w
+1. dynamic unix parameter by using launchctl and sysctl -w
 2. installing custom plist
 3. Disabling Apple background services
-4. Finetuning the UI behaviour
-5. Tuning the power management
+4. Finetuning the UI behaviour 
+5. Tuning the power management on the fly ( battery may be worse )
 6. Early periodic Indexing
-7. kernel_task throtlling disabled
+7. kernel_task throtlling disabled ( untested )
 8. Preloading User Installed Apps
 9. Preloading Some Data
-10. Replacing default macOS memory paging system with custom memory management system (maybe)
-11. /usr/local/bin/initd.sh script start at boot
-12. custom CPU resource management 
+10. Replacing default macOS memory paging system with Compressor and Low memory killer 
+11. /usr/local/lbpbin/initd.sh script start at boot
+12. custom CPU resource management ( suspend unsuspend )
 13. custom I/O management (Kinda having some broken algorithm issues)(issues somewhat fixed)
 14. Custom Thermal management addition of new feature ( Auto Overdrive mode & passive cooling mode )
-15. more to come
+15. Automatic ramdisk scratch disks mount (allocated and optimized) (Have several Issues)
 
 # How to install?
 
