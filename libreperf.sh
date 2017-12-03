@@ -346,7 +346,12 @@ SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.
 FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
 INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
 TOTAL=$((($FREE+$INACTIVE)))
-size=$TOTAL
+size=$(( $TOTAL - (( $TOTAL / 2 )) ))
+sizefill=$(( $size - ( $size * 1 / 4 ) ))
+sizefillbytes=$(( $sizefill * 1048576 ))
+echo filling ram with 0
+echo input $TOTAL $cpuusage $IOPROC
+mkdir /usr/local/lbpbin/ramstate
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
 if [ ! -d "/Volumes/libreperfruntime/" ]; then
@@ -356,6 +361,19 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
   fi
   if [ ! -d "/Volumes/fastcache/" ]; then
   diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
+  echo Filling ram with 0 process 1
+  echo allocating creating VM may take a while
+  mkfile -n -v 1m /Volumes/fastcache/purgemod
+  dd if=/dev/urandom of=/Volumes/fastcache/fill bs=64M count=16
+  echo push
+  openssl rand -out /Volumes/fastcache/0 -base64 $(( $sizefillbytes * 3/4 ))
+  echo waiting reactions
+  sleep 5
+  rm -rf /Volumes/fastcache/purgemod
+  rm -rf /Volumes/fastcache/0
+  rm -rf /Volumes/fastcache/fill
+  echo deallocating ram
+  rsync -avz --delete "/usr/local/lbpbin/ramstate/" "/Volumes/fastcache/"
     else
       echo volume exist
     fi

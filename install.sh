@@ -75,9 +75,7 @@ echo find on google disable csrutil or disable SIP
 Sleep 0
 Echo without disabling that this will only optimize partially
 Sleep 0
-Echo your Mac will reboot automatically after installation process finished
-echo Exception on the newer version
-echo Installing no longer need reboot
+echo your Mac will reboot automatically after installation process finished
 Clear
 echo ctrl + c to cancel
 Sleep 0
@@ -514,14 +512,17 @@ echo phase
 sudo defaults write com.apple.CrashReporter DialogType nano
 sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
 echo phase
-
-echo applying settings
-echo your Macintosh may go blank but your application will be restored
 Clear
 echo we are done
 echo thank you for installing libreperf
 echo updates will be delivered automatically to your system fresh from github
-echo questandachievement signing out
+sleep 3
+echo applying settings
+echo your Macintosh may go blank but your application will be restored
+sudo sync
+sudo purge
+sudo reboot -q
+Clear
 #installation ended
 #sudo killall loginwindow
 exit

@@ -74,6 +74,7 @@ echo booting
 #BATTLEFT=$(sudo pmset -g batt | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}') | IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 33 | sed 's/[^0-9]*//g')
 #echo $BATTLEFT mins left
 compusagesum=0
+sudo cp -r  /Volumes/fastcache/ /usr/local/lbpbin/ramstate
 while true; do
 updatecycle=$(( $updatecycle + 1 ))
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
@@ -85,6 +86,7 @@ echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
 if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then
   sudo sh /usr/local/lbpbin/uptget.sh
   updatecycle=0
+  rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"
   sudo sh /usr/local/lbpbin/resourceguard.sh
 else
   echo updating not possible now
@@ -92,6 +94,7 @@ fi
 if [ $updatecycle -gt $lifetime ]
   then
     echo hibernate
+    rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"
     sleep ${cpuusage%%.*}
   else
     echo alive
@@ -103,6 +106,6 @@ if [ $batterylevel -lt 500 ]
   else
     echo safe
 fi
-/Volumes/libreperfruntime/bin/sleep 1
+/Volumes/libreperfruntime/bin/sleep 2
 
 done

@@ -16,6 +16,7 @@ temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cpu
 osascript -e 'display notification "monitoring thermal systems" with title "libreperf"'
 cycle=0
 rpmop=0
+OHC=0
 rpmopold=$minsaferpm
 while true; do
 cycle=$(( $cycle + 1 ))
@@ -41,7 +42,7 @@ if [ $temp -gt "790" ]
       rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
-      sleep 10
+      sleep 1
   else
   if [[ ${cpuusage%%.*} -gt $cpulimidle && $temp -gt "700" ]]; then
       echo MAXIMUM RPM MODE
@@ -51,7 +52,7 @@ if [ $temp -gt "790" ]
       rpmopold=$rpmopsum
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
-      sleep 10
+      sleep 1
     else
       echo SERVO RPM MODE
       temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
@@ -87,15 +88,33 @@ if [ $temp -gt "790" ]
             fi
           sleep 1
       fi
+      if [ ${cpuusage%%.*} -gt 40 ]; then
+        echo Current temprature $temp temprature
+        echo adding values
+        rpmopsum=$(( $maxsaferpm + $rpmopold ))
+        rpmop=$(( $rpmopsum / $cycle ))
+        rpmopold=$rpmopsum
+        sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
+        sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
+      else
+        echo run normal
+      fi
     fi
   fi
-if [ "$cycle" -gt "256" ]
+if [ "$temp" -gt "750" ] || [ ${cpuusage%%.*} -gt 80 ]
   then
-    cycle=0
-    rpmopold=$rpmop
-    sudo sh /Volumes/libreperfruntime/coolingcontroller.sh
+    echo Overheat HIT RATE $OHC
+    OHC=$(( $OHC + 1 ))
+      if [ $OHC -gt 64 ]; then
+        OHC=0
+        cycle=0
+        rpmopold=$rpmop
+        sudo sh /Volumes/libreperfruntime/coolingcontroller.sh
+      else
+    echo no need reset v1
+  fi
   else
-    echo no need reset
+    echo no need reset v2
 fi
 clamshellinfo=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/hwmorph/clamshellinfo )
 echo $clamshellinfo

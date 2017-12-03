@@ -1,6 +1,6 @@
 #!/bin/bash
 delay=$(( ( RANDOM % 600 )  + 412 ))
-sleep $delay
+#sleep $delay
 while true; do
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
