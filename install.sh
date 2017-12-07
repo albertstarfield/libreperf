@@ -519,9 +519,9 @@ echo updates will be delivered automatically to your system fresh from github
 sleep 3
 echo applying settings
 echo your Macintosh may go blank but your application will be restored
-sudo sync
-sudo purge
-sudo reboot -q
+#sudo sync
+#sudo purge
+#sudo reboot -q
 Clear
 #installation ended
 #sudo killall loginwindow

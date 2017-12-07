@@ -377,6 +377,7 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
     else
       echo volume exist
     fi
+sudo chmod -R 0777 /Volumes/fastcache/
 sudo chflags hidden /volumes/libreperfruntime
 sudo killall Finder
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime
