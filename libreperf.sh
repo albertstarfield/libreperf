@@ -67,8 +67,8 @@ if [ "$TOTAL" -gt "2048" ];
 fi
 
 sleep 2
-while :; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
-while :; do #clear; sudo nvram SystemAudioVolume="01%"; sleep 0.5; done &
+while true; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
+while true; do sudo nvram SystemAudioVolume="01%"; sleep 2; done &
 osascript -e 'display notification "Welcome Please wait while we preparing our flight" with title "libreperf"'
 #while :; do #clear; sudo sh /usr/local/lbpbin/resourceguard.sh; sleep 27; done
 
@@ -230,7 +230,7 @@ sudo launchctl limit maxfiles 1000000 1000000
 #it seems that 0x8 0x10 0x20 does freeze the os instantly so dont use it
 # using 2 is the most balanced settings
 # using 1 probably OOM killer will be kicked on to save the day
-sudo nvram boot-args="-v -f kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
+sudo nvram boot-args="-s -v -f kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm /private/var/vm/swapfile*
 sudo systemsetup -setwaitforstartupafterpowerfailure 30

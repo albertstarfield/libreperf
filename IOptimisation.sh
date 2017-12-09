@@ -1,6 +1,6 @@
 #!/bin/bash
 delay=$(( ( RANDOM % 600 )  + 412 ))
-#sleep $delay
+sleep $delay
 while true; do
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
@@ -50,6 +50,7 @@ if [ $IOPROC -gt "5000" ]
 fi
 sleep 0.$irregulardelay
 #ps -o %cpu -c -p 1143
+/Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng5
 if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" && $TOPPROCESS != "VBoxSVC" && $TOPPROCESS != "VBoxXPCOMIPCD" ]]; then
   if [[ "$IOPROCMOD" -gt "$IOGUARD" && "${cpuusage%%.*}" -gt "$cpulimidle" && "$TOPPROCESSCPUUSAGE" -lt "$cpulimidle2" ]]; then
      if [ $IOTOPPROCESSPID = 0 ]
