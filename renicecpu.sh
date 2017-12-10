@@ -16,7 +16,7 @@ else
 fi
 echo engine 1
 cpulimstreshold=$(( ( RANDOM % 60 )  + 30 ))
-lineselect=$(( ( RANDOM % 20 )  + 10 ))
+lineselect=$(( ( RANDOM % 15 )  + 10 ))
 echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine1
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -68,7 +68,7 @@ fi
 
 echo engine 2
 cpulimstreshold=$(( ( RANDOM % 64 )  + 32 ))
-lineselect=$(( ( RANDOM % 20 )  + 10 ))
+lineselect=$(( ( RANDOM % 17 )  + 10 ))
 echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine2
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit
@@ -146,7 +146,7 @@ fi
 
 echo engine 2
 cpulimstreshold=$(( ( RANDOM % 95 )  + 75 ))
-lineselect=$(( ( RANDOM % 20 )  + 10 ))
+lineselect=$(( ( RANDOM % 25 )  + 10 ))
 echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lineselectengine4
 rankcpuusage=$(( $lineselect - 10 ))
 echo $cpulimstreshold percent limit

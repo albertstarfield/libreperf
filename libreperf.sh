@@ -232,7 +232,7 @@ sudo launchctl limit maxfiles 1000000 1000000
 # using 1 probably OOM killer will be kicked on to save the day
 sudo nvram boot-args="-s -v -f kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
-sudo rm /private/var/vm/swapfile*
+sudo rm -rf /private/var/vm/swapfile*
 sudo systemsetup -setwaitforstartupafterpowerfailure 30
 sudo sysctl debug.lowpri_throttle_enabled=0
 sudo systemsetup -setrestartfreeze on
@@ -377,7 +377,7 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
     else
       echo volume exist
     fi
-sudo chmod -R 0777 /Volumes/fastcache/
+while true; do sudo chmod -R 0777 /Volumes/fastcache/; sleep 2; done &
 sudo chflags hidden /volumes/libreperfruntime
 sudo killall Finder
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime
