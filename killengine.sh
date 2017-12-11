@@ -1,4 +1,14 @@
 while true; do
+  #powersavinglinepatch
+  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  if [ $rescman = apple ]
+    then
+      echo apple management resource mode
+      coalescingsleep=$(( ( RANDOM % 31 )  + 16 ))
+      sleep $coalescingsleep
+    else
+      echo libreperf management mode
+  fi
 killconfirm=0
   Clear
 killconfirm=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/killconfirm )

@@ -2,6 +2,17 @@
 delay=$(( ( RANDOM % 600 )  + 412 ))
 sleep $delay
 while true; do
+  #powersavinglinepatch
+  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  if [ $rescman = apple ]
+    then
+      echo apple management resource mode
+      coalescingsleep=$(( ( RANDOM % 256 )  + 100 ))
+      sleep $coalescingsleep
+    else
+      echo libreperf management mode
+  fi
+
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
 
@@ -39,9 +50,9 @@ sleep $irregulardelay
 if [ $IOPROC -gt "5000" ]
   then
     sudo sysctl -w kern.maxfiles=100000
-    sudo sysctl -w kern.maxfilesperproc=32 #9990000
+    sudo sysctl -w kern.maxfilesperproc=50 #9990000
     sudo sysctl -w kern.sysv.shmmax=2560
-    sudo launchctl limit maxfiles 64 10000
+    sudo launchctl limit maxfiles 75 10000
   else
     sudo sysctl -w kern.maxfiles=19990000
     sudo sysctl -w kern.maxfilesperproc=9990000 #9990000

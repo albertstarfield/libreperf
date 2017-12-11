@@ -15,12 +15,45 @@ mkdir /Volumes/libreperfruntime/sys/energy
 mkdir /Volumes/libreperfruntime/sys/hwmorph
 mkdir /Volumes/libreperfruntime/sys/bridge
 cycleuptime=0
+alias grep='/Volumes/libreperfruntime/subbin/grep'
+alias sed='/Volumes/libreperfruntime/subbin/sed'
+alias awk='/Volumes/libreperfruntime/subbin/awk'
+alias top='/Volumes/libreperfruntime/subbin/top'
+alias tr='/Volumes/libreperfruntime/subbin/tr'
+alias iotop='/Volumes/libreperfruntime/subbin/iotop'
+initflag=0
+
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
 idlog=$(( ( RANDOM % 1000 )  + 1 ))
 sudo mkdir /var/log/libreperfkernelmanagement
 sudo mkdir /var/log/libreperfkernelmanagement/$idlog
+echo libreperf > /Volumes/libreperfruntime/sys/rescman
+
+
 while true; do
+cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+cpuusage=$( echo ${cpuusage%%.*} )
+echo hybrid management system
+echo stats system
+cputrig=$(( ( RANDOM % 42 )  + 27 ))
+if [[ $cpuusage -lt $cputrig && $initflag -gt 0 && $TOTAL -gt 1500 ]]; then
+  echo Using efficient APPLE subsystem management
+  echo apple > /Volumes/libreperfruntime/sys/rescman
+  coalescingsleep=$(( ( RANDOM % 500 )  + 180 ))
+  sleep $coalescingsleep
+  FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+  INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+  SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
+  FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
+  INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
+  TOTAL=$((($FREE+$INACTIVE)))
+  initflag=0
+else
+  echo Using Monstrous Resource Management libreperf
+  echo libreperf > /Volumes/libreperfruntime/sys/rescman
+fi
+
 cycleuptime=$(( $cycleuptime + 1 ))
 echo $cycleuptime
 echo $cycleuptime > /Volumes/libreperfruntime/sys/uptimecycle
@@ -52,12 +85,12 @@ echo unidentified > /Volumes/libreperfruntime/sys/mem/lightLMK/PID
 echo unidentified > /Volumes/libreperfruntime/sys/mem/heavyLMK/PID
 
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lightLMKline )
-TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o MEM -stats command | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/mem/lightLMK/Pname
-TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 echo $TOPPROCESSMEMUSAGE > /Volumes/libreperfruntime/sys/mem/lightLMK/Pmemusage
-TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o MEM -stats pid | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/mem/lightLMK/PID
 TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $TOPPROCESS )
 TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
@@ -66,9 +99,9 @@ echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
 #heavyLMK
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/heavyLMKline )
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname
-TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 echo $TOPPROCESSMEMUSAGE > /Volumes/libreperfruntime/sys/mem/heavyLMK/Pmemusage
-TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o MEM -stats pid | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/mem/heavyLMK/PID
 TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $TOPPROCESS )
 TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
@@ -85,40 +118,40 @@ if [ $cpuusage -gt 10 ]
   then
 #checking processcpuusage
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lineselectengine1 )
-TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESSNAME="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
-TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
-TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o CPU -stats pid | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 echo $TOPPROCESSNAME > /Volumes/libreperfruntime/sys/cpu/enginesuspender1/Pname
 echo $TOPPROCESSCPUUSAGE > /Volumes/libreperfruntime/sys/cpu/enginesuspender1/Pcpuusage
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/cpu/enginesuspender1/PID
 sleep 0.$irregulardelayprocdec
 
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lineselectengine2 )
-TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESSNAME="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
-TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
-TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o CPU -stats pid | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 echo $TOPPROCESSNAME > /Volumes/libreperfruntime/sys/cpu/enginesuspender2/Pname
 echo $TOPPROCESSCPUUSAGE > /Volumes/libreperfruntime/sys/cpu/enginesuspender2/Pcpuusage
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/cpu/enginesuspender2/PID
 sleep 0.$irregulardelayprocdec
 
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lineselectengine3 )
-TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESSNAME="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
-TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
-TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o CPU -stats pid | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 echo $TOPPROCESSNAME > /Volumes/libreperfruntime/sys/cpu/enginesuspender3/Pname
 echo $TOPPROCESSCPUUSAGE > /Volumes/libreperfruntime/sys/cpu/enginesuspender3/Pcpuusage
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/cpu/enginesuspender3/PID
 sleep 0.$irregulardelayprocdec
 
 lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lineselectengine4 )
-TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSNAME=$(top -l 1 -o CPU -stats command | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESSNAME="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
-TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | sed 1,"$lineselect"d | sed -n 3p)
-TOPPROCESS=$(top -l 1 -o CPU -stats pid | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESSCPUUSAGE=$(top -l 1 -o CPU -stats cpu | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
+TOPPROCESS=$(top -l 1 -o CPU -stats pid | grep -v root | grep -v _coreaudiod | grep -v _windowserver | sed 1,"$lineselect"d | sed -n 3p)
 echo $TOPPROCESSNAME > /Volumes/libreperfruntime/sys/cpu/enginesuspender4/Pname
 echo $TOPPROCESSCPUUSAGE > /Volumes/libreperfruntime/sys/cpu/enginesuspender4/Pcpuusage
 echo $TOPPROCESS > /Volumes/libreperfruntime/sys/cpu/enginesuspender4/PID
@@ -141,7 +174,7 @@ IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{prin
 sleep 0.$irregulardelayprocdec
 #search process name
 TOPPROCESS=$( /Volumes/libreperfruntime/bin/ps -c -p $IOTOPPROCESSPID )
-TOPPROCESS=$( echo "${TOPPROCESS}" | sed 1,1d | sed -n 1p |sed 's/[^a-zA-Z]*//g' )
+TOPPROCESS=$( echo "${TOPPROCESS}" | sed 1,1d | sed -n 1p | sed 's/[^a-zA-Z]*//g' )
 sleep 0.$irregulardelayprocdec
 #checkingcpuusageof the PROCESS
 TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $IOTOPPROCESSPID )
@@ -171,6 +204,12 @@ sleep 0.$irregulardelayprocdec
 #temprature
 temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
 temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
+if [ $initflag -lt 1 ]
+  then
+    initflag=1
+  else
+    echo Initialized already
+fi
 echo $temp > /Volumes/libreperfruntime/sys/temp/cputherm
 sleep 0.$irregulardelayprocdec
 cp -f -a /Volumes/libreperfruntime/sys/ /var/log/libreperfkernelmanagement/$idlog

@@ -383,7 +383,9 @@ sudo killall Finder
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime
 sudo mkdir /Volumes/libreperfruntime/bin
+sudo mkdir /Volumes/libreperfruntime/subbin
 cp -r /bin/ /Volumes/libreperfruntime/bin/
+cp -r /usr/bin/ /Volumes/libreperfruntime/subbin/
 cp -r /usr/local/lbpbin/86idlesync.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/lowmemorykiller.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/OOMkill.sh /Volumes/libreperfruntime

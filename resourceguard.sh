@@ -76,6 +76,18 @@ echo booting
 compusagesum=0
 sudo cp -r  /Volumes/fastcache/ /usr/local/lbpbin/ramstate
 while true; do
+  #powersavinglinepatch
+  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  if [ $rescman = apple ]
+    then
+      echo apple management resource mode
+      coalescingsleep=$(( ( RANDOM % 64 )  + 32 ))
+      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $minsaferpm
+      sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0000
+      sleep $coalescingsleep
+    else
+      echo libreperf management mode
+  fi
 updatecycle=$(( $updatecycle + 1 ))
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))

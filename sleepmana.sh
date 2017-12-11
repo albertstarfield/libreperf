@@ -1,5 +1,15 @@
 #!/bin/bash
 while true; do
+  #powersavinglinepatch
+  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  if [ $rescman = apple ]
+    then
+      echo apple management resource mode
+      coalescingsleep=$(( ( RANDOM % 128 )  + 64 ))
+      sleep $coalescingsleep
+    else
+      echo libreperf management mode
+  fi
 #   |   "AppleClamshellState" = No
 #   |   "AppleClamshellState" = Yes
 clamshellinfo=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/hwmorph/clamshellinfo )

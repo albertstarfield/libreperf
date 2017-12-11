@@ -1,5 +1,15 @@
 #!/bin/bash
 while true; do
+  #powersavinglinepatch
+  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  if [ $rescman = apple ]
+    then
+      echo apple management resource mode
+      coalescingsleep=$(( ( RANDOM % 128 )  + 32 ))
+      sleep $coalescingsleep
+    else
+      echo libreperf management mode
+  fi
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 2 ))
 echo updatespeed $irregulardelay

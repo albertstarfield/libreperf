@@ -3,6 +3,16 @@ ramlim=$(( $TOTAL / 4 ))
 ramlimcrit=$(( $TOTAL - ( $TOTAL / 5 ) ))
 cycleramlim=0
 while true; do
+  #powersavinglinepatch
+  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  if [ $rescman = apple ]
+    then
+      echo apple management resource mode
+      coalescingsleep=$(( ( RANDOM % 128 )  + 32 ))
+      sleep $coalescingsleep
+    else
+      echo libreperf management mode
+  fi
 cycleramlim=$(( $cycleramlim + 1 ))
  cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
   #irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 10 ))
@@ -43,7 +53,7 @@ cycleramlim=$(( $cycleramlim + 1 ))
       ramminalloccpu=358
       ramminalloccrit=99
   fi
-if [[ $cycleramlim -gt 256 && $TOTAL -lt 1024 ]];then
+if [[ $cycleramlim -gt 64 && $TOTAL -gt 1024 ]];then
       echo Doing some memory usage calibration
       TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
       ramlim=$(( $TOTAL / 4 ))

@@ -1,5 +1,16 @@
 while true; do
 #!/bin/bash
+#powersavinglinepatch
+rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+if [ $rescman = apple ]
+  then
+    echo apple management resource mode
+    coalescingsleep=$(( ( RANDOM % 128 )  + 32 ))
+    sleep $coalescingsleep
+    
+  else
+    echo libreperf management mode
+fi
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock minimize-to-application -bool YES; done
 #UXOptimization
 echo phase

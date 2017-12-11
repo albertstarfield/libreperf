@@ -3,10 +3,22 @@ isyncsum=0
 cycle=0
 cyclesample=0
 aheadschedule=0
-pmset sleepnow
+#pmset sleepnow
 pmset relative wake 30
 
 while true; do
+#powersavinglinepatch
+rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+if [ $rescman = apple ]
+  then
+    echo apple management resource mode
+    coalescingsleep=$(( ( RANDOM % 256 )  + 100 ))
+    sleep $coalescingsleep
+  else
+    echo libreperf management mode
+fi
+
+
 cycle=$(( $cycle + 1 ))
 cyclesample=$(( $cyclesample + 1 ))
 batterylevel=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/energy/batt )
