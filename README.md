@@ -76,5 +76,7 @@ B. Installing the script
 Yes the boot performance is kind of slower than before becouse the preload directory but it worth the performance improvement
 
 # And one more thing
+this program is really just my experimental attempt (i mean seriously you can read the source code and literally laugh because of how bad the structure is) on optimizing macOS because in my opinion macOS does not fully optimized for heavy multi task use so just frankenstein those all
+
 
 meow~
