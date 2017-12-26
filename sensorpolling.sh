@@ -77,7 +77,30 @@ TOTAL=$((($FREE+$INACTIVE)))
 echo $FREE > /Volumes/libreperfruntime/sys/mem/free
 echo $INACTIVE > /Volumes/libreperfruntime/sys/mem/inactive
 echo $TOTAL > /Volumes/libreperfruntime/sys/mem/total
+#refreshramdiskkernelcontent
+sudo cp -r /Volumes/libreperfruntime/binsync/ /Volumes/libreperfruntime
+if [ ! -d "/Volumes/fastcache/" ]; then
+size=$( cat /Volumes/libreperfruntime/sys/ramdisksize )
+sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes )
+diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
+echo Filling ram with 0 process 1
+echo allocating creating VM may take a while
+mkfile -n -v 1m /Volumes/fastcache/purgemod
+dd if=/dev/urandom of=/Volumes/fastcache/fill bs=64M count=16
+echo push
+openssl rand -out /Volumes/fastcache/0 -base64 $(( $sizefillbytes * 3/4 ))
+echo waiting reactions
+sleep 5
+rm -rf /Volumes/fastcache/purgemod
+rm -rf /Volumes/fastcache/0
+rm -rf /Volumes/fastcache/fill
+echo deallocating ram
+rsync -avz --delete "/usr/local/lbpbin/ramstate/" "/Volumes/fastcache/"
+  else
+    echo volume exist
+  fi
 #lightLMK
+
 #patch for unsyncronized module killing
 echo loginwindow > /Volumes/libreperfruntime/sys/mem/lightLMK/Pname
 echo loginwindow > /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname

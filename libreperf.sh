@@ -349,6 +349,9 @@ TOTAL=$((($FREE+$INACTIVE)))
 size=$(( $TOTAL - (( $TOTAL / 2 )) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
+echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksize
+echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloc
+echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
 mkdir /usr/local/lbpbin/ramstate
@@ -384,20 +387,20 @@ cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime
 sudo mkdir /Volumes/libreperfruntime/bin
 sudo mkdir /Volumes/libreperfruntime/subbin
+sudo mkdir /Volumes/libreperfruntime/binsync
 cp -r /bin/ /Volumes/libreperfruntime/bin/
 cp -r /usr/bin/ /Volumes/libreperfruntime/subbin/
-cp -r /usr/local/lbpbin/86idlesync.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/lowmemorykiller.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/OOMkill.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/onscreenpowerset.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/renicecpu.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/IOptimisation.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/sleepmana.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/sensorpolling.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/killengine.sh /Volumes/libreperfruntime
-sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /Volumes/libreperfruntime
-
-
+cp -r /usr/local/lbpbin/86idlesync.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/lowmemorykiller.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/OOMkill.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/onscreenpowerset.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/renicecpu.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/IOptimisation.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/sleepmana.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/sensorpolling.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/killengine.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /Volumes/libreperfruntime/binsync/ /Volumes/libreperfruntime
 osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'
 #powermanagement settings
 sudo sh /Volumes/libreperfruntime/86idlesync.sh &

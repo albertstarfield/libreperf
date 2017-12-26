@@ -482,6 +482,7 @@ clear
 sudo mv /sbin/mount_ntfs /sbin/mount_ntfs.original
 sudo cp -r mount_ntfs /sbin
 sudo cp -r uptget.sh /usr/local/lbpbin
+sudo cp -r watchdog.sh /usr/local/lbpbin
 sudo cp -r aptupdate.sh /usr/local/lbpbin
 sudo cp -r libreperf.sh /usr/local/lbpbin
 #binary installation
