@@ -334,7 +334,7 @@ mkdir /usr/local/lbpbin/ramstate
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
 if [ ! -d "/Volumes/libreperfruntime/" ]; then
-diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://131072`
+diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310720`
   else
     echo volume exist
   fi
