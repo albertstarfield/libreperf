@@ -43,7 +43,7 @@ here is the list
 14. Custom Thermal management addition of new feature ( Auto Overdrive mode & passive cooling mode )
 15. Automatic ramdisk scratch disks mount (allocated and optimized) (Have several Issues)
 16. Hybrid management system (apple macOS and libreperf)dynamic switching (saves energy)
-17. Most Applications Caching done in RAM
+17. Some minor storage tweaks
 
 # How to install?
 
