@@ -1,6 +1,7 @@
 #Slee
 #!/bin/bash
 while true; do
+cd "$(dirname "$0")"
 #Licenses
 printf '\e[9;1t'
 # Permission is hereby granted, free of charge, to any person
@@ -36,7 +37,7 @@ printf '\e[9;1t'
 #and thanks for the other articles to such as lifewire and etc
 #!/bin/bash
 # utilitymenu.sh - A sample shell script to display menus on screen
-clear
+
 echo " ______   __  __   ______   ______   ______  __   __   ______   _____    ______   __  __    ";
 echo "/\  __ \ /\ \/\ \ /\  ___\ /\  ___\ /\__  _\/\ \"-.\ \ /\  __ \ /\  __-. /\  ___\ /\ \_\ \   ";
 echo "\ \ \/\_\\ \ \_\ \\ \  __\ \ \___  \\/_/\ \/\ \ \-.  \\ \  __ \\ \ \/\ \\ \ \____\ \  __ \  ";
@@ -58,16 +59,16 @@ sleepstability=$(( ( RANDOM % 5 )  + 0 ))
 sleep $sleepstability
 sudo echo handingover to the install handler
 sleep 3
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
+
+
+
+
+
+
+
 sudo mkdir /usr/local/lbpbin
-sudo clear
-Clear
+
+
 Sleep 0
 echo make sure csrutil is disabled via booting recovery
 Sleep 0
@@ -76,255 +77,8 @@ Sleep 0
 Echo without disabling that this will only optimize partially
 Sleep 0
 echo your Mac will reboot automatically after installation process finished
-Clear
+
 echo ctrl + c to cancel
-Sleep 0
-clear
-echo "                   ";
-echo "                   ";
-echo "     999999999     ";
-echo "   99:::::::::99   ";
-echo " 99:::::::::::::99 ";
-echo "9::::::99999::::::9";
-echo "9:::::9     9:::::9";
-echo "9:::::9     9:::::9";
-echo " 9:::::99999::::::9";
-echo "  99::::::::::::::9";
-echo "    99999::::::::9 ";
-echo "         9::::::9  ";
-echo "        9::::::9   ";
-echo "       9::::::9    ";
-echo "      9::::::9     ";
-echo "     9::::::9      ";
-echo "    9::::::9       ";
-echo "   99999999        ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-sleep 1
-clear
-echo "                   ";
-echo "                   ";
-echo "     888888888     ";
-echo "   88:::::::::88   ";
-echo " 88:::::::::::::88 ";
-echo "8::::::88888::::::8";
-echo "8:::::8     8:::::8";
-echo "8:::::8     8:::::8";
-echo " 8:::::88888:::::8 ";
-echo "  8:::::::::::::8  ";
-echo " 8:::::88888:::::8 ";
-echo "8:::::8     8:::::8";
-echo "8:::::8     8:::::8";
-echo "8:::::8     8:::::8";
-echo "8::::::88888::::::8";
-echo " 88:::::::::::::88 ";
-echo "   88:::::::::88   ";
-echo "     888888888     ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-sleep 1
-clear
-echo "                    ";
-echo "                    ";
-echo "77777777777777777777";
-echo "7::::::::::::::::::7";
-echo "7::::::::::::::::::7";
-echo "777777777777:::::::7";
-echo "           7::::::7 ";
-echo "          7::::::7  ";
-echo "         7::::::7   ";
-echo "        7::::::7    ";
-echo "       7::::::7     ";
-echo "      7::::::7      ";
-echo "     7::::::7       ";
-echo "    7::::::7        ";
-echo "   7::::::7         ";
-echo "  7::::::7          ";
-echo " 7::::::7           ";
-echo "77777777            ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-sleep 1
-clear
-echo "                   ";
-echo "                   ";
-echo "        66666666   ";
-echo "       6::::::6    ";
-echo "      6::::::6     ";
-echo "     6::::::6      ";
-echo "    6::::::6       ";
-echo "   6::::::6        ";
-echo "  6::::::6         ";
-echo " 6::::::::66666    ";
-echo "6::::::::::::::66  ";
-echo "6::::::66666:::::6 ";
-echo "6:::::6     6:::::6";
-echo "6:::::6     6:::::6";
-echo "6::::::66666::::::6";
-echo " 66:::::::::::::66 ";
-echo "   66:::::::::66   ";
-echo "     666666666     ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-sleep 1
-clear
-echo "                   ";
-echo "                   ";
-echo "555555555555555555 ";
-echo "5::::::::::::::::5 ";
-echo "5::::::::::::::::5 ";
-echo "5:::::555555555555 ";
-echo "5:::::5            ";
-echo "5:::::5            ";
-echo "5:::::5555555555   ";
-echo "5:::::::::::::::5  ";
-echo "555555555555:::::5 ";
-echo "            5:::::5";
-echo "            5:::::5";
-echo "5555555     5:::::5";
-echo "5::::::55555::::::5";
-echo " 55:::::::::::::55 ";
-echo "   55:::::::::55   ";
-echo "     555555555     ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-sleep 1
-clear
-echo "                  ";
-echo "                  ";
-echo "       444444444  ";
-echo "      4::::::::4  ";
-echo "     4:::::::::4  ";
-echo "    4::::44::::4  ";
-echo "   4::::4 4::::4  ";
-echo "  4::::4  4::::4  ";
-echo " 4::::4   4::::4  ";
-echo "4::::444444::::444";
-echo "4::::::::::::::::4";
-echo "4444444444:::::444";
-echo "          4::::4  ";
-echo "          4::::4  ";
-echo "          4::::4  ";
-echo "        44::::::44";
-echo "        4::::::::4";
-echo "        4444444444";
-echo "                  ";
-echo "                  ";
-echo "                  ";
-echo "                  ";
-echo "                  ";
-echo "                  ";
-echo "                  ";
-sleep 1
-clear
-echo "                   ";
-echo "                   ";
-echo " 333333333333333   ";
-echo "3:::::::::::::::33 ";
-echo "3::::::33333::::::3";
-echo "3333333     3:::::3";
-echo "            3:::::3";
-echo "            3:::::3";
-echo "    33333333:::::3 ";
-echo "    3:::::::::::3  ";
-echo "    33333333:::::3 ";
-echo "            3:::::3";
-echo "            3:::::3";
-echo "            3:::::3";
-echo "3333333     3:::::3";
-echo "3::::::33333::::::3";
-echo "3:::::::::::::::33 ";
-echo " 333333333333333   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-echo "                   ";
-sleep 1
-clear
-echo "                    ";
-echo "                    ";
-echo " 222222222222222    ";
-echo "2:::::::::::::::22  ";
-echo "2::::::222222:::::2 ";
-echo "2222222     2:::::2 ";
-echo "            2:::::2 ";
-echo "            2:::::2 ";
-echo "         2222::::2  ";
-echo "    22222::::::22   ";
-echo "  22::::::::222     ";
-echo " 2:::::22222        ";
-echo "2:::::2             ";
-echo "2:::::2             ";
-echo "2:::::2       222222";
-echo "2::::::2222222:::::2";
-echo "2::::::::::::::::::2";
-echo "22222222222222222222";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-echo "                    ";
-sleep 1
-clear
-echo "            ";
-echo "            ";
-echo "  1111111   ";
-echo " 1::::::1   ";
-echo "1:::::::1   ";
-echo "111:::::1   ";
-echo "   1::::1   ";
-echo "   1::::1   ";
-echo "   1::::1   ";
-echo "   1::::l   ";
-echo "   1::::l   ";
-echo "   1::::l   ";
-echo "   1::::l   ";
-echo "   1::::l   ";
-echo "111::::::111";
-echo "1::::::::::1";
-echo "1::::::::::1";
-echo "111111111111";
-echo "            ";
-echo "            ";
-echo "            ";
-echo "            ";
-echo "            ";
-echo "            ";
-echo "            ";
-sleep 1
-echo ctrl + c to cancel
-sleep 4
-clear
 echo " ___      ___   _______  ______    _______  _______  _______  ______    _______ ";
 echo "|   |    |   | |  _    ||    _ |  |       ||       ||       ||    _ |  |       |";
 echo "|   |    |   | | |_|   ||   | ||  |    ___||    _  ||    ___||   | ||  |    ___|";
@@ -333,22 +87,7 @@ echo "|   |___ |   | |  _   | |    __  ||    ___||    ___||    ___||    __  ||  
 echo "|       ||   | | |_|   ||   |  | ||   |___ |   |    |   |___ |   |  | ||   |    ";
 echo "|_______||___| |_______||___|  |_||_______||___|    |_______||___|  |_||___|    ";
 sleep 3
-clear
-echo "                         ___                                             ";
-echo "                        (   )                                            ";
-echo " ___  ___  ___   .--.    | |    .--.      .--.    ___ .-. .-.     .--.   ";
-echo "(   )(   )(   ) /    \   | |   /    \    /    \  (   )   '   \   /    \  ";
-echo " | |  | |  | | |  .-. ;  | |  |  .-. ;  |  .-. ;  |  .-.  .-. ; |  .-. ; ";
-echo " | |  | |  | | |  | | |  | |  |  |(___) | |  | |  | |  | |  | | |  | | | ";
-echo " | |  | |  | | |  |/  |  | |  |  |      | |  | |  | |  | |  | | |  |/  | ";
-echo " | |  | |  | | |  ' _.'  | |  |  | ___  | |  | |  | |  | |  | | |  ' _.' ";
-echo " | |  ; '  | | |  .'.-.  | |  |  '(   ) | '  | |  | |  | |  | | |  .'.-. ";
-echo " ' \`-'   \`-' ' '  \`-' /  | |  '  \`-' |  '  \`-' /  | |  | |  | | '  \`-' / ";
-echo "  '.__.'.__.'   \`.__.'  (___)  \`.__,'    \`.__.'  (___)(___)(___) \`.__.'  ";
-echo "                                                                         ";
-echo "                                                                         ";
-sleep 2
-#menuend
+
 
 
 
@@ -356,16 +95,12 @@ sleep 2
 
 
 LOGIN=$USER
-Clear
+
 #echo Type your password
 sleep 0
 loggedInUser=$sudo_USER
 LOGIN=$sudo_USER
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
+
 
 #Credits
 echo -------------------------------------
@@ -391,15 +126,15 @@ echo https://github.com/lavoiesl/osx-cpu-temp
 echo and many little snippets
 echo sorry
 echo delaying for certain amount of time
-Sleep 2
+Sleep 0
 #Sleep 30
-Clear
+
 #updatecomponent
 
 
 
 
-Clear
+
 #Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
 #Xmessage dont panic if your computer just go blank it is normal &
 echo remastering parameters settings
@@ -478,7 +213,7 @@ sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 # Like it was a install process
 sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
-clear
+
 sudo mv /sbin/mount_ntfs /sbin/mount_ntfs.original
 sudo cp -r mount_ntfs /sbin
 sudo cp -r uptget.sh /usr/local/lbpbin
@@ -513,17 +248,17 @@ echo phase
 sudo defaults write com.apple.CrashReporter DialogType nano
 sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
 echo phase
-Clear
+
 echo we are done
 echo thank you for installing libreperf
 echo updates will be delivered automatically to your system fresh from github
-sleep 3
+sleep 0
 echo applying settings
 echo your Macintosh may go blank but your application will be restored
 #sudo sync
 #sudo purge
 #sudo reboot -q
-Clear
+
 #installation ended
 #sudo killall loginwindow
 exit

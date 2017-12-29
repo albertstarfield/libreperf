@@ -1,6 +1,7 @@
 #Slee
 #!/bin/bash
 while true; do
+cd "$(dirname "$0")"
 #Licenses
 printf '\e[9;1t'
 # Permission is hereby granted, free of charge, to any person
@@ -36,7 +37,7 @@ printf '\e[9;1t'
 #and thanks for the other articles to such as lifewire and etc
 #!/bin/bash
 # utilitymenu.sh - A sample shell script to display menus on screen
-clear
+
 echo " ______   __  __   ______   ______   ______  __   __   ______   _____    ______   __  __    ";
 echo "/\  __ \ /\ \/\ \ /\  ___\ /\  ___\ /\__  _\/\ \"-.\ \ /\  __ \ /\  __-. /\  ___\ /\ \_\ \   ";
 echo "\ \ \/\_\\ \ \_\ \\ \  __\ \ \___  \\/_/\ \/\ \ \-.  \\ \  __ \\ \ \/\ \\ \ \____\ \  __ \  ";
@@ -44,15 +45,34 @@ echo " \ \___\_\\ \_____\\ \_____\\/\_____\  \ \_\ \ \_\\\"\_\\ \_\ \_\\ \____- 
 echo "  \/___/_/ \/_____/ \/_____/ \/_____/   \/_/  \/_/ \/_/ \/_/\/_/ \/____/  \/_____/ \/_/\/_/ ";
 echo "                                                                                            ";
 echo requesting root access
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-Clear
+sudo echo gained
+sudo echo gained
+sudo echo gained
+sudo echo gained
+sleep 2
+sudo echo access gained
+sleep 2
+sudo echo creating bin folder
+sleepstability=$(( ( RANDOM % 5 )  + 0 ))
+sleep $sleepstability
+sudo echo initializing variables
+sleepstability=$(( ( RANDOM % 5 )  + 0 ))
+sleep $sleepstability
+sudo echo preparing setup
+sleepstability=$(( ( RANDOM % 5 )  + 0 ))
+sleep $sleepstability
+sudo echo handingover to the install handler
+sleep 3
+
+
+
+
+
+
+
+sudo mkdir /usr/local/lbpbin
+
+
 Sleep 0
 echo make sure csrutil is disabled via booting recovery
 Sleep 0
@@ -60,29 +80,9 @@ echo find on google disable csrutil or disable SIP
 Sleep 0
 Echo without disabling that this will only optimize partially
 Sleep 0
-Echo your Mac will reboot automatically after installation process finished
-echo Exception on the newer version
-echo Installing no longer need reboot
-Sleep 0
-echo setup will start in 9 seconds
-sleep 1
-echo setup will start in 8 seconds
-sleep 1
-echo setup will start in 7 seconds
-sleep 1
-echo setup will start in 6 seconds
-sleep 1
-echo setup will start in 5 seconds
-sleep 1
-echo setup will start in 4 seconds
-sleep 1
-echo setup will start in 3 seconds
-sleep 1
-echo setup will start in 2 seconds
-sleep 1
-echo setup will start in 1 seconds
-sleep 1
-clear
+echo your Mac will reboot automatically after installation process finished
+
+echo ctrl + c to cancel
 echo " ___      ___   _______  ______    _______  _______  _______  ______    _______ ";
 echo "|   |    |   | |  _    ||    _ |  |       ||       ||       ||    _ |  |       |";
 echo "|   |    |   | | |_|   ||   | ||  |    ___||    _  ||    ___||   | ||  |    ___|";
@@ -91,22 +91,7 @@ echo "|   |___ |   | |  _   | |    __  ||    ___||    ___||    ___||    __  ||  
 echo "|       ||   | | |_|   ||   |  | ||   |___ |   |    |   |___ |   |  | ||   |    ";
 echo "|_______||___| |_______||___|  |_||_______||___|    |_______||___|  |_||___|    ";
 sleep 3
-clear
-echo "                         ___                                             ";
-echo "                        (   )                                            ";
-echo " ___  ___  ___   .--.    | |    .--.      .--.    ___ .-. .-.     .--.   ";
-echo "(   )(   )(   ) /    \   | |   /    \    /    \  (   )   '   \   /    \  ";
-echo " | |  | |  | | |  .-. ;  | |  |  .-. ;  |  .-. ;  |  .-.  .-. ; |  .-. ; ";
-echo " | |  | |  | | |  | | |  | |  |  |(___) | |  | |  | |  | |  | | |  | | | ";
-echo " | |  | |  | | |  |/  |  | |  |  |      | |  | |  | |  | |  | | |  |/  | ";
-echo " | |  | |  | | |  ' _.'  | |  |  | ___  | |  | |  | |  | |  | | |  ' _.' ";
-echo " | |  ; '  | | |  .'.-.  | |  |  '(   ) | '  | |  | |  | |  | | |  .'.-. ";
-echo " ' \`-'   \`-' ' '  \`-' /  | |  '  \`-' |  '  \`-' /  | |  | |  | | '  \`-' / ";
-echo "  '.__.'.__.'   \`.__.'  (___)  \`.__,'    \`.__.'  (___)(___)(___) \`.__.'  ";
-echo "                                                                         ";
-echo "                                                                         ";
-sleep 2
-#menuend
+
 
 
 
@@ -114,16 +99,12 @@ sleep 2
 
 
 LOGIN=$USER
-Clear
+
 #echo Type your password
 sleep 0
 loggedInUser=$sudo_USER
 LOGIN=$sudo_USER
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
+
 
 #Credits
 echo -------------------------------------
@@ -135,7 +116,8 @@ echo -------------------------------------
 
 echo Thanks to all of you guys thanks for the community yay
 echo References
-echo deprecated Copyright 2011  0x46616c6b for ramdisk
+echo Copyright 2011  0x46616c6b for ramdisk
+echo http://patorjk.com/software/taag/#p=display&c=echo&f=Doh&t=1
 echo deprecated 2010 Alec Muffett Alec.Muffett@gmail.com Dynamic pager
 echo http://is.gd/9qZIX or http://bit.ly/axANub
 echo https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
@@ -148,15 +130,15 @@ echo https://github.com/lavoiesl/osx-cpu-temp
 echo and many little snippets
 echo sorry
 echo delaying for certain amount of time
-Sleep 2
+Sleep 0
 #Sleep 30
-Clear
+
 #updatecomponent
 
 
 
 
-Clear
+
 #Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
 #Xmessage dont panic if your computer just go blank it is normal &
 echo remastering parameters settings
@@ -172,14 +154,6 @@ Uptime
 #hidden IO boost
 #multiple pilots install
 #https://superuser.com/questions/827984/open-files-limit-does-not-work-as-before-in-osx-yosemite
-echo installing some GNU stuff into your proprietary OS
-echo Compability issues with the built in features
-
-
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install gnu-sed
-brew install git
-
 
 echo installing some driver
 sudo cp -r maxdrive.plist /Library/LaunchDaemons/
@@ -242,19 +216,33 @@ sudo cp -r krnvfssync.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 # Like it was a install process
-sudo cp -r watchdog.sh /usr/local/bin
-sudo cp -r uptget.sh /usr/local/bin
-sudo cp -r aptupdate.sh /usr/local/bin
-sudo cp -r libreperf.sh /usr/local/bin
+sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
+
+sudo mv /sbin/mount_ntfs /sbin/mount_ntfs.original
+sudo cp -r mount_ntfs /sbin
+sudo cp -r uptget.sh /usr/local/lbpbin
+sudo cp -r watchdog.sh /usr/local/lbpbin
+sudo cp -r aptupdate.sh /usr/local/lbpbin
+sudo cp -r libreperf.sh /usr/local/lbpbin
 #binary installation
+sudo cp -r lowmemorykiller.sh /usr/local/lbpbin
+sudo cp -r sensorpolling.sh /usr/local/lbpbin
+sudo cp -r OOMkill.sh /usr/local/lbpbin
+sudo cp -r onscreenpowerset.sh /usr/local/lbpbin
+sudo cp -r renicecpu.sh /usr/local/lbpbin
+sudo cp -r IOptimisation.sh /usr/local/lbpbin
+sudo cp -r 86idlesync.sh /usr/local/lbpbin
+sudo cp -r sleepmana.sh /usr/local/lbpbin
+sudo cp -r killengine.sh /usr/local/lbpbin
 sudo cp -r cycletmpcheck /bin/
 sudo cp -r smc /bin/
-sudo cp -r coolingcontroller.sh /usr/local/bin
-sudo cp -r resourceguard.sh /usr/local/bin
-sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
-sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
-sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
+sudo cp -r coolingcontroller.sh /usr/local/lbpbin
+sudo cp -r resourceguard.sh /usr/local/lbpbin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
+sudo cp -r uiperfpatch.sh /usr/local/lbpbin
+
+sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
+
 sudo sync
 sleep 2
 sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
@@ -262,66 +250,19 @@ sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
 #UXOptimization
 echo phase
 sudo defaults write com.apple.CrashReporter DialogType nano
-defaults write com.apple.CrashReporter DialogType developer
-defaults write com.apple.universalaccess reduceTransparency -bool false
-defaults write com.apple.dashboard mcx-disabled -boolean YES
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
-defaults write -g QLPanelAnimationDuration -float 0
-defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
-defaults write com.apple.dock launchanim -bool false
-defaults write com.apple.dock expose-animation-duration -float 0.1
-defaults write com.apple.Dock autohide-delay -float 0
-defaults write com.apple.finder DisableAllAnimations -bool true
-defaults write com.apple.mail DisableReplyAnimations -bool true
-defaults write com.apple.mail DisableSendAnimations -bool true
-defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25
-defaults delete NSDisableAutomaticTermination
-echo phase
-defaults write -g NSDisableAutomaticTermination -bool no
-defaults write com.google.Chrome NSQuitAlwaysKeepsWindows -bool false
-defaults write com.apple.Safari NSQuitAlwaysKeepsWindows -bool false
-#defaults write com.apple.dock single-app -bool true
-defaults write com.apple.dock mineffect -string scale
-defaults write NSGlobalDomain NSAppSleepDisabled -bool no
-defaults write com.apple.finder DisableAllAnimations -bool true
-defaults write com.apple.CrashReporter DialogType none
-defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
-echo phase
-defaults write -g NSScrollAnimationEnabled -bool false
-defaults write -g NSWindowResizeTime -float 0.001
-defaults write -g QLPanelAnimationDuration -float 0
-defaults write -g NSScrollViewRubberbanding -bool false
-defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
-defaults write -g NSToolbarFullScreenAnimationDuration -float 0
-defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
-defaults write com.apple.dashboard devmode YES
-defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
 sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
 echo phase
-defaults write com.apple.dock showhidden -bool true
 
+echo we are done
+echo thank you for installing libreperf
+echo updates will be delivered automatically to your system fresh from github
+sleep 0
 echo applying settings
 echo your Macintosh may go blank but your application will be restored
-Clear
-echo we are done
-echo setup will reconfigure your system in 9 seconds
-sleep 1
-echo setup will reconfigure your system in 8 seconds
-sleep 1
-echo setup will reconfigure your system in 7 seconds
-sleep 1
-echo setup will reconfigure your system in 6 seconds
-sleep 1
-echo setup will reconfigure your system in 5 seconds
-sleep 1
-echo setup will reconfigure your system in 4 seconds
-sleep 1
-echo setup will reconfigure your system in 3 seconds
-sleep 1
-echo setup will reconfigure your system in 2 seconds
-sleep 1
-echo setup will reconfigure your system in 1 seconds
-sleep 1
+#sudo sync
+#sudo purge
+#sudo reboot -q
+
 #installation ended
 #sudo killall loginwindow
 exit

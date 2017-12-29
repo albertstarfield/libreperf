@@ -1,6 +1,65 @@
 #!/bin/bash
+
+#IOseekram migration inspired from "IOBIT Lightning booster" and Cache2ram created by 0x46616c6b
+#codesnippets cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.CrashReporter DialogType developer; done
+#reporting
+FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
+FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
+INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
+TOTAL=$((($FREE+$INACTIVE)))
+size=$(( $TOTAL - (( $TOTAL / 2 )) ))
+sizefill=$(( $size - ( $size * 1 / 4 ) ))
+sizefillbytes=$(( $sizefill * 1048576 ))
+echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizecache
+echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloccache
+echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
+#reporting section
+cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Caches_hdd; done
+echo mkdir step
+cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done
+echo cloning step
+sudo rm -rf /Volumes/systemcacheblock0
+
+#creating ramdisk
+if [ ! -d "/Volumes/systemcacheblock0/" ]; then
+size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksizecache )
+sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache )
+diskutil erasevolume HFS+ 'systemcacheblock0' `hdiutil attach -nomount ram://$[$size*2048]`
+echo Filling ram with 0 process 1
+echo allocating creating VM may take a while
+mkfile -n -v 1m /Volumes/systemcacheblock0/purgemod
+dd if=/dev/urandom of=/Volumes/systemcacheblock0/fill bs=64M count=16
+echo push
+openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
+echo waiting reactions
+sleep 5
+rm -rf /Volumes/systemcacheblock0/purgemod
+rm -rf /Volumes/systemcacheblock0/0
+rm -rf /Volumes/systemcacheblock0/fill
+echo deallocating ram
+#creating ramdisk operation ended
+#migration begins
+  else
+    echo volume exist
+  fi
+#creating ramdisk operation ended
+
+cd /Users/; for i in *; do sudo mkdir /Volumes/systemcacheblock0/"$i"; done
+cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
+echo clearing stage
+cd /Users/; for i in *; do sudo ln -s /Volumes/systemcacheblock0/"$i" /Users/"$i"/Library/Caches; done
+echo linking stage
+sudo chflags hidden /Volumes/systemcacheblock0
+#cache2ramend
+
+#delay boot prevent bugs and freezes
 delay=$(( ( RANDOM % 600 )  + 412 ))
 sleep $delay
+cd "$(dirname "$0")"
+
 while true; do
   #powersavinglinepatch
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
@@ -102,5 +161,8 @@ fi
     sleep 10
 fi
 sleep 5
+#synccache
+#i didnt use rsync because i think its nvm i use it anyway
+cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
 echo --------------------
 done

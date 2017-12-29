@@ -330,6 +330,8 @@ echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloc
 echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
+sudo rm -rf /Volumes/libreperfruntime
+sudo rm -rf /Volumes/fastcache
 mkdir /usr/local/lbpbin/ramstate
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
@@ -357,7 +359,7 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
       echo volume exist
     fi
 while true; do sudo chmod -R 0777 /Volumes/fastcache/; sleep 2; done &
-sudo chflags hidden /volumes/libreperfruntime
+sudo chflags hidden /Volumes/libreperfruntime
 sudo killall Finder
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime

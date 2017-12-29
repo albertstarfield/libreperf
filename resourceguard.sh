@@ -75,6 +75,8 @@ echo booting
 #echo $BATTLEFT mins left
 compusagesum=0
 sudo cp -r  /Volumes/fastcache/ /usr/local/lbpbin/ramstate
+#DNSBoost
+sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache
 while true; do
   #powersavinglinepatch
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )

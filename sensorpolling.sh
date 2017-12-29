@@ -80,7 +80,7 @@ echo $TOTAL > /Volumes/libreperfruntime/sys/mem/total
 #refreshramdiskkernelcontent
 sudo cp -r /Volumes/libreperfruntime/binsync/ /Volumes/libreperfruntime
 if [ ! -d "/Volumes/fastcache/" ]; then
-size=$( cat /Volumes/libreperfruntime/sys/ramdisksize )
+size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksize )
 sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes )
 diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
 echo Filling ram with 0 process 1

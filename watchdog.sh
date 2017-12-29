@@ -1,14 +1,13 @@
 #!/bin/bash
-sleep 10
+sleep 1080
 while true; do
 if [ ! -d "/Volumes/libreperfruntime/binsync" ] || [ ! -d "/Volumes/libreperfruntime/bin" ] || [ ! -d "/Volumes/libreperfruntime/subbin" ]; then
 echo ramdisk kernel integrity failed 0x1
 sudo sync &
-sudo killall -KILL WindowServer
-sudo killall -KILL loginwindow
 sudo purge &
-sudo reboot -q
-#sudo sh /usr/local/bin/libreperf.sh
+#sudo killall -KILL sh
+sudo sh /usr/local/bin/libreperf.sh
+sleep 1080
   else
     echo ramdisk kernel integrity verified 0x0
   fi
