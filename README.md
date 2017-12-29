@@ -12,7 +12,7 @@ libreperf = free from performance throttling Bottleneck
 ------------
 # The Refrence List
 
-deprecated Copyright 2011  0x46616c6b for ramdisk 
+thanks for Copyright 2011  0x46616c6b for ramdisk 
 deprecated 2010 Alec Muffett Alec.Muffett@gmail.com for Dynamic pager
 http://is.gd/9qZIX or http://bit.ly/axANub
 https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
