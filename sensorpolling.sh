@@ -99,6 +99,10 @@ rsync -avz --delete "/usr/local/lbpbin/ramstate/" "/Volumes/fastcache/"
   else
     echo volume exist
   fi
+#memoryblockspacecachecheck
+#they're using kibibytes
+cachefree=$(df -Pk /Volumes/systemcacheblock0 | sed 1d | grep -v used | awk '{ print $4 "\t" }')
+echo $cachefree > /Volumes/libreperfruntime/sys/mem/cachefree
 #lightLMK
 
 #patch for unsyncronized module killing

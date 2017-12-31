@@ -9,7 +9,7 @@ SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.
 FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
 INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
 TOTAL=$((($FREE+$INACTIVE)))
-size=$(( $TOTAL - (( $TOTAL / 2 )) ))
+size=$(( $TOTAL - (( $TOTAL / 4 )) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizecache
@@ -54,13 +54,18 @@ cd /Users/; for i in *; do sudo ln -s /Volumes/systemcacheblock0/"$i" /Users/"$i
 echo linking stage
 sudo chflags hidden /Volumes/systemcacheblock0
 #cache2ramend
+#bugs
+while true; do sudo sudo killall -KILL ReportCrash; sleep 2; done &
+while true; do sudo sudo killall -KILL cloudd; sleep 5; done &
 
 #delay boot prevent bugs and freezes
 delay=$(( ( RANDOM % 600 )  + 412 ))
-sleep $delay
+sleep 1.$delay
+cd "$(dirname "$0")"
+cleanupdepth=11
+while true; do
 cd "$(dirname "$0")"
 
-while true; do
   #powersavinglinepatch
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
   if [ $rescman = apple ]
@@ -165,4 +170,22 @@ sleep 5
 #i didnt use rsync because i think its nvm i use it anyway
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
 echo --------------------
-done
+#check memory cache free
+cachefree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/cachefree)
+if [ "$cachefree" -lt "512000" ]; then
+# thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
+cd /Volumes/systemcacheblock0/; for i in *; do cd /Volumes/systemcacheblock0/"$i"/; echo Volumes/systemcacheblock0/"$i"; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); for a in *; do cd /Volumes/systemcacheblock0/"$i"/"$a"/; echo Volumes/systemcacheblock0/"$i"/"$a"/; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); done; done
+if [ $cleanupdepth -gt 1 ]; then
+  cleanupdepth=$(( $cleanupdepth - 1 ))
+    else
+      echo depth_underflow
+fi
+else
+  if [ $cleanupdepth -lt 10 ]; then
+    cleanupdepth=$(( $cleanupdepth + 1 ))
+      else
+        echo depth_overflow
+  fi
+  echo Space free
+fi
+echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth

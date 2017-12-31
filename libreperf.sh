@@ -127,7 +127,7 @@ sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 #Credits
 echo -------------------------------------
 echo $0 script
-echo by questandachievement and community
+echo by questandachievement7 and community
 echo system will be rebooted automatically
 echo -------------------------------------
 Sleep 0
@@ -230,7 +230,7 @@ sudo launchctl limit maxfiles 1000000 1000000
 #it seems that 0x8 0x10 0x20 does freeze the os instantly so dont use it
 # using 2 is the most balanced settings
 # using 1 probably OOM killer will be kicked on to save the day
-sudo nvram boot-args="-s -v -f kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
+sudo nvram boot-args="-s -v -f kext-dev-mode=1 vm_compressor=8 idlehalt=1 srv=1 cpuidle=1 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm -rf /private/var/vm/swapfile*
 sudo systemsetup -setwaitforstartupafterpowerfailure 30
@@ -306,6 +306,16 @@ sudo mdutil -a -i off
 echo stage 1
 Sleep 0
 #RamFILECACHING
+#check https://stackoverflow.com/questions/1821886/check-if-mac-process-is-running-using-bash-by-process-name
+PROCESS=diskimages-helper
+number=$(ps aux | grep $PROCESS | wc -l)
+if [ $number -gt 0 ]
+    then
+        echo Warm Boot Detected
+        killall -KILL $PROCESS
+    else
+        echo Cold boot detected
+fi
 echo "$loggedInUser"
 #diskutil erasevolume HFS+ "$ramdiskid" `hdiutil attach -nomount ram://$[size*2048]`
 sleep 0
