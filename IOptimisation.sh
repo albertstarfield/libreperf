@@ -9,9 +9,11 @@ SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.
 FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
 INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
 TOTAL=$((($FREE+$INACTIVE)))
-size=$(( $TOTAL - (( $TOTAL / 4 )) ))
+TOTAL=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksize )
+size=$(( $TOTAL - (( $TOTAL / 2 )) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
+disksizekb=$(( $size * 1000 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizecache
 echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloccache
 echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
@@ -172,7 +174,9 @@ cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Use
 echo --------------------
 #check memory cache free
 cachefree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/cachefree)
-if [ "$cachefree" -lt "512000" ]; then
+trigger=512000
+trigger=$(( $disksizekb / 4 ))
+if [ "$cachefree" -lt "$trigger" ]; then
 # thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
 cd /Volumes/systemcacheblock0/; for i in *; do cd /Volumes/systemcacheblock0/"$i"/; echo Volumes/systemcacheblock0/"$i"; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); for a in *; do cd /Volumes/systemcacheblock0/"$i"/"$a"/; echo Volumes/systemcacheblock0/"$i"/"$a"/; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); done; done
 if [ $cleanupdepth -gt 1 ]; then
