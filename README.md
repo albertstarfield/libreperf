@@ -2,7 +2,7 @@
 ------------
 # what is Libreperf?
 An project of attempting to remove macOS (10.12+ 10.13+) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices "with this badly written program" and using various command and modification from multiple source or website and replacing some system management and adding some management to the system and adding responsiveness while handling heavy tasks I/O and other things
-# i do not recommend system that only have 4 gb (Minimal = 8 GB or Required recomended = 16 GB)
+# i do not recommend system that only have 4 gb of RAM (Minimal = 8 GB or Required recomended = 16 GB)
 ------------
 # what does "Libreperf" mean?
 libre = free
