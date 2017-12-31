@@ -66,12 +66,14 @@ A. Disabling SIP
 B. Installing the script
 ----------
 B1. Using Release Channel
+
 0. Download latest (Highly Recomended) dmg file from the release section
 1. open up the dmg file and navigate to that directory
 2. launch the "InstallWizard" by double clicking and input the password when asked
 3. Done! ( No reboot required although the full effect going to take place after reboot )
 
 B2. Using the Master Repositories
+
 0. Download or clone the file into your computer
 1. extract into a folder that dont have spaces
 2. open up terminal
