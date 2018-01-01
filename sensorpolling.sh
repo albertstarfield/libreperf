@@ -36,7 +36,7 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
 echo hybrid management system
 echo stats system
-cputrig=$(( ( RANDOM % 27 )  + 10 ))
+cputrig=$(( ( RANDOM % 50 )  + 27 ))
 if [[ $cpuusage -gt $cputrig && $initflag -lt 1 ]] || [ $TOTAL -lt 2048 ]; then
   echo Using Monstrous Resource Management libreperf
   echo libreperf > /Volumes/libreperfruntime/sys/rescman
