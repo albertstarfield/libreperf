@@ -78,10 +78,10 @@ if [ $TOTAL -lt 1000 ]
 fi
 if [ $TOTAL -gt 1667 ]
   then
-      rammaxalloccpu=512
-      rammaxalloccrit=128
-      ramminalloccpu=358
-      ramminalloccrit=99
+      rammaxalloccpu=$ramlim
+      rammaxalloccrit=$ramlimcrit
+      ramminalloccpu=$ramlim
+      ramminalloccrit=$ramlimcrit
   else
       echo awaiting for another adjustment
 fi
