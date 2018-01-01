@@ -3,6 +3,7 @@
 while true; do
 #Licenses
 printf '\e[9;1t'
+sleep 1080
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
 # (the "Software"), to deal in the Software without restriction,

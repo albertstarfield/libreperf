@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo sh /Volumes/libreperfruntime/lowmemorykiller.sh &
 while true; do
   #powersavinglinepatch
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )

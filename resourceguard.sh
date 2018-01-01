@@ -30,10 +30,10 @@ suspendstatuseng5=0
 irregulardelay=1
 irregulardelayproc=1
 randomnumber=$(( ( RANDOM % 12000 )  + 512 ))
-lifetime=$(( ( RANDOM % 40 )  + 20 ))
+lifetime=$(( ( RANDOM % 360 )  + 278 ))
 getupdate=$randomnumber
 updatecycle=0
-
+sudo sh /usr/local/lbpbin/uptget.sh &
 #irregulardelayproc=$(( ( 100 - ${cpuusage%%.*} ) / 16 ))
 #irregulardelay=$(( ( RANDOM % $irregulardelaycpuoverride )  + 0 ))
 
@@ -47,6 +47,7 @@ sudo sh /Volumes/libreperfruntime/killengine.sh &
 sudo sh /Volumes/libreperfruntime/sensorpolling.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/lowmemorykiller.sh &
+sudo sh /Volumes/libreperfruntime/subbin/lowmemorykiller.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/coolingcontroller.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
@@ -98,7 +99,6 @@ compusagesum=$(( $compusage + $compusagesum ))
 compusage=$(( $compusagesum / $updatecycle ))
 echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
 if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then
-  sudo sh /usr/local/lbpbin/uptget.sh
   updatecycle=0
   rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"
   sudo sh /usr/local/lbpbin/resourceguard.sh

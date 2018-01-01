@@ -264,7 +264,6 @@ echo setup will reconfigure your system in 2 seconds
 sleep 1
 echo setup will reconfigure your system in 1 seconds
 sleep 1
-sudo sh /usr/local/lbpbin/libreperf.sh
 #installation ended
 #sudo killall loginwindow
 exit

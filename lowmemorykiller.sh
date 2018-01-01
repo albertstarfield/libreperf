@@ -1,3 +1,6 @@
+#!/bin/bash
+echo Initializing
+sleep 180
 TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
 ramlim=$(( $TOTAL / 4 ))
 ramlimcrit=$(( $TOTAL - ( $TOTAL / 5 ) ))
@@ -13,6 +16,8 @@ while true; do
     else
       echo libreperf management mode
   fi
+echo powersavingpatch
+echo Resourceguard_legacy
 cycleramlim=$(( $cycleramlim + 1 ))
  cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
   #irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 10 ))
