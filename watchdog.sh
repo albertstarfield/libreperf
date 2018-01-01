@@ -5,7 +5,7 @@ if [ ! -d "/Volumes/libreperfruntime/binsync" ] || [ ! -d "/Volumes/libreperfrun
 echo ramdisk kernel integrity failed 0x1
 sudo sync &
 #sudo purge
-#sudo killall -KILL sh
+sudo killall -KILL sh
 sudo sh /usr/local/bin/libreperf.sh
 sleep 1080
   else

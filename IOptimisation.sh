@@ -9,8 +9,7 @@ SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.
 FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
 INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
 TOTAL=$((($FREE+$INACTIVE)))
-TOTAL=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksize )
-size=$(( $TOTAL - (( $TOTAL / 2 )) ))
+size=$(( $TOTAL - (( $TOTAL / 4 )) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
 disksizekb=$(( $size * 1000 ))
@@ -20,7 +19,7 @@ echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
 #reporting section
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Caches_hdd; done
 echo mkdir step
-cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done
+cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
 echo cloning step
 sudo rm -rf /Volumes/systemcacheblock0
 
@@ -172,6 +171,13 @@ sleep 5
 #i didnt use rsync because i think its nvm i use it anyway
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
 echo --------------------
+#fallbackstageifinlowmemory
+if [ ! -d "/Volumes/systemcacheblock0" ]; then
+  cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
+  cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Caches_hdd /Users/"$i"/Library/Caches; done
+else
+  echo normal linking mode
+fi
 #check memory cache free
 cachefree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/cachefree)
 trigger=512000
@@ -193,3 +199,4 @@ else
   echo Space free
 fi
 echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth
+done

@@ -8,7 +8,7 @@ while true; do
   if [ $rescman = apple ]
     then
       echo apple management resource mode
-      coalescingsleep=$(( ( RANDOM % 128 )  + 32 ))
+      coalescingsleep=$(( ( RANDOM % 32 )  + 16 ))
       sleep $coalescingsleep
     else
       echo libreperf management mode

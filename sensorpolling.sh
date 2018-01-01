@@ -36,11 +36,14 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
 echo hybrid management system
 echo stats system
-cputrig=$(( ( RANDOM % 42 )  + 27 ))
-if [[ $cpuusage -lt $cputrig && $initflag -gt 0 && $TOTAL -gt 1500 ]]; then
+cputrig=$(( ( RANDOM % 27 )  + 10 ))
+if [[ $cpuusage -gt $cputrig && $initflag -lt 1 ]] || [ $TOTAL -lt 2048 ]; then
+  echo Using Monstrous Resource Management libreperf
+  echo libreperf > /Volumes/libreperfruntime/sys/rescman
+else
   echo Using efficient APPLE subsystem management
   echo apple > /Volumes/libreperfruntime/sys/rescman
-  coalescingsleep=$(( ( RANDOM % 500 )  + 180 ))
+  coalescingsleep=$(( ( RANDOM % 278 )  + 36 ))
   sleep $coalescingsleep
   FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
   INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
@@ -49,9 +52,6 @@ if [[ $cpuusage -lt $cputrig && $initflag -gt 0 && $TOTAL -gt 1500 ]]; then
   INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
   TOTAL=$((($FREE+$INACTIVE)))
   initflag=0
-else
-  echo Using Monstrous Resource Management libreperf
-  echo libreperf > /Volumes/libreperfruntime/sys/rescman
 fi
 
 cycleuptime=$(( $cycleuptime + 1 ))
