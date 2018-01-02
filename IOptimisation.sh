@@ -12,6 +12,7 @@ TOTAL=$((($FREE+$INACTIVE)))
 size=$(( $TOTAL - (( $TOTAL / 4 )) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
+chunkmaxsize=$(( $sizefill / 64 ))
 disksizekb=$(( $size * 1000 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizecache
 echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloccache
@@ -30,10 +31,10 @@ sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache )
 diskutil erasevolume HFS+ 'systemcacheblock0' `hdiutil attach -nomount ram://$[$size*2048]`
 echo Filling ram with 0 process 1
 echo allocating creating VM may take a while
-mkfile -n -v 1m /Volumes/systemcacheblock0/purgemod
-dd if=/dev/urandom of=/Volumes/systemcacheblock0/fill bs=64M count=16
+#mkfile -n -v 1m /Volumes/systemcacheblock0/purgemod
+#dd if=/dev/urandom of=/Volumes/systemcacheblock0/fill bs=64M count=16
 echo push
-openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
+#openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
 echo waiting reactions
 sleep 5
 rm -rf /Volumes/systemcacheblock0/purgemod
@@ -46,6 +47,10 @@ echo deallocating ram
     echo volume exist
   fi
 #creating ramdisk operation ended
+#creating swap folder
+sudo rm -rf /usr/local/lbpbin/swapfilecacheblock0/
+sudo mkdir /usr/local/lbpbin/swapfilecacheblock0
+cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock0/"$i"; done
 
 cd /Users/; for i in *; do sudo mkdir /Volumes/systemcacheblock0/"$i"; done
 cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
@@ -185,6 +190,7 @@ trigger=$(( $disksizekb / 4 ))
 if [ "$cachefree" -lt "$trigger" ]; then
 # thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
 cd /Volumes/systemcacheblock0/; for i in *; do cd /Volumes/systemcacheblock0/"$i"/; echo Volumes/systemcacheblock0/"$i"; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); for a in *; do cd /Volumes/systemcacheblock0/"$i"/"$a"/; echo Volumes/systemcacheblock0/"$i"/"$a"/; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); done; done
+find /Volumes/systemcacheblock0/ -size +"$chunkmaxsize"M -name "*.*" -exec rm -rf {} \;
 if [ $cleanupdepth -gt 1 ]; then
   cleanupdepth=$(( $cleanupdepth - 1 ))
     else
@@ -198,5 +204,9 @@ else
   fi
   echo Space free
 fi
+#swappingstage
+https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line
+#find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
+find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
 echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth
 done
