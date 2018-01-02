@@ -20,7 +20,7 @@ echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
 #reporting section
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Caches_hdd; done
 echo mkdir step
-cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
+cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
 echo cloning step
 sudo rm -rf /Volumes/systemcacheblock0
 
@@ -41,24 +41,25 @@ rm -rf /Volumes/systemcacheblock0/purgemod
 rm -rf /Volumes/systemcacheblock0/0
 rm -rf /Volumes/systemcacheblock0/fill
 echo deallocating ram
-#creating ramdisk operation ended
-#migration begins
-  else
-    echo volume exist
-  fi
-#creating ramdisk operation ended
 #creating swap folder
 sudo rm -rf /usr/local/lbpbin/swapfilecacheblock0/
 sudo mkdir /usr/local/lbpbin/swapfilecacheblock0
 cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock0/"$i"; done
 
 cd /Users/; for i in *; do sudo mkdir /Volumes/systemcacheblock0/"$i"; done
-cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
+cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
 echo clearing stage
 cd /Users/; for i in *; do sudo ln -s /Volumes/systemcacheblock0/"$i" /Users/"$i"/Library/Caches; done
 echo linking stage
 sudo chflags hidden /Volumes/systemcacheblock0
+#creating ramdisk operation ended
+#migration begins
+  else
+    echo volume exist operation cancelled
+  fi
+#creating ramdisk operation ended
+
 #cache2ramend
 #bugs
 while true; do sudo sudo killall -KILL ReportCrash; sleep 2; done &
@@ -175,6 +176,7 @@ sleep 5
 #synccache
 #i didnt use rsync because i think its nvm i use it anyway
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
+rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"
 echo --------------------
 #fallbackstageifinlowmemory
 if [ ! -d "/Volumes/systemcacheblock0" ]; then
@@ -207,6 +209,58 @@ fi
 #swappingstage
 https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line
 #find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
-find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
+#find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
 echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth
+#ramdiskfixwhenunmounted
+if [ ! -d "/Volumes/fastcache/" ]; then
+size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksize )
+sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes )
+diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
+echo Filling ram with 0 process 1
+echo allocating creating VM may take a while
+echo push
+echo waiting reactions
+sleep 5
+rm -rf /Volumes/fastcache/purgemod
+rm -rf /Volumes/fastcache/0
+rm -rf /Volumes/fastcache/fill
+echo deallocating ram
+rsync -avz --delete "/usr/local/lbpbin/ramstate/" "/Volumes/fastcache/"
+  else
+    echo fastcache exists
+fi
+#ramdiskfixcache
+if [ ! -d "/Volumes/systemcacheblock0/" ]; then
+size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksizecache )
+sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache )
+diskutil erasevolume HFS+ 'systemcacheblock0' `hdiutil attach -nomount ram://$[$size*2048]`
+echo Filling ram with 0 process 1
+echo allocating creating VM may take a while
+#mkfile -n -v 1m /Volumes/systemcacheblock0/purgemod
+#dd if=/dev/urandom of=/Volumes/systemcacheblock0/fill bs=64M count=16
+echo push
+#openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
+echo waiting reactions
+sleep 5
+
+echo deallocating ram
+#content migration
+sudo rm -rf /usr/local/lbpbin/swapfilecacheblock0/
+sudo mkdir /usr/local/lbpbin/swapfilecacheblock0
+cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock0/"$i"; done
+
+cd /Users/; for i in *; do sudo mkdir /Volumes/systemcacheblock0/"$i"; done
+cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
+echo clearing stage
+cd /Users/; for i in *; do sudo ln -s /Volumes/systemcacheblock0/"$i" /Users/"$i"/Library/Caches; done
+echo linking stage
+sudo chflags hidden /Volumes/systemcacheblock0
+echo done restoring
+#creating ramdisk operation ended
+#migration begins
+  else
+    echo Cacheblock exists
+  fi
+
 done

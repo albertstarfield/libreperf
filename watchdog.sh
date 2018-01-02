@@ -1,7 +1,7 @@
 #!/bin/bash
-sleep 1080
+sleep 180
 while true; do
-if [ ! -d "/Volumes/libreperfruntime/binsync" ] || [ ! -d "/Volumes/libreperfruntime/bin" ] || [ ! -d "/Volumes/libreperfruntime/subbin" ] || [ ! -d "/Volumes/systemcacheblock0" ] || [ ! -d "/Volumes/fastcache" ]; then
+if [ ! -d "/Volumes/libreperfruntime/binsync" ] || [ ! -d "/Volumes/libreperfruntime/bin" ] || [ ! -d "/Volumes/libreperfruntime/subbin" ]; then
 echo ramdisk kernel integrity failed 0x1
 sudo sync &
 #sudo purge
