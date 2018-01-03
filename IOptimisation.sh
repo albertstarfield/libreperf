@@ -4,19 +4,7 @@
 #codesnippets cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.CrashReporter DialogType developer; done
 #reporting
 #fallbackstageboottimeaccoff
-if [ ! -d "/Volumes/systemcacheblock0" ]; then
-  cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
-  cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Caches_hdd /Users/"$i"/Library/Caches; done
-else
-  echo normal linking mode
-fi
-if [ ! -d "/Volumes/prefetchblock0" ]; then
-  cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
-  cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Application\ Support\ HDD /Users/"$i"/Library/Application\ Support; done
-else
-  echo normal linking mode
-fi
-
+#migrated to initlibreperfmodule
 #ApplicationPrefetch
 
 size=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramavailable )

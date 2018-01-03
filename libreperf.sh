@@ -40,7 +40,17 @@ printf '\e[9;1t'
 # thanks to https://github.com/herrbischoff/awesome-osx-command-line
 # https://apple.stackexchange.com/questions/41045/how-can-i-disable-cpu-throttling-and-cpu-disabling
 #and thanks for the other articles to such as lifewire and etc
+#initlibreperfmodulestart
+#systemfiles
+#caches
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
+cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Caches_hdd /Users/"$i"/Library/Caches; done
+#prefetcher
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
+cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Application\ Support\ HDD /Users/"$i"/Library/Application\ Support; done
 
+#initlibreperfmoduleend
+cd "$(dirname "$0")"
 LOGIN=$USER
 #clear
 #echo Type your password
