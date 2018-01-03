@@ -20,7 +20,8 @@ echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
 #reporting section
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Caches_hdd; done
 echo mkdir step
-cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
+#cd /Users/; for i in *; do sudo rsync --bwlimit=512 -aPz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
+cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done
 echo cloning step
 sudo rm -rf /Volumes/systemcacheblock0
 
@@ -47,7 +48,7 @@ sudo mkdir /usr/local/lbpbin/swapfilecacheblock0
 cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock0/"$i"; done
 
 cd /Users/; for i in *; do sudo mkdir /Volumes/systemcacheblock0/"$i"; done
-cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
+cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
 echo clearing stage
 cd /Users/; for i in *; do sudo ln -s /Volumes/systemcacheblock0/"$i" /Users/"$i"/Library/Caches; done
