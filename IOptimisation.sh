@@ -1,14 +1,88 @@
 #!/bin/bash
 
-#IOseekram migration inspired from "IOBIT Lightning booster" and Cache2ram created by 0x46616c6b
+#IOseekram migration inspired from "IOBIT Lightning booster" and Cache2ram created by 0x46616c6b and Windows Prefetch
 #codesnippets cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.CrashReporter DialogType developer; done
 #reporting
+#fallbackstageboottimeaccoff
+if [ ! -d "/Volumes/systemcacheblock0" ]; then
+  cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
+  cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Caches_hdd /Users/"$i"/Library/Caches; done
+else
+  echo normal linking mode
+fi
+if [ ! -d "/Volumes/prefetchblock0" ]; then
+  cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
+  cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Application\ Support\ HDD /Users/"$i"/Library/Application\ Support; done
+else
+  echo normal linking mode
+fi
+
+#ApplicationPrefetch
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
 SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
 FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
 INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
 TOTAL=$((($FREE+$INACTIVE)))
+size=$(( $TOTAL - (( $TOTAL / 4 )) ))
+sizefill=$(( $size - ( $size * 1 / 4 ) ))
+sizefillbytes=$(( $sizefill * 1048576 ))
+chunkmaxsizeprefetch=$(( $sizefill / 32 ))
+disksizekbprefetch=$(( $size * 1000 ))
+echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizeprefetch
+echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskallocprefetch
+echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytesprefetch
+cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Application\ Support\ HDD; done
+echo mkdir step
+#cd /Users/; for i in *; do sudo rsync --bwlimit=512 -aPz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
+cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support/ /Users/"$i"/Library/Application\ Support\ HDD/; sudo chmod -R 755 /Users/"$i"/Library/Application\ Support\ HDD; done
+echo cloning step
+sudo rm -rf /Volumes/prefetchblock0
+
+#creating ramdisk for prefetchcache RAM
+if [ ! -d "/Volumes/prefetchblock0/" ]; then
+size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksizeprefetch )
+sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocprefetch )
+diskutil erasevolume HFS+ 'prefetchblock0' `hdiutil attach -nomount ram://$[$size*2048]`
+echo Filling ram with 0 process 1
+echo allocating creating VM may take a while
+#mkfile -n -v 1m /Volumes/systemcacheblock0/purgemod
+#dd if=/dev/urandom of=/Volumes/systemcacheblock0/fill bs=64M count=16
+echo push
+#openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
+echo waiting reactions
+sleep 5
+echo deallocating ram
+#creating swap folder
+sudo rm -rf /usr/local/lbpbin/swapfilecacheblock1/
+sudo mkdir /usr/local/lbpbin/swapfilecacheblock1
+cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock1/"$i"; done
+
+cd /Users/; for i in *; do sudo mkdir /Volumes/prefetchblock0/"$i"; done
+cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/ /Volumes/prefetchblock0/"$i"; done
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
+echo clearing stage
+cd /Users/; for i in *; do sudo ln -s /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support/; done
+echo linking stage
+sudo chflags hidden /Volumes/prefetchblock0
+#creating ramdisk operation ended
+#migration begins
+  else
+    echo volume exist operation cancelled
+  fi
+#creating ramdisk operation ended
+
+
+
+
+
+FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
+FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
+INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
+TOTAL=$((($FREE+$INACTIVE)))
+TOTAL=$(( $TOTAL - $size ))
 size=$(( $TOTAL - (( $TOTAL / 4 )) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
@@ -21,11 +95,11 @@ echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Caches_hdd; done
 echo mkdir step
 #cd /Users/; for i in *; do sudo rsync --bwlimit=512 -aPz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
-cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done
+cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done
 echo cloning step
 sudo rm -rf /Volumes/systemcacheblock0
 
-#creating ramdisk
+#creating ramdisk for cache RAM
 if [ ! -d "/Volumes/systemcacheblock0/" ]; then
 size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksizecache )
 sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache )
@@ -71,6 +145,8 @@ delay=$(( ( RANDOM % 600 )  + 412 ))
 sleep 1.$delay
 cd "$(dirname "$0")"
 cleanupdepth=11
+cleanupdepth1=11
+
 while true; do
 cd "$(dirname "$0")"
 
@@ -177,12 +253,20 @@ sleep 5
 #synccache
 #i didnt use rsync because i think its nvm i use it anyway
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
+cd /Users/; for i in *; do sudo rsync -avz /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD; done
+
 rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"
 echo --------------------
 #fallbackstageifinlowmemory
 if [ ! -d "/Volumes/systemcacheblock0" ]; then
   cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
   cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Caches_hdd /Users/"$i"/Library/Caches; done
+else
+  echo normal linking mode
+fi
+if [ ! -d "/Volumes/prefetchblock0" ]; then
+  cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
+  cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Application\ Support\ HDD /Users/"$i"/Library/Application\ Support; done
 else
   echo normal linking mode
 fi
@@ -212,6 +296,37 @@ https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given
 #find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
 #find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
 echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth
+
+
+#prefetchcleaning
+
+#check memory cache free
+prefetchfree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/prefetchfree)
+trigger=512000
+trigger=$(( $disksizekbprefetch / 4 ))
+if [ "$prefetchfree" -lt "$trigger" ]; then
+# thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
+cd /Volumes/prefetchblock0/; for i in *; do cd /Volumes/prefetchblock0/"$i"/; echo Volumes/prefetchblock0/"$i"; cleanup=$(ls -A1t /Volumes/prefetchblock0/"$i"/ | tail -n +$cleanupdepth1 | xargs rm -rf); for a in *; do cd /Volumes/prefetchblock0/"$i"/"$a"/; echo Volumes/prefetchblock0/"$i"/"$a"/; cleanup=$(ls -A1t /Volumes/prefetchblock0/"$i"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
+find /Volumes/prefetchblock0/ -size +"$chunkmaxsizeprefetch"M -name "*.*" -exec rm -rf {} \;
+if [ $cleanupdepth1 -gt 1 ]; then
+  cleanupdepth1=$(( $cleanupdepth1 - 1 ))
+    else
+      echo depth_underflow
+fi
+else
+  if [ $cleanupdepth1 -lt 10 ]; then
+    cleanupdepth1=$(( $cleanupdepth1 + 1 ))
+      else
+        echo depth_overflow
+  fi
+  echo Space free
+fi
+#swappingstage
+https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line
+#find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
+#find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
+echo $cleanupdepth1 > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth1
+
 #ramdiskfixwhenunmounted
 if [ ! -d "/Volumes/fastcache/" ]; then
 size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksize )
@@ -264,4 +379,36 @@ echo done restoring
     echo Cacheblock exists
   fi
 
+#creating ramdisk for prefetchcache RAM
+  if [ ! -d "/Volumes/prefetchblock0/" ]; then
+  size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksizeprefetch )
+  sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocprefetch )
+  diskutil erasevolume HFS+ 'prefetchblock0' `hdiutil attach -nomount ram://$[$size*2048]`
+  echo Filling ram with 0 process 1
+  echo allocating creating VM may take a while
+  #mkfile -n -v 1m /Volumes/systemcacheblock0/purgemod
+  #dd if=/dev/urandom of=/Volumes/systemcacheblock0/fill bs=64M count=16
+  echo push
+  #openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
+  echo waiting reactions
+  sleep 5
+  echo deallocating ram
+  #creating swap folder
+  sudo rm -rf /usr/local/lbpbin/swapfilecacheblock1/
+  sudo mkdir /usr/local/lbpbin/swapfilecacheblock1
+  cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock1/"$i"; done
+
+  cd /Users/; for i in *; do sudo mkdir /Volumes/prefetchblock0/"$i"; done
+  cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/ /Volumes/prefetchblock0/"$i"; done
+  cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
+  echo clearing stage
+  cd /Users/; for i in *; do sudo ln -s /Volumes/prefetchblock0/"$i" /Users/"$i"/Library/Application\ Support; done
+  echo linking stage
+  sudo chflags hidden /Volumes/prefetchblock0
+  #creating ramdisk operation ended
+  #migration begins
+    else
+      echo volume exist operation cancelled
+    fi
+  #creating ramdisk operation ended
 done
