@@ -82,7 +82,6 @@ SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.
 FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
 INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
 TOTAL=$((($FREE+$INACTIVE)))
-TOTAL=$(( $TOTAL - $size ))
 size=$(( $TOTAL - (( $TOTAL / 4 )) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
