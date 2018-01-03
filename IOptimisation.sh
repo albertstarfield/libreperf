@@ -12,7 +12,7 @@ size=$(( $size / 2 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramavailable
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
-chunkmaxsizeprefetch=$(( $sizefill / 32 ))
+chunkmaxsizeprefetch=$(( $sizefill / 8 ))
 disksizekbprefetch=$(( $size * 1000 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizeprefetch
 echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskallocprefetch
@@ -66,7 +66,7 @@ size=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/rama
 echo $size > /Volumes/libreperfruntime/sys/mem/ramavailable
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
-chunkmaxsize=$(( $sizefill / 64 ))
+chunkmaxsize=$(( $sizefill / 16 ))
 disksizekb=$(( $size * 1000 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizecache
 echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloccache
