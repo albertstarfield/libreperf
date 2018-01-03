@@ -22,7 +22,14 @@ alias top='/Volumes/libreperfruntime/subbin/top'
 alias tr='/Volumes/libreperfruntime/subbin/tr'
 alias iotop='/Volumes/libreperfruntime/subbin/iotop'
 initflag=0
-
+#tempfilemigrationramdisk
+sudo cp -r /usr/local/lbpbin/ramavailable /Volumes/libreperfruntime/sys/mem/
+sudo cp -r /usr/local/lbpbin/ramavailablealloc /Volumes/libreperfruntime/sys/mem/
+sudo cp -r /usr/local/lbpbin/ramavailableallocbytes /Volumes/libreperfruntime/sys/mem/
+sudo cp -r /usr/local/lbpbin/ramdisksize /Volumes/libreperfruntime/sys/mem/
+sudo cp -r /usr/local/lbpbin/ramdiskalloc /Volumes/libreperfruntime/sys/mem/
+sudo cp -r /usr/local/lbpbin/ramdiskallocbytes /Volumes/libreperfruntime/sys/mem/
+#migrationend
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
 idlog=$(( ( RANDOM % 1000 )  + 1 ))

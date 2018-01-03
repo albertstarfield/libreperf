@@ -329,6 +329,8 @@ sleep 0
 #mkdir "$ramdisk/Caches"
 #ln -s "$ramdisk/Caches" "/Users/$LOGIN/Library"
 #reporting
+
+#initial allocation Universal Disk
 FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
 INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
 SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
@@ -338,9 +340,22 @@ TOTAL=$((($FREE+$INACTIVE)))
 size=$(( $TOTAL - (( $TOTAL / 2 )) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
-echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksize
-echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloc
-echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes
+echo $size > /usr/local/lbpbin/ramavailable
+echo $sizefill > /usr/local/lbpbin/ramavailablealloc
+echo $sizefillbytes > /usr/local/lbpbin/ramavailableallocbytes
+#intialend
+
+#proportionate substraction
+size=$( cat /usr/local/lbpbin/ramavailable )
+size=$(( $size / 2 ))
+sizefill=$(( $size - ( $size * 1 / 4 ) ))
+sizefillbytes=$(( $sizefill * 1048576 ))
+echo $size > /usr/local/lbpbin/ramavailable
+echo $size > /usr/local/lbpbin/ramdisksize
+echo $sizefill > /usr/local/lbpbin/ramdiskalloc
+echo $sizefillbytes > /usr/local/lbpbin/ramdiskallocbytes
+
+
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
 sudo rm -rf /Volumes/libreperfruntime
@@ -392,6 +407,7 @@ sudo cp -r /usr/local/lbpbin/sensorpolling.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/killengine.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /Volumes/libreperfruntime/binsync/ /Volumes/libreperfruntime
+
 osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'
 #powermanagement settings
 sudo sh /Volumes/libreperfruntime/86idlesync.sh &
