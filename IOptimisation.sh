@@ -59,7 +59,7 @@ cd /Users/; for i in *; do sudo mkdir /Volumes/prefetchblock0/"$i"; done
 cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/ /Volumes/prefetchblock0/"$i"; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
 echo clearing stage
-cd /Users/; for i in *; do sudo ln -s /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support/; done
+cd /Users/; for i in *; do sudo ln -s /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support; done
 echo linking stage
 sudo chflags hidden /Volumes/prefetchblock0
 #creating ramdisk operation ended
@@ -270,6 +270,8 @@ if [ "$cachefree" -lt "$trigger" ]; then
 # thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
 cd /Volumes/systemcacheblock0/; for i in *; do cd /Volumes/systemcacheblock0/"$i"/; echo Volumes/systemcacheblock0/"$i"; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); for a in *; do cd /Volumes/systemcacheblock0/"$i"/"$a"/; echo Volumes/systemcacheblock0/"$i"/"$a"/; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); done; done
 find /Volumes/systemcacheblock0/ -size +"$chunkmaxsize"M -name "*.*" -exec rm -rf {} \;
+cd /Volumes/systemcacheblock0/; for i in *; do sudo rm -rf /Volumes/systemcacheblock0/"$i"/Caches_HDD; done
+
 if [ $cleanupdepth -gt 1 ]; then
   cleanupdepth=$(( $cleanupdepth - 1 ))
     else
@@ -300,6 +302,7 @@ if [ "$prefetchfree" -lt "$trigger" ]; then
 # thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
 cd /Volumes/prefetchblock0/; for i in *; do cd /Volumes/prefetchblock0/"$i"/; echo Volumes/prefetchblock0/"$i"; cleanup=$(ls -A1t /Volumes/prefetchblock0/"$i"/ | tail -n +$cleanupdepth1 | xargs rm -rf); for a in *; do cd /Volumes/prefetchblock0/"$i"/"$a"/; echo Volumes/prefetchblock0/"$i"/"$a"/; cleanup=$(ls -A1t /Volumes/prefetchblock0/"$i"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
 find /Volumes/prefetchblock0/ -size +"$chunkmaxsizeprefetch"M -name "*.*" -exec rm -rf {} \;
+cd /Volumes/prefetchblock0/; for i in *; do sudo rm -rf /Volumes/prefetchblock0/"$i"/Application\ Support\ HDD; done
 if [ $cleanupdepth1 -gt 1 ]; then
   cleanupdepth1=$(( $cleanupdepth1 - 1 ))
     else
