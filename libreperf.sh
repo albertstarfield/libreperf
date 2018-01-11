@@ -7,6 +7,7 @@ echo $startupdelay seconds
 sudo sh /usr/local/lbpbin/initd.sh &
 osascript -e 'display notification "Booting initd subsystem" with title "libreperf"'
 caffeinate -t $startupdelay &
+rm "/Users/*/Library/Preferences/ByHost/com.apple.loginwindow.*"
 #Licenses
 printf '\e[9;1t'
 # Permission is hereby granted, free of charge, to any person
@@ -365,12 +366,13 @@ echo $size > /usr/local/lbpbin/ramdisksize
 echo $sizefill > /usr/local/lbpbin/ramdiskalloc
 echo $sizefillbytes > /usr/local/lbpbin/ramdiskallocbytes
 
-
+#size have to be specific to not fail
+#size=2500
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
 sudo rm -rf /Volumes/libreperfruntime
 sudo rm -rf /Volumes/fastcache
-mkdir /usr/local/lbpbin/ramstate
+mkdir /usr/local/lbpbin/bloatapp
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
 if [ ! -d "/Volumes/libreperfruntime/" ]; then
@@ -392,7 +394,7 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
   rm -rf /Volumes/fastcache/0
   rm -rf /Volumes/fastcache/fill
   echo deallocating ram
-  rsync -avz --delete "/usr/local/lbpbin/ramstate/" "/Volumes/fastcache/"
+  rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/fastcache/"
     else
       echo volume exist
     fi

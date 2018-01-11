@@ -17,6 +17,8 @@ if [ ! -d "/Volumes/prefetchblock0" ]; then
 else
   echo normal linking mode
 fi
+#ApplicationSideload
+
 #ApplicationPrefetch
 
 size=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramavailable )
@@ -247,7 +249,7 @@ sleep 5
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD; done
 
-rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"
+rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/bloatapp"
 echo --------------------
 #fallbackstageifinlowmemory
 if [ ! -d "/Volumes/systemcacheblock0" ]; then
@@ -326,6 +328,7 @@ echo $cleanupdepth1 > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth1
 if [ ! -d "/Volumes/fastcache/" ]; then
 size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksize )
 sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes )
+#size=2500
 diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
 echo Filling ram with 0 process 1
 echo allocating creating VM may take a while
@@ -336,7 +339,7 @@ rm -rf /Volumes/fastcache/purgemod
 rm -rf /Volumes/fastcache/0
 rm -rf /Volumes/fastcache/fill
 echo deallocating ram
-rsync -avz --delete "/usr/local/lbpbin/ramstate/" "/Volumes/fastcache/"
+rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/fastcache/"
   else
     echo fastcache exists
 fi

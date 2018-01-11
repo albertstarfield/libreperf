@@ -15,7 +15,7 @@ cpulimidle=$(( ( RANDOM % 24 )  + 19 ))
 temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
 osascript -e 'display notification "monitoring thermal systems" with title "libreperf"'
 cycle=0
-rpmop=0
+rpmop=$minsaferpm
 OHC=0
 rpmopold=$minsaferpm
 while true; do
@@ -25,8 +25,8 @@ while true; do
     then
       echo apple management resource mode
       coalescingsleep=$(( ( RANDOM % 256 )  + 32 ))
-      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $minsaferpm
-      sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0000
+      sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
+      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
       sleep $coalescingsleep
     else
       echo libreperf management mode
