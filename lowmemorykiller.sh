@@ -61,8 +61,8 @@ cycleramlim=$(( $cycleramlim + 1 ))
 if [[ $cycleramlim -gt 64 && $TOTAL -gt 1024 ]];then
       echo Doing some memory usage calibration
       TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
-      ramlim=$(( $TOTAL / 2 ))
-      ramlimcrit=$(( $TOTAL - ( $TOTAL / 4 ) ))
+      ramlim=$(( $TOTAL  - ( $TOTAL / 8 ) ))
+      ramlimcrit=$(( $TOTAL - ( $TOTAL / 16 ) ))
       cycleramlim=0
    else
       echo memory management does not need calibration yet
