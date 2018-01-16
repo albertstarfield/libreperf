@@ -139,7 +139,7 @@ delay=$(( ( RANDOM % 600 )  + 412 ))
 sleep 1.$delay
 cd "$(dirname "$0")"
 cleanupdepth=11
-cleanupdepth1=11
+cleanupdepth1=100
 
 while true; do
 cd "$(dirname "$0")"
@@ -280,7 +280,7 @@ if [ $cleanupdepth -gt 1 ]; then
       echo depth_underflow
 fi
 else
-  if [ $cleanupdepth -lt 10 ]; then
+  if [ $cleanupdepth -lt 64 ]; then
     cleanupdepth=$(( $cleanupdepth + 1 ))
       else
         echo depth_overflow
@@ -311,7 +311,7 @@ if [ $cleanupdepth1 -gt 1 ]; then
       echo depth_underflow
 fi
 else
-  if [ $cleanupdepth1 -lt 10 ]; then
+  if [ $cleanupdepth1 -lt 100 ]; then
     cleanupdepth1=$(( $cleanupdepth1 + 1 ))
       else
         echo depth_overflow
