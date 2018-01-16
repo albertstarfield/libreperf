@@ -4,6 +4,10 @@
 #codesnippets cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.CrashReporter DialogType developer; done
 #reporting
 #fallbackstageboottimeaccoff
+#cleanup
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches_hdd/Caches_hdd; done
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD; done
+
 #migrated to initlibreperfmodule
 if [ ! -d "/Volumes/systemcacheblock0" ]; then
   cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
