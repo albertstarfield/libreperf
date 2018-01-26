@@ -40,7 +40,6 @@ if [[ $TOTAL -lt 9999 && $cpuusage -lt 400  ]]; then
   sudo purge
   sudo killall -KILL Dock
   sudo killall -KILL Finder
-  sudo killall -KILL diskimages-helper
   TOTAL2=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
   deltamem=$(( $TOTAL2 - $TOTAL ))
   echo $deltamem Free delta ram

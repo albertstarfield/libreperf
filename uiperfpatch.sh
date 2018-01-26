@@ -60,6 +60,9 @@ cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock showhidden
 #gift for compositor
 sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
 sudo defaults write /Library/Preferences/com.apple.windowserver QuartzGLEnabled -boolean YES
+#for batter indic
+cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.PowerChime ChimeOnAllHardware -bool true; open /System/Library/CoreServices/PowerChime.app; done
+
 sleep 4
 sleep 8
 sleep 27

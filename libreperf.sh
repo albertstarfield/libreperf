@@ -78,7 +78,7 @@ if [ "$TOTAL" -gt "2048" ];
 fi
 
 sleep 2
-while true; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
+#while true; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
 while true; do sudo nvram SystemAudioVolume="01%"; sleep 2; done &
 osascript -e 'display notification "Welcome Please wait while we preparing our flight" with title "libreperf"'
 #while :; do #clear; sudo sh /usr/local/lbpbin/resourceguard.sh; sleep 27; done

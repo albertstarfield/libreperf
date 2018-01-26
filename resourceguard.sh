@@ -74,6 +74,7 @@ echo booting
 #TOPPROCESS=$(top -l 1 -o power -stats pid | sed 1,10d | sed -n 3p)
 #BATTLEFT=$(sudo pmset -g batt | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}') | IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 33 | sed 's/[^0-9]*//g')
 #echo $BATTLEFT mins left
+cycleidle=0
 compusagesum=0
 sudo cp -r  /Volumes/fastcache/ /usr/local/lbpbin/ramstate
 #DNSBoost
@@ -85,8 +86,6 @@ while true; do
     then
       echo apple management resource mode
       coalescingsleep=$(( ( RANDOM % 64 )  + 32 ))
-      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $minsaferpm
-      sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0000
       sleep $coalescingsleep
     else
       echo libreperf management mode
@@ -98,6 +97,20 @@ compusage=$cpuusage
 compusagesum=$(( $compusage + $compusagesum ))
 compusage=$(( $compusagesum / $updatecycle ))
 echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
+if [ $compusage -lt 20 ]; then
+ cycleidle=$(( $cycleidle + 1 ))
+  if [ $cycleidle -gt 64 ]; then
+    sudo dmesg &
+    sudo sync
+    sudo killall -KILL Dock
+    sudo killall -KILL Finder
+    cycleidle=0
+  else
+    echo waiting idle to refresh
+  fi
+else
+  echo high usage detected
+fi
 if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then
   updatecycle=0
   rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"

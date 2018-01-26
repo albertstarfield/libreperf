@@ -21,8 +21,7 @@ rpmopold=$minsaferpm
 while true; do
   #powersavinglinepatch
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
-  if [ $rescman = apple ]
-    then
+  if [[ $rescman = apple && $cycle -gt 64 ]]; then
       echo apple management resource mode
       coalescingsleep=$(( ( RANDOM % 256 )  + 32 ))
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
