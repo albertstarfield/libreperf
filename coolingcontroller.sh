@@ -19,6 +19,15 @@ rpmop=$minsaferpm
 OHC=0
 rpmopold=$minsaferpm
 while true; do
+  if [ ! -d "/Volumes/libreperfruntime/sys/temp/cputherm" ]
+    then
+      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
+      sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0000
+      echo thermalinput not Detected
+      sleep 365
+    else
+      echo Running normally
+  fi
   #powersavinglinepatch
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
   if [[ $rescman = apple && $cycle -gt 64 ]]; then
@@ -44,7 +53,7 @@ cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/
   cpulimidle=$(( ( RANDOM % 50 )  + 32 ))
   temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
 echo $cpulimidle percent limit processing cooling
-if [ $temp -gt "740" ]
+if [ $temp -gt "790" ]
   then
       echo CRITICAL TEMPRATURE
       echo OVERDRIVING FAN ENABLED $turbosaferpm rpm
@@ -112,11 +121,11 @@ if [ $temp -gt "740" ]
       fi
     fi
   fi
-if [ "$temp" -gt "700" ] || [ ${cpuusage%%.*} -gt 60 ] || [ ${cpuusage%%.*} -lt 20 ]
+if [ "$temp" -gt "700" ] || [ ${cpuusage%%.*} -gt 60 ] || [ ${cpuusage%%.*} -lt 20 ] || [ "$temp" -lt "490" ]
   then
     echo Overheat HIT RATE $OHC
     OHC=$(( $OHC + 1 ))
-      if [ $OHC -gt 64 ]; then
+      if [ $OHC -gt 7 ]; then
         OHC=0
         cycle=0
         rpmopold=$rpmop
