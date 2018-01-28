@@ -19,7 +19,7 @@ rpmop=$minsaferpm
 OHC=0
 rpmopold=$minsaferpm
 while true; do
-  if [ ! -d "/Volumes/libreperfruntime/sys/temp/cputherm" ]
+  if [ ! -f "/Volumes/libreperfruntime/sys/temp/cputherm" ]
     then
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0000
@@ -121,11 +121,11 @@ if [ $temp -gt "790" ]
       fi
     fi
   fi
-if [ "$temp" -gt "700" ] || [ ${cpuusage%%.*} -gt 60 ] || [ ${cpuusage%%.*} -lt 20 ] || [ "$temp" -lt "490" ]
+if [ "$temp" -gt "790" ] || [ ${cpuusage%%.*} -gt 60 ] || [ "$temp" -lt "490" ]
   then
     echo Overheat HIT RATE $OHC
     OHC=$(( $OHC + 1 ))
-      if [ $OHC -gt 7 ]; then
+      if [ $OHC -gt 16 ]; then
         OHC=0
         cycle=0
         rpmopold=$rpmop

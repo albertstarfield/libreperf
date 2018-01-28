@@ -312,8 +312,8 @@ sudo defaults write /Library/Preferences/com.apple.windowserver QuartzGLEnabled 
 echo phase
 defaults write com.apple.dock showhidden -bool true
 #ReduceIndexResources
-sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
-sudo mdutil -a -i off
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+sudo mdutil -a -i on &
 #sudo mdutil -E /
 
 
