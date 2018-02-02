@@ -44,22 +44,6 @@ cpuusage=$( echo ${cpuusage%%.*} )
 echo hybrid management system
 echo stats system
 cputrig=$(( ( RANDOM % 50 )  + 27 ))
-if [[ $cpuusage -gt $cputrig && $initflag -lt 1 && $TOTAL -lt 2048 ]]; then
-  echo Using Monstrous Resource Management libreperf
-  echo libreperf > /Volumes/libreperfruntime/sys/rescman
-else
-  echo Using efficient APPLE subsystem management
-  echo apple > /Volumes/libreperfruntime/sys/rescman
-  coalescingsleep=$(( ( RANDOM % 278 )  + 36 ))
-  sleep $coalescingsleep
-  FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
-  INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
-  SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
-  FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
-  INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
-  TOTAL=$((($FREE+$INACTIVE)))
-  initflag=0
-fi
 
 cycleuptime=$(( $cycleuptime + 1 ))
 echo $cycleuptime
@@ -234,4 +218,21 @@ sleep 0.$irregulardelayprocdec
 cp -f -a /Volumes/libreperfruntime/sys/ /var/log/libreperfkernelmanagement/$idlog
 echo $irregulardelay
 sleep $irregulardelay
+if [[ $cpuusage -gt $cputrig && $initflag -lt 1 && $TOTAL -lt 2048 ]]; then
+  echo Using Monstrous Resource Management libreperf
+  echo libreperf > /Volumes/libreperfruntime/sys/rescman
+else
+  echo Using efficient APPLE subsystem management
+  echo apple > /Volumes/libreperfruntime/sys/rescman
+  coalescingsleep=$(( ( RANDOM % 278 )  + 36 ))
+  sleep $coalescingsleep
+  FREE_BLOCKS=$(vm_stat | grep free | awk '{ print $3 }' | sed 's/\.//')
+  INACTIVE_BLOCKS=$(vm_stat | grep inactive | awk '{ print $3 }' | sed 's/\.//')
+  SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.//')
+  FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
+  INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
+  TOTAL=$((($FREE+$INACTIVE)))
+  initflag=0
+fi
+
 done

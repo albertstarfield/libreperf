@@ -5,7 +5,7 @@ rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescm
 if [ $rescman = apple ]
   then
     echo apple management resource mode
-    coalescingsleep=$(( ( RANDOM % 128 )  + 32 ))
+    coalescingsleep=$(( ( RANDOM % 3600 )  + 32 ))
     sleep $coalescingsleep
 
   else
@@ -68,9 +68,9 @@ cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock showhidden
       #UXOptimization
       echo phase
       sleep 4
-      cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock springboard-show-duration -float 0; done
-      cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock springboard-hide-duration -float 0; done
-      cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock springboard-page-duration -float 0; done
+      cd /Users/; for i in *; do sudo -u "$i" defaults delete com.apple.dock springboard-show-duration; done
+      cd /Users/; for i in *; do sudo -u "$i" defaults delete com.apple.dock springboard-hide-duration; done
+      cd /Users/; for i in *; do sudo -u "$i" defaults delete com.apple.dock springboard-page-duration; done
 
       cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.CrashReporter DialogType none; done
       cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.universalaccess reduceTransparency -bool false; done
