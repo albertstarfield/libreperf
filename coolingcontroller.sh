@@ -35,6 +35,18 @@ while true; do
       coalescingsleep=$(( ( RANDOM % 256 )  + 32 ))
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
       sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
+      cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
+      sleep 2
+      cpuusage=$( echo ${cpuusage%%.*} )
+      sleep 2
+      echo $cpuusage > /Volumes/libreperfruntime/sys/cpu/cpuusage
+      sleep 2
+      temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
+      sleep 2
+      temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
+      sleep 2
+      echo $temp > /Volumes/libreperfruntime/sys/temp/cputherm
+      sleep 2
       sleep $coalescingsleep
     else
       echo libreperf management mode
