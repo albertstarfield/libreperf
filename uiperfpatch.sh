@@ -5,7 +5,7 @@ rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescm
 if [ $rescman = apple ]
   then
     echo apple management resource mode
-    coalescingsleep=$(( ( RANDOM % 3600 )  + 32 ))
+    coalescingsleep=$(( ( RANDOM % 360 )  + 32 ))
     sleep $coalescingsleep
 
   else
@@ -13,7 +13,7 @@ if [ $rescman = apple ]
 fi
 #Expense on Performance
 #Resource Window Manager Start
-averageload=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/idleindicate )
+averageload=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 if [ "$averageload" -gt "50" ]; then
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock minimize-to-application -bool YES; done
 #UXOptimization

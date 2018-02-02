@@ -1,7 +1,8 @@
 #!/bin/bash
 #ThermalControl
 echo -----------------------Cooling systems
-cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+#cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/idleindicate )
 irregulardelay=1
 maxsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
 maxsaferpm=$( echo "${maxsaferpm}" | sed -n 7p | sed 's/[^0-9]*//g' )
