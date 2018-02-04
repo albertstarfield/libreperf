@@ -59,8 +59,8 @@ cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSToolbarFullScreenAni
 cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dashboard devmode YES; done
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO; done
-killall -KILL SystemUIServer
-killall -KILL Dock
+#killall -KILL SystemUIServer
+#killall -KILL Dock
 echo phase
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock showhidden -bool true; done
     else
@@ -108,8 +108,6 @@ cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock showhidden
       cd /Users/; for i in *; do sudo -u "$i" defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0; done
       cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dashboard devmode YES; done
       cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool YES; done
-      killall -KILL SystemUIServer
-      killall -KILL Dock
       echo phase
       cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock showhidden -bool true; done
 fi
