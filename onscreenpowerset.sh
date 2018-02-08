@@ -26,7 +26,7 @@ sleep $irregulardelay
       IOPROC=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
       echo ---------------CPU and HDD power management
       cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
-      cpulimidle=$(( ( RANDOM % 19 )  + 5 ))
+      cpulimidle=$(( ( RANDOM % 25 )  + 5 ))
       if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "100000" ]]; then
         echo Suspending Power management system IO is busy
         echo $IOPROC Disk Operation
@@ -49,7 +49,7 @@ sleep $irregulardelay
         sudo pmset -a lidwake 1
       fi
 sleep $irregulardelay
-      if [ "${cpuusage%%.*}" -gt "10" ]
+      if [ "${cpuusage%%.*}" -gt "15" ]
         then
           displaysleep=$(( ${cpuusage%%.*} - 40 ))
           echo $displaysleep minutes display idle

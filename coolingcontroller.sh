@@ -136,9 +136,9 @@ if [ $temp -gt "790" ]
   fi
 if [ "$temp" -gt "790" ] || [ ${cpuusage%%.*} -gt 60 ] || [ "$temp" -lt "490" ]
   then
-    echo Overheat HIT RATE $OHC
+    echo Inaccuracy HIT $OHC
     OHC=$(( $OHC + 1 ))
-      if [ $OHC -gt 16 ]; then
+      if [ $OHC -gt 12 ]; then
         OHC=0
         cycle=0
         rpmopold=$rpmop

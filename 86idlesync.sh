@@ -5,6 +5,14 @@ cyclesample=0
 aheadschedule=0
 #pmset sleepnow
 pmset relative wake 30
+sudo -S pmset repeat wake TWRFSU 23:58:00
+#wakelock pentapoint on days
+sudo -S pmset repeat wake TWRFSU 04:42:00
+sudo -S pmset repeat wake TWRFSU 05:57:00
+sudo -S pmset repeat wake TWRFSU 12:07:00
+sudo -S pmset repeat wake TWRFSU 15:24:00
+sudo -S pmset repeat wake TWRFSU 18:17:00
+sudo -S pmset repeat wake TWRFSU 19:32:00
 
 while true; do
 #powersavinglinepatch
