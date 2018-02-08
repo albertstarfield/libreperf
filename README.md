@@ -52,6 +52,10 @@ here is the list
 22. System Slowdown detection
 23. System Auto performance sustain
 
+Planned
+24. Universal Mounting Format (Coming soon)
+25. Linux & Darwin Integration Subsystem (Coming soon)
+
 # How to install?
 
 THIS PROCESS IS IRREVERSIBLE SO IF YOU WANT TO PRESERVE THE VANILLA MACOS DO NOT USE THIS
