@@ -49,6 +49,8 @@ here is the list
 19. Auto (intensified) Unatended Maintanance
 20. launchctl / disk tweaks
 21. Some minor storage tweaks
+22. System Slowdown detection
+23. System Auto performance sustain
 
 # How to install?
 
