@@ -28,7 +28,7 @@ http://www.manpagez.com/man/8/sysctl/
 # what does it do?
 here is the list
 
-1. dynamic unix parameter by using launchctl and sysctl -w
+1. dynamic kernel management sysctl -w
 2. installing custom plist
 3. Disabling Apple background services
 4. Finetuning the UI behaviour 
@@ -37,7 +37,7 @@ here is the list
 7. kernel_task throtlling disabled ( untested )
 8. Preloading User Installed Apps
 9. Preloading Some Data
-10. Replacing default macOS memory paging system with Compressor and Low memory killer 
+10. Tweaking the default macOS memory paging system with Compressor and Low memory killer ( "Mixed Mode 2" )
 11. /usr/local/lbpbin/initd.sh script start at boot
 12. custom CPU resource management ( suspend unsuspend )
 13. custom I/O management (Kinda having some broken algorithm issues)(issues somewhat fixed)
@@ -47,7 +47,8 @@ here is the list
 17. Windowmanager renderer elements tweaks
 18. Disk Unified cache syncronization
 19. Auto (intensified) Unatended Maintanance
-20. Some minor storage tweaks
+20. launchctl / disk tweaks
+21. Some minor storage tweaks
 
 # How to install?
 
