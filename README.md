@@ -41,7 +41,7 @@ here is the list
 11. /usr/local/lbpbin/initd.sh script start at boot
 12. custom CPU resource management ( suspend unsuspend )
 13. custom I/O management (Kinda having some broken algorithm issues)(issues somewhat fixed)
-14. Custom Thermal management addition of new feature ( Auto Overdrive mode & passive cooling mode )
+14. Custom Thermal management addition of new feature ( Auto Overdrive mode passive cooling mode (Fanless mode), Apple controlled )
 15. Automatic ramdisk scratch disks mount (allocated and optimized) (Have several Issues)
 16. Hybrid management system (apple macOS and libreperf)dynamic switching (saves energy)
 17. Windowmanager renderer elements tweaks
