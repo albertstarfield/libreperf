@@ -51,10 +51,8 @@ here is the list
 21. Some minor storage tweaks
 22. System Slowdown detection
 23. System Auto performance sustain
-
-Planned
 24. Universal Mounting Format (Coming soon)
-25. Linux & Darwin Integration Subsystem (Coming soon)
+25. Linux & Darwin Integration Subsystem (sshd protocol) (qemu) (Coming soon)
 
 # How to install?
 
