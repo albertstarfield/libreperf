@@ -1,4 +1,4 @@
-# libreperf 0.15b "OSX Darwin kernel" based OS performance improvement project
+# libreperf 0.20b "OSX Darwin kernel" based OS performance improvement project
 ------------
 # what is Libreperf?
 An project of attempting to remove macOS (10.12+ 10.13+) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices "with this badly written program" and using various command and modification from multiple source or website and replacing some system management and adding some management to the system and adding responsiveness while handling heavy tasks I/O and other things
@@ -44,6 +44,7 @@ here is the list
 14. Custom Thermal management addition of new feature ( Auto Overdrive mode & passive cooling mode )
 15. Automatic ramdisk scratch disks mount (allocated and optimized) (Have several Issues)
 16. Hybrid management system (apple macOS and libreperf)dynamic switching (saves energy)
+17. Windowmanager renderer elements tweaks
 17. Some minor storage tweaks
 
 # How to install?
