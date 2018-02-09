@@ -160,6 +160,9 @@ cd "$(dirname "$0")"
   fi
 
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+roundrobinalloc=$(( ( RANDOM % 16 )  + 4 ))
+cpualloc=$(( $cpuusage / $roundrobinalloc ))
+
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
 
 FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
@@ -216,7 +219,8 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
 		   else
          echo stopping $IOTOPPROCESSPID IOPS
          osascript -e 'display notification "your computer might be slower culprit $TOPPROCESS" with title "libreperf"'
-         /Volumes/libreperfruntime/bin/kill -STOP $IOTOPPROCESSPID
+         /Volumes/libreperfruntime/bin/kill -CONT $IOTOPPROCESSPID
+         /Volumes/libreperfruntime/bin/cpulimit -p $IOTOPPROCESSPID -l $cpualloc &
          suspendedprocesseng5=$IOTOPPROCESSPID
          echo Suspending $IOTOPPROCESSPID
          suspendstatuseng5=1

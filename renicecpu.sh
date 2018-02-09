@@ -11,6 +11,8 @@ while true; do
   fi
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 7 ))
+roundrobinalloc=$(( ( RANDOM % 16 )  + 4 ))
+cpualloc=$(( $cpuusage / $roundrobinalloc ))
 irregulardelayproc=$irregulardelay
 echo delay PROCESSING $irregulardelay
 echo ----------------------- Cpu Management
@@ -58,12 +60,13 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng1
             echo Unsuspending $suspendedprocesseng1
             suspendstatuseng1=0
+            /Volumes/libreperfruntime/bin/cpulimit -p $suspendedprocesseng1 -l $cpualloc &
 	          sudo renice -n 20 $suspendedprocesseng1
           else
           echo $TOPPROCESS
   	    suspendedprocesseng1=$TOPPROCESS
             echo Suspending $TOPPROCESS
-            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -CONT $TOPPROCESS
             suspendstatuseng1=1
             sudo renice -n 20 $TOPPROCESS
         fi
@@ -97,12 +100,13 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng2
             echo Unsuspending $suspendedprocesseng2
             suspendstatuseng2=0
+            /Volumes/libreperfruntime/bin/cpulimit -p $suspendedprocesseng2 -l $cpualloc &
             sudo renice -n 20 $suspendedprocesseng2
           else
           echo $TOPPROCESS
   	    suspendedprocesseng2=$TOPPROCESS
             echo Suspending $TOPPROCESS
-            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -CONT $TOPPROCESS
             suspendstatuseng2=1
             sudo renice -n 20 $TOPPROCESS
         fi
@@ -135,13 +139,14 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           then
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng3
             echo Unsuspending $suspendedprocess3
+            /Volumes/libreperfruntime/bin/cpulimit -p $suspendedprocesseng3 -l $cpualloc &
             sudo renice -n 20 $suspendedprocesseng3
             suspendstatuseng3=0
           else
           echo $TOPPROCESS
   	    suspendedprocesseng3=$TOPPROCESS
             echo Suspending $TOPPROCESS
-            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -CONT $TOPPROCESS
             sudo renice -n 20 $TOPPROCESS
             suspendstatuseng3=1
         fi
@@ -174,13 +179,14 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
           then
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng4
             echo Unsuspending $suspendedprocesseng4
+            /Volumes/libreperfruntime/bin/cpulimit -p $suspendedprocesseng4 -l $cpualloc &
             sudo renice -n 20 $suspendedprocesseng4
             suspendstatuseng4=0
           else
           echo $TOPPROCESS
   	    suspendedprocesseng4=$TOPPROCESS
             echo Suspending $TOPPROCESS
-            /Volumes/libreperfruntime/bin/kill -STOP $TOPPROCESS
+            /Volumes/libreperfruntime/bin/kill -CONT $TOPPROCESS
             sudo renice -n 20 $TOPPROCESS
             suspendstatuseng4=1
         fi
