@@ -220,7 +220,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
          echo stopping $IOTOPPROCESSPID IOPS
          osascript -e 'display notification "your computer might be slower culprit $TOPPROCESS" with title "libreperf"'
          /Volumes/libreperfruntime/bin/kill -CONT $IOTOPPROCESSPID
-         /Volumes/libreperfruntime/bin/cpulimit -p $IOTOPPROCESSPID -l $cpualloc &
+         /Volumes/libreperfruntime/bin/cpulimit -z -p $IOTOPPROCESSPID -l $cpualloc &
          suspendedprocesseng5=$IOTOPPROCESSPID
          echo Suspending $IOTOPPROCESSPID
          suspendstatuseng5=1
