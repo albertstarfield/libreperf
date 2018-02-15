@@ -13,7 +13,10 @@ minsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
 minsaferpm=$( echo "${minsaferpm}" | sed -n 6p | sed 's/[^0-9]*//g' )
 echo $minsaferpm MIN DETERMINED RPM
 cpulimidle=$(( ( RANDOM % 24 )  + 19 ))
-temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
+temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
+sleep 2
+temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
+#temp=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/temp/cputherm )
 osascript -e 'display notification "monitoring thermal systems" with title "libreperf"'
 cycle=0
 rpmop=$minsaferpm
@@ -31,7 +34,7 @@ while true; do
   fi
   #powersavinglinepatch
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
-  if [[ $rescman = apple && $cycle -gt 64 ]]; then
+  if [[ $rescman = apple && $cycle -gt 4 && $temp -lt "690" ]]; then
       echo apple management resource mode
       coalescingsleep=$(( ( RANDOM % 256 )  + 32 ))
       sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
