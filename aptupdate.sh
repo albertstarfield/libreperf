@@ -181,6 +181,7 @@ sudo cp -r aptupdate.sh /usr/local/lbpbin
 sudo cp -r libreperf.sh /usr/local/lbpbin
 #binary installation
 sudo cp -r uiperfpatch.sh /usr/local/lbpbin
+sudo cp -r refresh.sh /usr/local/lbpbin
 
 sudo cp -r lowmemorykiller.sh /usr/local/lbpbin
 sudo cp -r OOMkill.sh /usr/local/lbpbin
@@ -202,47 +203,7 @@ sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 sudo sync
 sleep 2
 sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
-#UXOptimization
-echo phase
-sudo defaults write com.apple.CrashReporter DialogType nano
-defaults write com.apple.CrashReporter DialogType developer
-defaults write com.apple.universalaccess reduceTransparency -bool false
-defaults write com.apple.dashboard mcx-disabled -boolean YES
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
-defaults write -g QLPanelAnimationDuration -float 0
-defaults write com.apple.dock single-app -bool false
-defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
-defaults write com.apple.dock launchanim -bool false
-defaults write com.apple.dock expose-animation-duration -float 0.1
-defaults write com.apple.Dock autohide-delay -float 0
-defaults write com.apple.finder DisableAllAnimations -bool true
-defaults write com.apple.mail DisableReplyAnimations -bool true
-defaults write com.apple.mail DisableSendAnimations -bool true
-defaults write com.apple.Safari WebKitInitialTimedLayoutDelay 0.25
-defaults delete NSDisableAutomaticTermination
-echo phase
-defaults write -g NSDisableAutomaticTermination -bool no
-defaults write com.google.Chrome NSQuitAlwaysKeepsWindows -bool false
-defaults write com.apple.Safari NSQuitAlwaysKeepsWindows -bool false
-#defaults write com.apple.dock single-app -bool true
-defaults write com.apple.dock mineffect -string scale
-defaults write NSGlobalDomain NSAppSleepDisabled -bool no
-defaults write com.apple.finder DisableAllAnimations -bool true
-defaults write com.apple.CrashReporter DialogType none
-defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
-echo phase
-defaults write -g NSScrollAnimationEnabled -bool false
-defaults write -g NSWindowResizeTime -float 0.001
-defaults write -g QLPanelAnimationDuration -float 0
-defaults write -g NSScrollViewRubberbanding -bool false
-defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
-defaults write -g NSToolbarFullScreenAnimationDuration -float 0
-defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
-defaults write com.apple.dashboard devmode YES
-defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
-sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
-echo phase
-defaults write com.apple.dock showhidden -bool true
+
 
 echo applying settings
 echo your Macintosh may go blank but your application will be restored

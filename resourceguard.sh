@@ -92,23 +92,22 @@ while true; do
   fi
 updatecycle=$(( $updatecycle + 1 ))
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
+
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
 compusage=$cpuusage
 compusagesum=$(( $compusage + $compusagesum ))
 compusage=$(( $compusagesum / $updatecycle ))
 echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
-if [ $compusage -lt 20 ]; then
+if [ $compusage -lt 40 ]; then
  cycleidle=$(( $cycleidle + 1 ))
-  if [ $cycleidle -gt 64 ]; then
-    sudo dmesg &
-    sudo sync
-    sudo killall -KILL Dock
-    sudo killall -KILL Finder
-    cycleidle=0
+  if [[ $cycleidle -gt 32 && $IOPROC -lt 1 ]]; then
+    sudo sh /Volumes/libreperfruntime/refresh.sh
   else
     echo waiting idle to refresh
   fi
 else
+  cycleidle=0
   echo high usage detected
 fi
 if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then

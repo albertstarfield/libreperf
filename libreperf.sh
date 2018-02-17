@@ -38,7 +38,7 @@ printf '\e[9;1t'
 # https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
 
 #cpulimit - a CPU usage limiter for Linux
-#Copyright (C) 2005-2012, by:  Angelo Marletta <angelo dot marletta at gmail dot com> 
+#Copyright (C) 2005-2012, by:  Angelo Marletta <angelo dot marletta at gmail dot com>
 # thanks to https://github.com/herrbischoff/awesome-osx-command-line
 # https://apple.stackexchange.com/questions/41045/how-can-i-disable-cpu-throttling-and-cpu-disabling
 #and thanks for the other articles to such as lifewire and etc
@@ -420,6 +420,8 @@ sudo cp -r /usr/local/lbpbin/sensorpolling.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/killengine.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/cpulimit /Volumes/libreperfruntime/bin
+sudo cp -r /usr/local/lbpbin/refresh.sh /Volumes/libreperfruntime/binsync
+
 
 sudo cp -r /Volumes/libreperfruntime/binsync/ /Volumes/libreperfruntime
 

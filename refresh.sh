@@ -6,14 +6,23 @@ clear
 while true; do
 #mountstart
 echo checking status
+sudo rm -rf /Volumes/memfill
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
 INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
 TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
 IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
 size=$(( $TOTAL ))
+
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
+if [ $sizefill -gt 3999 ]; then
+   size=1024
+    else
+      echo continue
+fi
 sizefillbytes=$(( $sizefill * 1048576 ))
+sizefillbytes=$(( $sizefillbytes * 3 / 4 ))
+
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
 echo trigger 2048 30 5000
@@ -31,6 +40,7 @@ if [[ $TOTAL -lt 9999 && $cpuusage -lt 400  ]]; then
   echo push
   openssl rand -out /Volumes/memfill/0 -base64 $(( $sizefillbytes * 3/4 ))
   echo waiting reactions
+  sleep 5
   rm -rf /Volumes/$ramdiskid/purgemod
   rm -rf /Volumes/$ramdiskid/0
   rm -rf /Volumes/$ramdiskid/fill
@@ -40,6 +50,8 @@ if [[ $TOTAL -lt 9999 && $cpuusage -lt 400  ]]; then
   sudo purge
   sudo killall -KILL Dock
   sudo killall -KILL Finder
+  sudo killall -KILL loginwindow
+  sudo killall -KILL diskimages-helper
   TOTAL2=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
   deltamem=$(( $TOTAL2 - $TOTAL ))
   echo $deltamem Free delta ram
