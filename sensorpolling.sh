@@ -1,5 +1,6 @@
 
 #!/bin/bash
+
 mkdir /Volumes/libreperfruntime/sys
 mkdir /Volumes/libreperfruntime/sys/mem
 mkdir /Volumes/libreperfruntime/sys/mem/lightLMK
@@ -14,6 +15,8 @@ mkdir /Volumes/libreperfruntime/sys/IOstats
 mkdir /Volumes/libreperfruntime/sys/energy
 mkdir /Volumes/libreperfruntime/sys/hwmorph
 mkdir /Volumes/libreperfruntime/sys/bridge
+sudo dmesg > /Volumes/libreperfruntime/sys/kernelmsg
+
 cycleuptime=0
 alias grep='/Volumes/libreperfruntime/subbin/grep'
 alias sed='/Volumes/libreperfruntime/subbin/sed'
@@ -39,6 +42,16 @@ echo libreperf > /Volumes/libreperfruntime/sys/rescman
 
 
 while true; do
+
+#reboottrigger checks
+if [ ! -f "/Volumes/libreperfruntime/sys/reboottrigger" ]; then
+  echo No signal detected
+else
+  echo signal detected
+  sudo sh /Volumes/libreperfruntime/refresh.sh
+fi
+
+
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
 echo hybrid management system

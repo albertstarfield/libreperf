@@ -197,6 +197,9 @@ sudo cp -r coolingcontroller.sh /usr/local/lbpbin
 sudo cp -r resourceguard.sh /usr/local/lbpbin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo cp -r cpulimit /usr/local/lbpbin
+sudo cp -r restart /bin/
+sudo chmod 777 /bin/restart
+
 
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 #sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist

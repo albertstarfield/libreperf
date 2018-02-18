@@ -238,6 +238,9 @@ sudo cp -r resourceguard.sh /usr/local/lbpbin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo cp -r uiperfpatch.sh /usr/local/lbpbin
 sudo cp -r cpulimit /usr/local/lbpbin
+sudo cp -r restart /bin/
+sudo chmod 777 /bin/restart
+
 
 
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist

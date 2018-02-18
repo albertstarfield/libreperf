@@ -145,7 +145,6 @@ if [ "$temp" -gt "790" ] || [ ${cpuusage%%.*} -gt 60 ] || [ "$temp" -lt "490" ]
         OHC=0
         cycle=0
         rpmopold=$rpmop
-        sudo sh /Volumes/libreperfruntime/coolingcontroller.sh
       else
     echo no need reset v1
   fi

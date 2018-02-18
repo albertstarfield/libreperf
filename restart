@@ -1,0 +1,20 @@
+#!/bin/bash
+clear
+if [ ! -f "/Volumes/libreperfruntime/sys/kernelmsg" ]; then
+  echo libreperfkernelmanagement communication failed please do a full restart
+  exit
+else
+  cat /Volumes/libreperfruntime/sys/kernelmsg
+  sleep 2
+  echo [1] Communication established
+fi
+echo [2] Sending signal to libreperf kernelextension
+sleep 3
+echo 1 > /Volumes/libreperfruntime/sys/reboottrigger
+echo [3] Awaiting for userspace teardown
+sleep 3
+echo Please wait your mac will soft_reboot soon it might take minutes
+sleep 2
+sleep 999
+echo reboot failed timeout
+exit
