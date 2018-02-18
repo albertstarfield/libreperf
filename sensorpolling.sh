@@ -43,14 +43,6 @@ echo libreperf > /Volumes/libreperfruntime/sys/rescman
 
 while true; do
 
-#reboottrigger checks
-if [ ! -f "/Volumes/libreperfruntime/sys/reboottrigger" ]; then
-  echo No signal detected
-else
-  echo signal detected
-  sudo sh /Volumes/libreperfruntime/refresh.sh
-fi
-
 
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )

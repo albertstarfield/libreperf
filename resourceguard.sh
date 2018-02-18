@@ -94,6 +94,15 @@ updatecycle=$(( $updatecycle + 1 ))
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
 
+#reboottrigger checks
+if [ ! -f "/Volumes/libreperfruntime/sys/reboottrigger" ]; then
+  echo No signal detected
+else
+  echo signal detected
+  sudo sh /Volumes/libreperfruntime/refresh.sh
+fi
+
+
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
 compusage=$cpuusage
 compusagesum=$(( $compusage + $compusagesum ))
