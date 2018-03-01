@@ -108,9 +108,11 @@ compusage=$cpuusage
 compusagesum=$(( $compusage + $compusagesum ))
 compusage=$(( $compusagesum / $updatecycle ))
 echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
-if [ $compusage -lt 40 ]; then
+
+#quickreboot
+if [[ $compusage -lt 27 && $IOPROC -lt 1 ]]; then
  cycleidle=$(( $cycleidle + 1 ))
-  if [[ $cycleidle -gt 32 && $IOPROC -lt 1 ]]; then
+  if [ $cycleidle -gt 64 ]; then
     sudo sh /Volumes/libreperfruntime/refresh.sh
   else
     echo waiting idle to refresh
@@ -119,6 +121,16 @@ else
   cycleidle=0
   echo high usage detected
 fi
+
+#reboot UI
+if [ $cycleidle -gt 8 ]; then
+sudo killall -KILL Dock
+sudo killall -KILL SystemUIServer
+sudo killall -KILL Finder
+else
+echo waiting idle to refresh
+fi
+
 if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then
   updatecycle=0
   rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"

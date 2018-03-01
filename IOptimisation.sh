@@ -147,6 +147,15 @@ cleanupdepth1=100
 
 while true; do
 cd "$(dirname "$0")"
+TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+if [ "$TOTAL" -gt "1024" ]; then
+rsync -rva /Applications/
+sudo periodic daily weekly monthly &
+ls -R /Applications/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+ls -R /Users/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+ else
+ echo No optimization needed
+fi
 
   #powersavinglinepatch
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
