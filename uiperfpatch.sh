@@ -2,6 +2,7 @@ while true; do
 #!/bin/bash
 #powersavinglinepatch
 rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+coalescingsleep=$(( ( RANDOM % 360 )  + 32 ))
 if [ $rescman = apple ]
   then
     echo apple management resource mode
@@ -126,6 +127,7 @@ if [[ $compusage -lt 30 && $IOPROC -lt 1 ]]; then
 else
   echo awaiting for perfect moment
 fi
+sleep $coalescingsleep
 
 sleep 4
 sleep 8
