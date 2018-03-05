@@ -226,6 +226,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
 		   then
 	             invalid
 		   else
+         cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "Optimizing system disk access" with title "SystemAI"'; done
          echo stopping $IOTOPPROCESSPID IOPS
          osascript -e 'display notification "your computer might be slower culprit $TOPPROCESS" with title "libreperf"'
          /Volumes/libreperfruntime/bin/kill -CONT $IOTOPPROCESSPID
@@ -281,7 +282,7 @@ if [ ! -d "/Volumes/prefetchblock0" ]; then
 else
   echo normal linking mode
 fi
-#check memory cache free
+
 cachefree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/cachefree)
 trigger=512000
 trigger=$(( $disksizekb / 4 ))

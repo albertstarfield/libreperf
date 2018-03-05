@@ -101,7 +101,12 @@ else
   echo signal detected
   sudo sh /Volumes/libreperfruntime/refresh.sh
 fi
-
+#announce slowdown
+if [[ $compusage -gt 40 && $IOPROC -gt 1 ]]; then
+cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "System Slowdown Occoured" with title "SystemAI"'; done
+else
+  echo normal
+fi
 
 irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
 compusage=$cpuusage
@@ -110,7 +115,7 @@ compusage=$(( $compusagesum / $updatecycle ))
 echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
 
 #quickreboot
-if [[ $compusage -lt 27 && $IOPROC -lt 1 ]]; then
+if [[ $compusage -lt 30 && $IOPROC -lt 1 ]]; then
  cycleidle=$(( $cycleidle + 1 ))
   if [ $cycleidle -gt 64 ]; then
     sudo sh /Volumes/libreperfruntime/refresh.sh

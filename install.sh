@@ -45,9 +45,8 @@ echo " \ \___\_\\ \_____\\ \_____\\/\_____\  \ \_\ \ \_\\\"\_\\ \_\ \_\\ \____- 
 echo "  \/___/_/ \/_____/ \/_____/ \/_____/   \/_/  \/_/ \/_/ \/_/\/_/ \/____/  \/_____/ \/_/\/_/ ";
 echo "                                                                                            ";
 echo requesting root access
-sleep 2
+sleep 1
 sudo echo access gained
-sleep 2
 sudo echo creating bin folder
 sleepstability=$(( ( RANDOM % 5 )  + 0 ))
 sleep $sleepstability

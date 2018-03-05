@@ -57,6 +57,7 @@ if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCE
       then
         if [ $suspendstatuseng1 = "1" ]
           then
+            cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "Optimizing Processing power" with title "SystemAI"'; done
             /Volumes/libreperfruntime/bin/kill -CONT $suspendedprocesseng1
             echo Unsuspending $suspendedprocesseng1
             suspendstatuseng1=0

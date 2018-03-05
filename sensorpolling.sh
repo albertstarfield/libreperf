@@ -80,10 +80,11 @@ sudo cp -r /Volumes/libreperfruntime/binsync/ /Volumes/libreperfruntime
 #they're using kibibytes
 cachefree=$(df -Pk /Volumes/systemcacheblock0 | sed 1d | grep -v used | awk '{ print $4 "\t" }')
 prefetchfree=$(df -Pk /Volumes/prefetchblock0 | sed 1d | grep -v used | awk '{ print $4 "\t" }')
-
 systemdiskfree=$(df -Pk / | sed 1d | grep -v used | awk '{ print $4 "\t" }')
 echo $cachefree > /Volumes/libreperfruntime/sys/mem/cachefree
 echo $prefetchfree > /Volumes/libreperfruntime/sys/mem/prefetchfree
+echo $systemdiskfree > /Volumes/libreperfruntime/sys/mem/systemdiskfree
+
 #lightLMK
 
 #patch for unsyncronized module killing

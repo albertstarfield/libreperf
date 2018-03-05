@@ -116,8 +116,16 @@ fi
 sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
 sudo defaults write /Library/Preferences/com.apple.windowserver QuartzGLEnabled -boolean YES
 #for batter indic
+IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
 
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.PowerChime ChimeOnAllHardware -bool true; open /System/Library/CoreServices/PowerChime.app; done
+if [[ $compusage -lt 30 && $IOPROC -lt 1 ]]; then
+  sudo killall -KILL Dock
+  sudo killall -KILL SystemUIServer
+  sudo killall -KILL Finder
+else
+  echo awaiting for perfect moment
+fi
 
 sleep 4
 sleep 8

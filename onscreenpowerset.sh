@@ -27,7 +27,7 @@ sleep $irregulardelay
       echo ---------------CPU and HDD power management
       cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
       cpulimidle=$(( ( RANDOM % 25 )  + 5 ))
-      if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "100000" ]]; then
+      if [[ "${cpuusage%%.*}" -gt "$cpulimidle" && "$IOPROC" -gt "1" ]]; then
         echo Suspending Power management system IO is busy
         echo $IOPROC Disk Operation
         echo $cpuusage percent of cpu time cycle used
@@ -41,6 +41,7 @@ sleep $irregulardelay
         sudo pmset -a lidwake 0
       else
         echo Power management is ON
+        cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "Optimizing power usage" with title "SystemAI"'; done
         sudo pmset -a sleep 1
         sudo pmset -a acwake 0
         sudo pmset -a disksleep 1

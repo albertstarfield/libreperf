@@ -4,6 +4,10 @@ sleep 180
 TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
 ramlim=$(( $TOTAL / 4 ))
 ramlimcrit=$(( $TOTAL - ( $TOTAL / 5 ) ))
+#cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dashboard devmode YES; done
+#cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "Booting memory Optimizer" with title "libreperf"'; done
+
+
 cycleramlim=0
 while true; do
   #powersavinglinepatch
@@ -163,6 +167,7 @@ echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
       TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/Pcpuusage )
       if [ "$TOTAL" -lt "$ramclslv1" ]
         then
+          cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "Memory Hog Detected and Optimizing" with title "SystemAI"'; done
           irregulardelay=$irregulardelay
           if [ "$TOPPROCESSCPUUSAGE" -lt "$cpulimidle2" ]
             then
@@ -174,6 +179,7 @@ echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
           fi
           if [ "$TOTAL" -lt "$ramclslv2" ]
           then
+            cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "High Memory Hog Detected and Optimizing" with title "SystemAI"'; done
             lineselect=$(( ( RANDOM % 15 )  + 10 ))
             echo $lineselect > /Volumes/libreperfruntime/sys/bridge/heavyLMKline
             TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname )
