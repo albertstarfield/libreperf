@@ -127,13 +127,11 @@ else
   echo high usage detected
 fi
 
-#reboot UI
-if [ $cycleidle -gt 8 ]; then
-sudo killall -KILL Dock
-sudo killall -KILL SystemUIServer
-sudo killall -KILL Finder
+#sleep sweet dream
+if [ $cycleidle -gt 16 ]; then
+pmset sleepnow
 else
-echo waiting idle to refresh
+echo waiting idle to sleep arest
 fi
 
 if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then
