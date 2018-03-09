@@ -408,6 +408,7 @@ sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime
 sudo mkdir /Volumes/libreperfruntime/bin
 sudo mkdir /Volumes/libreperfruntime/subbin
 sudo mkdir /Volumes/libreperfruntime/binsync
+sudo mkdir /Volumes/libreperfruntime/plugins
 cp -r /bin/ /Volumes/libreperfruntime/bin/
 cp -r /usr/bin/ /Volumes/libreperfruntime/subbin/
 cp -r /usr/local/lbpbin/86idlesync.sh /Volumes/libreperfruntime/binsync
@@ -422,7 +423,13 @@ sudo cp -r /usr/local/lbpbin/killengine.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/cpulimit /Volumes/libreperfruntime/bin
 sudo cp -r /usr/local/lbpbin/refresh.sh /Volumes/libreperfruntime/binsync
-
+sudo cp -r /usr/local/lbpbin/plugins/ /Volumes/libreperfruntime/plugins
+#zygote creation modloader plugins
+if [ ! -f "/Volumes/libreperfruntime/plugins/zygote.sh" ]; then
+echo start your plugins from here as starting point > /Volumes/libreperfruntime/plugins/zygote.sh
+else
+  echo zygote detected
+fi
 
 sudo cp -r /Volumes/libreperfruntime/binsync/ /Volumes/libreperfruntime
 

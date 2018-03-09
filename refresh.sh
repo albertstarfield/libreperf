@@ -38,7 +38,7 @@ if [[ $TOTAL -lt 9999 && $cpuusage -lt 400  ]]; then
   mkfile -n -v 1m /Volumes/memfill/purgemod
   dd if=/dev/urandom of=/Volumes/memfill/fill bs=64M count=8
   echo push
-  openssl rand -out /Volumes/memfill/0 -base64 $(( $sizefillbytes * 3/4 ))
+  openssl rand -out /Volumes/memfill/0 -base64 $(( $sizefillbytes * 3/4 )) &
   echo waiting reactions
   sleep 5
   rm -rf /Volumes/$ramdiskid/purgemod

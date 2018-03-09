@@ -239,6 +239,7 @@ sudo cp -r uiperfpatch.sh /usr/local/lbpbin
 sudo cp -r cpulimit /usr/local/lbpbin
 sudo cp -r restart /bin/
 sudo chmod 777 /bin/restart
+sudo mkdir /usr/local/lbpbin/plugins
 
 
 

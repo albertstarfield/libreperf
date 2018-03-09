@@ -61,6 +61,10 @@ sudo sh /Volumes/libreperfruntime/IOptimisation.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/sleepmana.sh &
 echo booting
+#modloading
+cd /Volumes/libreperfruntime/plugins/; for i in *; do sudo sh "$i" ; done &
+
+#sudo sh /Volumes/libreperfruntime/plugins/zygote.sh &
 
 
 
@@ -126,7 +130,13 @@ else
   cycleidle=0
   echo high usage detected
 fi
-
+#Resync with the systems
+if [ $cycleidle -gt 4 ]; then
+sudo cp -r /Volumes/libreperfruntime/binsync/ /usr/local/lbpbin
+sudo cp -r /Volumes/libreperfruntime/plugins/ /usr/local/lbpbin/plugins/
+else
+echo waiting idle to sleep arest
+fi
 #sleep sweet dream
 if [ $cycleidle -gt 16 ]; then
 pmset sleepnow
