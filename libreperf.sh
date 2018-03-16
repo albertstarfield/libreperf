@@ -246,7 +246,7 @@ sudo launchctl limit maxfiles 1000000 1000000
 #optimisation patch bootcrash recovery
 #http://www.insanelymac.com/forum/topic/99891-osx-flags-list-for-darwin-bootloader-kernel-level/
 # 0x8 seems to be a sweetspot
-sudo nvram boot-args="-v kext-dev-mode=1 vm_compressor=4 idlehalt=1 srv=1 cpuidle=1 panic=7 oops=panic fn=4 serverperfmode=1" #cool looking boot up sequences
+sudo nvram boot-args="-v kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 panic=7 oops=panic fn=4 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm -rf /private/var/vm/swapfile*
 sudo systemsetup -setwaitforstartupafterpowerfailure 30
