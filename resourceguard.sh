@@ -119,7 +119,7 @@ compusage=$(( $compusagesum / $updatecycle ))
 echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
 
 #quickreboot
-if [[ $compusage -lt 30 && $IOPROC -lt 1 ]]; then
+if [[ $compusage -lt 15 && $IOPROC -lt 1 ]]; then
  cycleidle=$(( $cycleidle + 1 ))
   if [ $cycleidle -gt 64 ]; then
     sudo sh /Volumes/libreperfruntime/refresh.sh
