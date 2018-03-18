@@ -50,7 +50,8 @@ cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Caches_hdd /Users/"$i"
 #prefetcher
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
 cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Application\ Support\ HDD /Users/"$i"/Library/Application\ Support; done
-
+#reinitializehdddata
+sudo rsync -avz /
 #initlibreperfmoduleend
 cd "$(dirname "$0")"
 LOGIN=$USER
