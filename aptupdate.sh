@@ -198,6 +198,7 @@ sudo cp -r resourceguard.sh /usr/local/lbpbin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo cp -r cpulimit /usr/local/lbpbin
 sudo cp -r restart /bin/
+sudo cp -r silentmode /bin/
 sudo chmod 777 /bin/restart
 sudo mkdir /usr/local/lbpbin/plugins
 

@@ -1,0 +1,19 @@
+#!/bin/bash
+clear
+if [ ! -f "/Volumes/libreperfruntime/sys/kernelmsg" ]; then
+  echo libreperfkernelmanagement communication failed please do a full restart
+  exit
+else
+  cat /Volumes/libreperfruntime/sys/kernelmsg
+  sleep 2
+  echo [1] Communication established
+fi
+echo [2] Sending signal to libreperf kernelextension
+sleep 3
+echo 1 > /Volumes/libreperfruntime/sys/silentmode
+echo [3] Awaiting for userspace teardown
+sleep 3
+echo Your mac will be silenced for around 30 secs
+sleep 30
+echo Turned On
+exit

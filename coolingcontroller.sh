@@ -163,5 +163,16 @@ if [[ $clamshellinfo = ACSY && $TEMP -gt 750 ]]; then
     echo lid on
 fi
 sleep 1
-
+#silentmode manual override
+if [ ! -f "/Volumes/libreperfruntime/sys/silentmode" ]
+  then
+    sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
+    sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0000
+    sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
+    echo Detected manual override silent_mode
+    sudo rm -rf /Volumes/libreperfruntime/sys/silentmode
+    sleep 30
+  else
+    echo Running normally
+fi
 done
