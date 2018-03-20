@@ -202,6 +202,10 @@ sudo cp -r silentmode /bin/
 sudo chmod 777 /bin/restart
 sudo mkdir /usr/local/lbpbin/plugins
 
+sudo chmod 777 /bin/restart
+sudo chmod 777 /bin/silentmode
+sudo chmod +x /bin/restart
+sudo chmod +x /bin/silentmode
 
 
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist

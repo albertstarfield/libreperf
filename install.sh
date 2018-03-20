@@ -241,6 +241,9 @@ sudo cp -r restart /bin/
 sudo cp -r silentmode /bin/
 
 sudo chmod 777 /bin/restart
+sudo chmod 777 /bin/silentmode
+sudo chmod +x /bin/restart
+sudo chmod +x /bin/silentmode
 sudo mkdir /usr/local/lbpbin/plugins
 
 
