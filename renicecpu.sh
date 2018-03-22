@@ -1,5 +1,7 @@
 while true; do
   #powersavinglinepatch
+  cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+
   rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
   if [ $rescman = apple ]
     then
@@ -9,6 +11,13 @@ while true; do
     else
       echo libreperf management mode
   fi
+if [ ! -f "/Volumes/libreperfruntime/sys/turboboost" ] || [ "${cpuusage%%.*}" -gt "30" ]; then
+  echo ondemandmode
+  sudo killall -KILL yes
+else
+  echo turboboost_1
+  sudo yes > /dev/null
+fi
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 3 ))
 roundrobinalloc=$(( ( RANDOM % 16 )  + 4 ))

@@ -1,0 +1,41 @@
+#!/bin/bash
+clear
+if [ ! -f "/Volumes/libreperfruntime/sys/kernelmsg" ]; then
+  echo libreperfkernelmanagement communication failed please do a full restart
+  exit
+else
+  cat /Volumes/libreperfruntime/sys/kernelmsg
+  sleep 2
+  echo [1] Communication established
+fi
+echo [2] Sending signal to libreperf kernelextension
+sleep 3
+echo options
+# https://askubuntu.com/questions/1705/how-can-i-create-a-select-menu-in-a-shell-script
+echo turbomode1 to turn on turbo mode on cpu
+echo turbomode0 to return to defaults
+echo note that this will not stick after reboot
+PS3='Please enter your choice: '
+options=("turbomode1" "turbomode0" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "turbomode1")
+            echo "running cpu to the maximum"
+            echo 1 > /Volumes/libreperfruntime/sys/turboboost
+            ;;
+        "turbomode0")
+            echo "returning cpu clockspeed"
+            rm -rf /Volumes/libreperfruntime/sys/turboboost
+            ;;
+        "Quit")
+            break
+            ;;
+        *) break;;
+    esac
+done
+echo [3] Sending Commands to krnlext
+sleep 3
+
+echo rootbypass successfull
+exit

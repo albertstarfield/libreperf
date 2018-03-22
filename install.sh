@@ -239,11 +239,17 @@ sudo cp -r uiperfpatch.sh /usr/local/lbpbin
 sudo cp -r cpulimit /usr/local/lbpbin
 sudo cp -r restart /bin/
 sudo cp -r silentmode /bin/
+sudo cp -r turboboost /bin/
+sudo cp -r turboexhaust /bin/
 
+
+sudo chmod 777 /bin/turboexhaust
 sudo chmod 777 /bin/restart
 sudo chmod 777 /bin/silentmode
+sudo chmod 777 /bin/turboboost
 sudo chmod +x /bin/restart
 sudo chmod +x /bin/silentmode
+sudo chmod +x /bin/turboboost
 sudo mkdir /usr/local/lbpbin/plugins
 
 

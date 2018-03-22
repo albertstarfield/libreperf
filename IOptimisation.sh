@@ -38,7 +38,7 @@ echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytesprefetc
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Application\ Support\ HDD; done
 echo mkdir step
 #cd /Users/; for i in *; do sudo rsync --bwlimit=512 -aPz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
-cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support/ /Users/"$i"/Library/Application\ Support\ HDD/; sudo chmod -R 755 /Users/"$i"/Library/Application\ Support\ HDD; done
+cd /Users/; for i in *; do sudo mv /Users/"$i"/Library/Application\ Support/ /Users/"$i"/Library/Application\ Support\ HDD/; sudo chmod -R 755 /Users/"$i"/Library/Application\ Support\ HDD; done
 echo cloning step
 sudo rm -rf /Volumes/prefetchblock0
 
@@ -54,7 +54,7 @@ echo allocating creating VM may take a while
 echo push
 #openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
 echo waiting reactions
-sleep 5
+sleep 1
 echo deallocating ram
 #creating swap folder
 sudo rm -rf /usr/local/lbpbin/swapfilecacheblock1/
@@ -93,7 +93,7 @@ echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Caches_hdd; done
 echo mkdir step
 #cd /Users/; for i in *; do sudo rsync --bwlimit=512 -aPz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
-cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done
+cd /Users/; for i in *; do sudo mv /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done
 echo cloning step
 sudo rm -rf /Volumes/systemcacheblock0
 
@@ -109,7 +109,7 @@ echo allocating creating VM may take a while
 echo push
 #openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
 echo waiting reactions
-sleep 5
+sleep 1
 rm -rf /Volumes/systemcacheblock0/purgemod
 rm -rf /Volumes/systemcacheblock0/0
 rm -rf /Volumes/systemcacheblock0/fill
@@ -144,7 +144,7 @@ sleep 1.$delay
 cd "$(dirname "$0")"
 cleanupdepth=11
 cleanupdepth1=100
-
+cleanupdepth0=100
 while true; do
 cd "$(dirname "$0")"
 TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
@@ -267,7 +267,7 @@ sleep 5
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD; done
 
-rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/bloatapp"
+rsync -avz --delete "/Volumes/zramblock0/" "/usr/local/lbpbin/bloatapp"
 echo --------------------
 #fallbackstageifinlowmemory
 if [ ! -d "/Volumes/systemcacheblock0" ]; then
@@ -306,6 +306,8 @@ else
   echo Space free
 fi
 #swappingstage
+echo zramcache applying
+/sbin/dynamic_pager -F /Volumes/zramblock0/ramswap0
 https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line
 #find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
 #find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
@@ -313,6 +315,37 @@ echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth
 
 
 #prefetchcleaning
+#ssdlowstorageoptimization
+
+systemdiskfree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/systemdiskfree)
+trigger=512000
+trigger=$(( $disksizekbprefetch / 4 ))
+if [ "$systemdiskfree" -lt "$trigger" ]; then
+# thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
+#cleanup cache
+cd /Users/; for i in *; do cd /Users/"$i"/Library/Caches_hdd/; echo /Users/"$i"/Library/Caches_hdd/; cleanup=$(ls -A1t /Users/"$i"/Library/Caches_hdd/ | tail -n +$cleanupdepth0 | xargs rm -rf); for a in *; do cd /Users/"$i"/Library/Caches_hdd/"$a"/; echo /Users/"$i"/Library/Caches_hdd/"$a"/; cleanup=$(ls -A1t /Users/"$i"/Library/Caches_hdd/"$a"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
+cd /Users/; for i in *; do find /Users/"$i"/Library/Caches_hdd/ -size +"$chunkmaxsize"M -name "*.*" -exec rm -rf {} \; ; done
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches_hdd/Caches_hdd; done
+#ApplicationData
+cd /Users/; for i in *; do cd /Users/"$i"/Library/Application\ Support\ HDD/; echo /Users/"$i"/Library/Application\ Support\ HDD/; cleanup=$(ls -A1t /Users/"$i"/Library/Application\ Support\ HDD/ | tail -n +$cleanupdepth0 | xargs rm -rf); for a in *; do cd /Users/"$i"/Library/Application\ Support\ HDD/"$a"/; echo /Users/"$i"/Library/Application\ Support\ HDD/"$a"/; cleanup=$(ls -A1t /Users/"$i"/Library/Application\ Support\ HDD/"$a"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
+cd /Users/; for i in *; do find /Users/"$i"/Library/Application\ Support\ HDD/ -size +"$chunkmaxsizeprefetch"M -name "*.*" -exec rm -rf {} \; ; done
+cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD; done
+if [ $cleanupdepth0 -gt 1 ]; then
+  cleanupdepth1=$(( $cleanupdepth0 - 1 ))
+    else
+      echo depth_underflow
+fi
+else
+  if [ $cleanupdepth0 -lt 100 ]; then
+    cleanupdepth1=$(( $cleanupdepth0 + 1 ))
+      else
+        echo depth_overflow
+  fi
+  echo Space free
+fi
+
+
+
 
 #check memory cache free
 prefetchfree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/prefetchfree)
@@ -343,23 +376,23 @@ https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given
 echo $cleanupdepth1 > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth1
 
 #ramdiskfixwhenunmounted
-if [ ! -d "/Volumes/fastcache/" ]; then
+if [ ! -d "/Volumes/zramblock0/" ]; then
 size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksize )
 sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes )
 #size=2500
-diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
+diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$size*2048]`
 echo Filling ram with 0 process 1
 echo allocating creating VM may take a while
 echo push
 echo waiting reactions
-sleep 5
-rm -rf /Volumes/fastcache/purgemod
-rm -rf /Volumes/fastcache/0
-rm -rf /Volumes/fastcache/fill
+sleep 1
+rm -rf /Volumes/zramblock0/purgemod
+rm -rf /Volumes/zramblock0/0
+rm -rf /Volumes/zramblock0/fill
 echo deallocating ram
-rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/fastcache/"
+rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/zramblock0/"
   else
-    echo fastcache exists
+    echo zramblock0 exists
 fi
 #ramdiskfixcache
 if [ ! -d "/Volumes/systemcacheblock0/" ]; then
@@ -373,7 +406,7 @@ echo allocating creating VM may take a while
 echo push
 #openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
 echo waiting reactions
-sleep 5
+sleep 1
 
 echo deallocating ram
 #content migration
@@ -407,7 +440,7 @@ echo done restoring
   echo push
   #openssl rand -out /Volumes/systemcacheblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
   echo waiting reactions
-  sleep 5
+  sleep 1
   echo deallocating ram
   #creating swap folder
   sudo rm -rf /usr/local/lbpbin/swapfilecacheblock1/

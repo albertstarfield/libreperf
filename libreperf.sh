@@ -79,7 +79,7 @@ if [ "$TOTAL" -gt "2048" ];
     echo Resource Usage is too high i wont cache the app
 fi
 
-sleep 2
+sleep 0
 #while true; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
 while true; do sudo nvram SystemAudioVolume="01%"; sleep 2; done &
 osascript -e 'display notification "Welcome Please wait while we preparing our flight" with title "libreperf"'
@@ -374,7 +374,7 @@ echo $sizefillbytes > /usr/local/lbpbin/ramdiskallocbytes
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
 sudo rm -rf /Volumes/libreperfruntime
-sudo rm -rf /Volumes/fastcache
+sudo rm -rf /Volumes/zramblock0
 mkdir /usr/local/lbpbin/bloatapp
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
@@ -383,25 +383,25 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
   else
     echo volume exist
   fi
-  if [ ! -d "/Volumes/fastcache/" ]; then
-  diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
+  if [ ! -d "/Volumes/zramblock0/" ]; then
+  diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$size*2048]`
   echo Filling ram with 0 process 1
   echo allocating creating VM may take a while
-# mkfile -n -v 1m /Volumes/fastcache/purgemod
-# dd if=/dev/urandom of=/Volumes/fastcache/fill bs=64M count=16
+# mkfile -n -v 1m /Volumes/zramblock0/purgemod
+# dd if=/dev/urandom of=/Volumes/zramblock0/fill bs=64M count=16
   echo push
-# openssl rand -out /Volumes/fastcache/0 -base64 $(( $sizefillbytes * 3/4 ))
+# openssl rand -out /Volumes/zramblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
   echo waiting reactions
   sleep 5
-  rm -rf /Volumes/fastcache/purgemod
-  rm -rf /Volumes/fastcache/0
-  rm -rf /Volumes/fastcache/fill
+  rm -rf /Volumes/zramblock0/purgemod
+  rm -rf /Volumes/zramblock0/0
+  rm -rf /Volumes/zramblock0/fill
   echo deallocating ram
-  rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/fastcache/"
+  rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/zramblock0/"
     else
       echo volume exist
     fi
-while true; do sudo chmod -R 0777 /Volumes/fastcache/; sleep 2; done &
+while true; do sudo chmod -R 0777 /Volumes/zramblock0/; sleep 2; done &
 sudo chflags hidden /Volumes/libreperfruntime
 sudo killall Finder
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime

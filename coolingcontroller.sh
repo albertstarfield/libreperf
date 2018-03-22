@@ -141,7 +141,7 @@ if [ "$temp" -gt "760" ] || [ ${cpuusage%%.*} -gt 60 ] || [ "$temp" -lt "600" ]
   then
     echo Inaccuracy HIT $OHC
     OHC=$(( $OHC + 1 ))
-      if [ $OHC -gt 12 ]; then
+      if [ $OHC -gt 8 ]; then
         OHC=0
         cycle=0
         rpmopold=$rpmop
@@ -166,13 +166,24 @@ sleep 1
 #silentmode manual override
 if [ ! -f "/Volumes/libreperfruntime/sys/silentmode" ]
   then
+    echo Running normally
+  else
     sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
-    sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0000
+    sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
     sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
     echo Detected manual override silent_mode
     sudo rm -rf /Volumes/libreperfruntime/sys/silentmode
     sleep 30
-  else
+
+fi
+if [ ! -f "/Volumes/libreperfruntime/sys/emergencyexhaust" ]
+  then
     echo Running normally
+  else
+    sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
+    sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $turbosaferpm
+    echo Detected manual override turbo_mode
+    sudo rm -rf /Volumes/libreperfruntime/sys/emergencyexhaust
+    sleep 30
 fi
 done

@@ -201,12 +201,18 @@ sudo cp -r restart /bin/
 sudo cp -r silentmode /bin/
 sudo chmod 777 /bin/restart
 sudo mkdir /usr/local/lbpbin/plugins
+sudo cp -r turboboost /bin/
+sudo cp -r turboexhaust /bin/
 
+
+sudo chmod 777 /bin/turboexhaust
 sudo chmod 777 /bin/restart
 sudo chmod 777 /bin/silentmode
+sudo chmod 777 /bin/turboboost
 sudo chmod +x /bin/restart
 sudo chmod +x /bin/silentmode
-
+sudo chmod +x /bin/turboboost
+sudo mkdir /usr/local/lbpbin/plugins
 
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 #sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
