@@ -39,7 +39,7 @@ sudo sh /usr/local/lbpbin/uptget.sh &
 
 #processlaunch
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
-irregulardelay=0
+irregulardelay=7
 sudo sh /Volumes/libreperfruntime/uiperfpatch.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/killengine.sh &

@@ -216,9 +216,9 @@ sudo mkdir /usr/local/lbpbin/plugins
 
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
 #sudo launchctl unload -w /Library/LaunchDaemons/launchinitconf.plist
-sudo sync
+#sudo sync
 sleep 2
-sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
+#sudo launchctl load -w /Library/LaunchDaemons/launchinitconf.plist
 
 
 echo applying settings
