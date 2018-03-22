@@ -324,15 +324,7 @@ echo stage 1
 Sleep 0
 #RamFILECACHING
 #check https://stackoverflow.com/questions/1821886/check-if-mac-process-is-running-using-bash-by-process-name
-PROCESS=diskimages-helper
-number=$(ps aux | grep $PROCESS | wc -l)
-if [ $number -gt 0 ]
-    then
-        echo Warm Boot Detected
-        killall -KILL $PROCESS
-    else
-        echo Cold boot detected
-fi
+
 echo "$loggedInUser"
 #diskutil erasevolume HFS+ "$ramdiskid" `hdiutil attach -nomount ram://$[size*2048]`
 sleep 0
@@ -373,8 +365,8 @@ echo $sizefillbytes > /usr/local/lbpbin/ramdiskallocbytes
 #size=2500
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
-sudo rm -rf /Volumes/libreperfruntime
-sudo rm -rf /Volumes/zramblock0
+#sudo rm -rf /Volumes/libreperfruntime
+#sudo rm -rf /Volumes/zramblock0
 mkdir /usr/local/lbpbin/bloatapp
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'

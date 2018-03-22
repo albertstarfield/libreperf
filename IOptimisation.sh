@@ -40,7 +40,7 @@ echo mkdir step
 #cd /Users/; for i in *; do sudo rsync --bwlimit=512 -aPz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
 cd /Users/; for i in *; do sudo mv /Users/"$i"/Library/Application\ Support/ /Users/"$i"/Library/Application\ Support\ HDD/; sudo chmod -R 755 /Users/"$i"/Library/Application\ Support\ HDD; done
 echo cloning step
-sudo rm -rf /Volumes/prefetchblock0
+#sudo rm -rf /Volumes/prefetchblock0
 
 #creating ramdisk for prefetchcache RAM
 if [ ! -d "/Volumes/prefetchblock0/" ]; then
@@ -95,7 +95,7 @@ echo mkdir step
 #cd /Users/; for i in *; do sudo rsync --bwlimit=512 -aPz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
 cd /Users/; for i in *; do sudo mv /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done
 echo cloning step
-sudo rm -rf /Volumes/systemcacheblock0
+#sudo rm -rf /Volumes/systemcacheblock0
 
 #creating ramdisk for cache RAM
 if [ ! -d "/Volumes/systemcacheblock0/" ]; then
