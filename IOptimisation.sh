@@ -267,7 +267,7 @@ sleep 5
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
 cd /Users/; for i in *; do sudo rsync -avz /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD; done
 
-rsync -avz --delete "/Volumes/zramblock0/" "/usr/local/lbpbin/bloatapp"
+rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/bloatapp"
 echo --------------------
 #fallbackstageifinlowmemory
 if [ ! -d "/Volumes/systemcacheblock0" ]; then
@@ -307,7 +307,7 @@ else
 fi
 #swappingstage
 echo zramcache applying
-/sbin/dynamic_pager -F /Volumes/zramblock0/ramswap0
+/sbin/dynamic_pager -F /Volumes/fastcache/ramswap0
 https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line
 #find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
 #find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
@@ -376,23 +376,23 @@ https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given
 echo $cleanupdepth1 > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth1
 
 #ramdiskfixwhenunmounted
-if [ ! -d "/Volumes/zramblock0/" ]; then
+if [ ! -d "/Volumes/fastcache/" ]; then
 size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksize )
 sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytes )
 #size=2500
-diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$size*2048]`
+diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
 echo Filling ram with 0 process 1
 echo allocating creating VM may take a while
 echo push
 echo waiting reactions
 sleep 1
-rm -rf /Volumes/zramblock0/purgemod
-rm -rf /Volumes/zramblock0/0
-rm -rf /Volumes/zramblock0/fill
+rm -rf /Volumes/fastcache/purgemod
+rm -rf /Volumes/fastcache/0
+rm -rf /Volumes/fastcache/fill
 echo deallocating ram
-rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/zramblock0/"
+rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/fastcache/"
   else
-    echo zramblock0 exists
+    echo fastcache exists
 fi
 #ramdiskfixcache
 if [ ! -d "/Volumes/systemcacheblock0/" ]; then

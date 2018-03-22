@@ -80,7 +80,7 @@ cd /Volumes/libreperfruntime/plugins/; for i in *; do sudo sh "$i" ; done &
 #echo $BATTLEFT mins left
 cycleidle=0
 compusagesum=0
-sudo cp -r  /Volumes/zramblock0/ /usr/local/lbpbin/ramstate
+sudo cp -r  /Volumes/fastcache/ /usr/local/lbpbin/ramstate
 #DNSBoost
 sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache
 while true; do
@@ -146,7 +146,7 @@ fi
 
 if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then
   updatecycle=0
-  rsync -avz --delete "/Volumes/zramblock0/" "/usr/local/lbpbin/ramstate"
+  rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"
   sudo sh /usr/local/lbpbin/resourceguard.sh
 else
   echo updating not possible now
@@ -154,7 +154,7 @@ fi
 if [ $updatecycle -gt $lifetime ]
   then
     echo hibernate
-    rsync -avz --delete "/Volumes/zramblock0/" "/usr/local/lbpbin/ramstate"
+    rsync -avz --delete "/Volumes/fastcache/" "/usr/local/lbpbin/ramstate"
     sleep ${cpuusage%%.*}
   else
     echo alive
