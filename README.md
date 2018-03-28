@@ -37,7 +37,7 @@ here is the list
 7. kernel_task throtlling disabled ( untested )
 8. Preloading User Installed Apps
 9. Preloading Some Data
-10. Tweaking the default macOS memory paging system with Compressor and Low memory killer ( "Mixed Mode 2" )
+10. Tweaking the default macOS memory paging system with Compressor and Low memory killer and adding zram experimental mode on macOS Darwin (mixed with macOS compression and zram0 swapping )
 11. /usr/local/lbpbin/initd.sh script start at boot
 12. custom CPU resource management ( suspend unsuspend )
 13. custom I/O management (Kinda having some broken algorithm issues)(issues somewhat fixed)
