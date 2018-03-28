@@ -5,6 +5,8 @@ if [ ! -d "/Volumes/libreperfruntime/sys" ] || [ ! -d "/Volumes/libreperfruntime
 echo ramdisk kernel integrity failed 0x1
 sudo sync &
 sudo purge
+sudo reboot -q
+
 PROCESS=diskimages-helper
 number=$(ps aux | grep $PROCESS | wc -l)
 if [ $number -gt 0 ]

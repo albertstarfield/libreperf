@@ -35,6 +35,7 @@ disksizekbprefetch=$(( $size * 1000 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizeprefetch
 echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskallocprefetch
 echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytesprefetch
+echo $disksizekbprefetch > /Volumes/libreperfruntime/sys/mem/ramdiskkbsizeprefetch
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Application\ Support\ HDD; done
 echo mkdir step
 #cd /Users/; for i in *; do sudo rsync --bwlimit=512 -aPz /Users/"$i"/Library/Caches/ /Users/"$i"/Library/Caches_hdd; sudo chmod -R 755 /Users/"$i"/Library/Caches_hdd/Caches; done &
@@ -89,6 +90,7 @@ disksizekb=$(( $size * 1000 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizecache
 echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloccache
 echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
+echo $disksizekb > /Volumes/libreperfruntime/sys/ramdiskkbsizecache
 #reporting section
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Caches_hdd; done
 echo mkdir step

@@ -5,6 +5,9 @@ cleanupdepth1=100
 cleanupdepth0=100
 while true; do cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done; sleep 60; done &
 while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 5; done &
+#load initial size
+disksizekb=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizecache)
+disksizekbprefetch=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizeprefetch)
 
 while true; do
 #Desktop configurationfix
@@ -56,6 +59,8 @@ cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches_hdd/Caches_hdd
 cd /Users/; for i in *; do cd /Users/"$i"/Library/Application\ Support\ HDD/; echo /Users/"$i"/Library/Application\ Support\ HDD/; cleanup=$(ls -A1t /Users/"$i"/Library/Application\ Support\ HDD/ | tail -n +$cleanupdepth0 | xargs rm -rf); for a in *; do cd /Users/"$i"/Library/Application\ Support\ HDD/"$a"/; echo /Users/"$i"/Library/Application\ Support\ HDD/"$a"/; cleanup=$(ls -A1t /Users/"$i"/Library/Application\ Support\ HDD/"$a"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
 cd /Users/; for i in *; do find /Users/"$i"/Library/Application\ Support\ HDD/ -size +"$chunkmaxsizeprefetch"M -name "*.*" -exec rm -rf {} \; ; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD; done
+sudo rm -rf /usr/local/lbpbin/ramstate
+#disables fastboot zram0 state
 if [ $cleanupdepth0 -gt 1 ]; then
   cleanupdepth1=$(( $cleanupdepth0 - 1 ))
     else
