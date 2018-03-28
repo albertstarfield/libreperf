@@ -10,7 +10,7 @@ while true; do
       echo libreperf management mode
   fi
 killconfirm=0
-  Clear
+  echo clear
 killconfirm=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/killconfirm )
 echo $killconfirm  value---------------- phase 1
 

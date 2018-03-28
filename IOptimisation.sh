@@ -64,7 +64,7 @@ cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock1/"$i"
 cd /Users/; for i in *; do sudo mkdir /Volumes/prefetchblock0/"$i"; done
 cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/ /Volumes/prefetchblock0/"$i"; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
-echo clearing stage
+echo echo clearing stage
 cd /Users/; for i in *; do sudo ln -s /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support; done
 echo linking stage
 sudo chflags hidden /Volumes/prefetchblock0
@@ -122,7 +122,7 @@ cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock0/"$i"
 cd /Users/; for i in *; do sudo mkdir /Volumes/systemcacheblock0/"$i"; done
 cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
-echo clearing stage
+echo echo clearing stage
 cd /Users/; for i in *; do sudo ln -s /Volumes/systemcacheblock0/"$i" /Users/"$i"/Library/Caches; done
 echo linking stage
 sudo chflags hidden /Volumes/systemcacheblock0
@@ -340,7 +340,7 @@ cd /Users/; for i in *; do sudo mkdir /usr/local/lbpbin/swapfilecacheblock0/"$i"
 cd /Users/; for i in *; do sudo mkdir /Volumes/systemcacheblock0/"$i"; done
 cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches; done
-echo clearing stage
+echo echo clearing stage
 cd /Users/; for i in *; do sudo ln -s /Volumes/systemcacheblock0/"$i" /Users/"$i"/Library/Caches; done
 echo linking stage
 sudo chflags hidden /Volumes/systemcacheblock0
@@ -373,7 +373,7 @@ echo done restoring
   cd /Users/; for i in *; do sudo mkdir /Volumes/prefetchblock0/"$i"; done
   cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/ /Volumes/prefetchblock0/"$i"; done
   cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
-  echo clearing stage
+  echo echo clearing stage
   cd /Users/; for i in *; do sudo ln -s /Volumes/prefetchblock0/"$i" /Users/"$i"/Library/Application\ Support; done
   echo linking stage
   sudo chflags hidden /Volumes/prefetchblock0

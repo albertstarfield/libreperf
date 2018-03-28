@@ -65,6 +65,6 @@ echo misc >> $debugcache
 cat $root/idleindicate >> $debugcache
 cat $root/killconfirm >> $debugcache
 cat $root/uptimecycle >> $debugcache
-clear
+echo clear
 cat $debugcache
 sleep 10

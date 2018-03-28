@@ -2,7 +2,7 @@
 #Trim Memory algorithm questandachievement7 monitoring cpu memory IO
 ramdiskid=memfill
 deelsleep=$(( ( RANDOM % 360 )  + 180 ))
-clear
+echo clear
 while true; do
 #mountstart
 echo checking status

@@ -37,7 +37,7 @@ printf '\e[9;1t'
 #and thanks for the other articles to such as lifewire and etc
 #!/bin/bash
 # utilitymenu.sh - A sample shell script to display menus on screen
-Clear
+echo clear
 Sleep 0
 echo Checking for update
 echo Installing no longer need reboot
@@ -68,16 +68,16 @@ sleep 1
 
 
 LOGIN=$USER
-Clear
+echo clear
 #echo Type your password
 sleep 0
 loggedInUser=$sudo_USER
 LOGIN=$sudo_USER
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
 
 #Credits
 echo -------------------------------------
@@ -103,7 +103,7 @@ echo sorry
 echo delaying for certain amount of time
 Sleep 0
 #Sleep 30
-Clear
+echo clear
 #updatecomponent
 #git retrieval
 echo installing update

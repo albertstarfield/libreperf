@@ -37,15 +37,15 @@ printf '\e[9;1t'
 #!/bin/bash
 # utilitymenu.sh - A sample shell script to display menus on screen
 echo requesting root access
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-Clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+echo clear
 Sleep 0
 echo make sure csrutil is disabled via booting recovery
 Sleep 0
@@ -83,16 +83,16 @@ sleep 1
 
 
 LOGIN=$USER
-Clear
+echo clear
 #echo Type your password
 sleep 0
 loggedInUser=$sudo_USER
 LOGIN=$sudo_USER
-sudo clear
-sudo clear
-sudo clear
-sudo clear
-sudo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
+sudo echo clear
 
 #Credits
 echo -------------------------------------
@@ -119,13 +119,13 @@ echo sorry
 echo delaying for certain amount of time
 Sleep 2
 #Sleep 30
-Clear
+echo clear
 #updatecomponent
 
 
 
 
-Clear
+echo clear
 #Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
 #Xmessage dont panic if your computer just go blank it is normal &
 echo remastering parameters settings
@@ -211,7 +211,7 @@ sudo cp -r krnvfssync.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/krnvfssync.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnvfssync.plist
 # Like it was a install process
-clear
+echo clear
 sudo cp -r uptget.sh /usr/local/bin
 sudo cp -r aptupdate.sh /usr/local/bin
 sudo cp -r libreperf.sh /usr/local/bin
@@ -270,7 +270,7 @@ defaults write com.apple.dock showhidden -bool true
 
 echo applying settings
 echo your Macintosh may go blank but your application will be restored
-Clear
+echo clear
 echo we are done
 echo setup will reconfigure your system in 9 seconds
 sleep 1

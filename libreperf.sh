@@ -55,7 +55,7 @@ sudo rsync -avz / &
 #initlibreperfmoduleend
 cd "$(dirname "$0")"
 LOGIN=$USER
-#clear
+#echo clear
 #echo Type your password
 sleep 0
 loggedInUser=$sudo_USER
@@ -80,10 +80,10 @@ if [ "$TOTAL" -gt "2048" ];
 fi
 
 sleep 0
-#while true; do #clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
+#while true; do #echo clear; killall mdworker0; killall mds0; killall symptomsd; sleep 1.1; done &
 while true; do sudo nvram SystemAudioVolume="01%"; sleep 2; done &
 osascript -e 'display notification "Welcome Please wait while we preparing our flight" with title "libreperf"'
-#while :; do #clear; sudo sh /usr/local/lbpbin/resourceguard.sh; sleep 27; done
+#while :; do #echo clear; sudo sh /usr/local/lbpbin/resourceguard.sh; sleep 27; done
 
 /LaunchDaemons/krnfilebuffer.plist
 sudo launchctl load -w /Library/LaunchDaemons/krnfilebuffer.plist
@@ -144,7 +144,7 @@ echo by questandachievement7 and community
 echo system will be rebooted automatically
 echo -------------------------------------
 Sleep 0
-#clear
+#echo clear
 echo Thanks to all of you guys thanks for the community yay
 echo References
 echo deprecated Copyright 2011  0x46616c6b for ramdisk
@@ -160,15 +160,15 @@ echo and many little snippets
 echo sorry
 echo delaying for certain amount of time
 #Sleep 30
-#clear
+#echo clear
 #updatecomponent
 
 
 
 while true; do
   osascript -e 'display notification "Booting coolingcontroller subsystem" with title "libreperf"'
-clear
-#clear
+echo clear
+#echo clear
 #Xmessage Optimizing OSX using system guard Method may not work if csrutil still enabled &
 #Xmessage dont panic if your computer just go blank it is normal &
 echo remastering parameters settings
@@ -398,10 +398,14 @@ sudo chflags hidden /Volumes/libreperfruntime
 sudo killall Finder
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime
 sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime
+echo initializing folders for binaries
+echo pactching
+sudo rm -rf /Volumes/libreperfruntime
 sudo mkdir /Volumes/libreperfruntime/bin
 sudo mkdir /Volumes/libreperfruntime/subbin
 sudo mkdir /Volumes/libreperfruntime/binsync
 sudo mkdir /Volumes/libreperfruntime/plugins
+echo bugflag
 cp -r /bin/ /Volumes/libreperfruntime/bin/
 cp -r /usr/bin/ /Volumes/libreperfruntime/subbin/
 cp -r /usr/local/lbpbin/86idlesync.sh /Volumes/libreperfruntime/binsync
@@ -438,7 +442,7 @@ sysctl vm.swapusage
 sysctl -a vm.compressor_mode
 #irregularpolling code
 irregulardelay=$(( ( RANDOM % 900 )  + 0 ))
-#clear
+#echo clear
 #Xmessage taking over root please put this script in the background &
 echo Precaching
 echo Resource Usage ${cpuusage%%.*}
