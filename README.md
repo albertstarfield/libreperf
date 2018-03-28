@@ -1,4 +1,5 @@
-# libreperf 0.20b "OSX XNU kernel" based OS performance improvement project
+# libreperf 0.27b "OSX XNU kernel" based OS performance improvement project
+# help needed for volumes management for this project
 ------------
 # what is Libreperf?
 An project of attempting to remove macOS (10.12+ 10.13+) Sierra and above or (Possibly jailbroken terminal enabled iOS untested) performance limit on older Apple Devices "with this badly written program" and using various command and modification from multiple source or website and replacing some system management and adding some management to the system and adding responsiveness while handling heavy tasks I/O and other things
@@ -37,7 +38,7 @@ here is the list
 7. kernel_task throtlling disabled ( untested )
 8. Preloading User Installed Apps
 9. Preloading Some Data
-10. Tweaking the default macOS memory paging system with Compressor and Low memory killer ( "Mixed Mode 2" )
+10. Tweaking the default macOS memory paging system with Compressor and Low memory killer and adding additional zram0 feature on Darwin ( "Mixed Mode 4" )
 11. /usr/local/lbpbin/initd.sh script start at boot
 12. custom CPU resource management ( suspend unsuspend )
 13. custom I/O management (Kinda having some broken algorithm issues)(issues somewhat fixed)
