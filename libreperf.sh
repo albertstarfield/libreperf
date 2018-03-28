@@ -247,7 +247,7 @@ sudo launchctl limit maxfiles 1000000 1000000
 #optimisation patch bootcrash recovery
 #http://www.insanelymac.com/forum/topic/99891-osx-flags-list-for-darwin-bootloader-kernel-level/
 # 0x8 seems to be a sweetspot
-sudo nvram boot-args="-v kext-dev-mode=1 vm_compressor=2 idlehalt=1 srv=1 cpuidle=1 panic=7 oops=panic fn=4 serverperfmode=1" #cool looking boot up sequences
+sudo nvram boot-args="-v kext-dev-mode=1 vm_compressor=4 idlehalt=1 srv=1 cpuidle=1 panic=7 oops=panic fn=4 serverperfmode=1" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm -rf /private/var/vm/swapfile*
 sudo systemsetup -setwaitforstartupafterpowerfailure 30
@@ -366,7 +366,7 @@ echo $sizefillbytes > /usr/local/lbpbin/ramdiskallocbytes
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
 #sudo rm -rf /Volumes/libreperfruntime
-#sudo rm -rf /Volumes/fastcache
+#sudo rm -rf /Volumes/zramblock0
 mkdir /usr/local/lbpbin/bloatapp
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
@@ -375,25 +375,25 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
   else
     echo volume exist
   fi
-  if [ ! -d "/Volumes/fastcache/" ]; then
-  diskutil erasevolume HFS+ 'fastcache' `hdiutil attach -nomount ram://$[$size*2048]`
+  if [ ! -d "/Volumes/zramblock0/" ]; then
+  diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$size*2048]`
   echo Filling ram with 0 process 1
   echo allocating creating VM may take a while
-# mkfile -n -v 1m /Volumes/fastcache/purgemod
-# dd if=/dev/urandom of=/Volumes/fastcache/fill bs=64M count=16
+# mkfile -n -v 1m /Volumes/zramblock0/purgemod
+# dd if=/dev/urandom of=/Volumes/zramblock0/fill bs=64M count=16
   echo push
-# openssl rand -out /Volumes/fastcache/0 -base64 $(( $sizefillbytes * 3/4 ))
+# openssl rand -out /Volumes/zramblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
   echo waiting reactions
   sleep 5
-  rm -rf /Volumes/fastcache/purgemod
-  rm -rf /Volumes/fastcache/0
-  rm -rf /Volumes/fastcache/fill
+  rm -rf /Volumes/zramblock0/purgemod
+  rm -rf /Volumes/zramblock0/0
+  rm -rf /Volumes/zramblock0/fill
   echo deallocating ram
-  rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/fastcache/"
+  rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/zramblock0/"
     else
       echo volume exist
     fi
-while true; do sudo chmod -R 0777 /Volumes/fastcache/; sleep 2; done &
+while true; do sudo chmod -R 0777 /Volumes/zramblock0/; sleep 2; done &
 sudo chflags hidden /Volumes/libreperfruntime
 sudo killall Finder
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime

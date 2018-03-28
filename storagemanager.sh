@@ -32,12 +32,7 @@ else
   fi
   echo Space free
 fi
-#swappingstage
-echo zramcache applying
-/sbin/dynamic_pager -F /Volumes/fastcache/ramswap0
-https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line
-#find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
-#find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
+
 echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth
 
 

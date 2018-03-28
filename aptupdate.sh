@@ -203,16 +203,25 @@ sudo chmod 777 /bin/restart
 sudo mkdir /usr/local/lbpbin/plugins
 sudo cp -r turboboost /bin/
 sudo cp -r turboexhaust /bin/
+sudo cp -r loadmem /bin/
+sudo cp -r unloadmem /bin/
+
 sudo cp -r storagemanager.sh /usr/local/lbpbin
 
 
+sudo chmod 777 /bin/loadmem
+sudo chmod 777 /bin/unloadmem
 sudo chmod 777 /bin/turboexhaust
 sudo chmod 777 /bin/restart
 sudo chmod 777 /bin/silentmode
 sudo chmod 777 /bin/turboboost
 sudo chmod +x /bin/restart
+sudo chmod +x /bin/unloadmem
+sudo chmod +x /bin/loadmem
 sudo chmod +x /bin/silentmode
 sudo chmod +x /bin/turboboost
+sudo mkdir /usr/local/lbpbin/plugins
+
 sudo mkdir /usr/local/lbpbin/plugins
 
 sudo chown root:wheel /Library/LaunchDaemons/launchinitconf.plist
