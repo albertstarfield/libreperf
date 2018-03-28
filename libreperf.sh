@@ -352,11 +352,12 @@ echo $sizefillbytes > /usr/local/lbpbin/ramavailableallocbytes
 #intialend
 
 #proportionate substraction
+#zramblock0 size
 size=$( cat /usr/local/lbpbin/ramavailable )
-size=$(( $size / 2 ))
+echo $size > /usr/local/lbpbin/ramavailable
+size=$(( $size + ( $size / 4 ) ))
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
 sizefillbytes=$(( $sizefill * 1048576 ))
-echo $size > /usr/local/lbpbin/ramavailable
 echo $size > /usr/local/lbpbin/ramdisksize
 echo $sizefill > /usr/local/lbpbin/ramdiskalloc
 echo $sizefillbytes > /usr/local/lbpbin/ramdiskallocbytes
@@ -388,6 +389,7 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
   rm -rf /Volumes/zramblock0/purgemod
   rm -rf /Volumes/zramblock0/0
   rm -rf /Volumes/zramblock0/fill
+  sudo chflags hidden /Volumes/zramblock0
   echo deallocating ram
   rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/zramblock0/"
     else
