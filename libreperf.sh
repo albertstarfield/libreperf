@@ -417,6 +417,8 @@ sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/cpulimit /Volumes/libreperfruntime/bin
 sudo cp -r /usr/local/lbpbin/refresh.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/plugins/ /Volumes/libreperfruntime/plugins
+sudo cp -r /usr/local/lbpbin/storagemanager.sh /Volumes/libreperfruntime/binsync
+
 #zygote creation modloader plugins
 if [ ! -f "/Volumes/libreperfruntime/plugins/zygote.sh" ]; then
 echo start your plugins from here as starting point > /Volumes/libreperfruntime/plugins/zygote.sh

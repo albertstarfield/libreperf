@@ -203,6 +203,7 @@ sudo chmod 777 /bin/restart
 sudo mkdir /usr/local/lbpbin/plugins
 sudo cp -r turboboost /bin/
 sudo cp -r turboexhaust /bin/
+sudo cp -r storagemanager.sh /usr/local/lbpbin
 
 
 sudo chmod 777 /bin/turboexhaust

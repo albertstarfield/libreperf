@@ -241,6 +241,8 @@ sudo cp -r restart /bin/
 sudo cp -r silentmode /bin/
 sudo cp -r turboboost /bin/
 sudo cp -r turboexhaust /bin/
+sudo cp -r storagemanager.sh /usr/local/lbpbin
+
 
 
 sudo chmod 777 /bin/turboexhaust
