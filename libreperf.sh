@@ -467,6 +467,8 @@ sudo sh /Volumes/libreperfruntime/resourceguard.sh
 sudo sh /usr/local/lbpbin/uptget.sh
 sudo sh /usr/local/lbpbin/libreperf.sh
 Sleep $irregulardelay
+while true; do sudo echo mounting problem error; sleep 1; done &
+
 done
 done
 done

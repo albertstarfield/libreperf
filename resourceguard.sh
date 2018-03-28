@@ -38,6 +38,7 @@ sudo sh /usr/local/lbpbin/uptget.sh &
 #irregulardelay=$(( ( RANDOM % $irregulardelaycpuoverride )  + 0 ))
 
 #processlaunch
+sudo chmod -R +x /Volumes/libreperfruntime
 cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=7
 sudo sh /Volumes/libreperfruntime/uiperfpatch.sh &
