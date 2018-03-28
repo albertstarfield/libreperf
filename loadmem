@@ -9,9 +9,8 @@ else
   sleep 2
   echo [1] Communication established
 fi
-echo purging disk contents to memory
-cd /Users/; for i in *; do cp -r /Users/"$i"/Library/Application\ Support\ HDD/ /Volumes/prefetchblock0/"$i"; done
-cd /Users/; for i in *; do cp -r /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
+
+echo 1 > /Volumes/libreperfruntime/sys/dumptoram
 
 
 echo [2] userspace operation executed

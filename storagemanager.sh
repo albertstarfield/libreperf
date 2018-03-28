@@ -3,10 +3,14 @@
 cleanupdepth=11
 cleanupdepth1=100
 cleanupdepth0=100
+while true; do cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done; sleep 60; done &
+while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 5; done &
+
 while true; do
 #Desktop configurationfix
-cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock /Volumes/prefetchblock0/"$i"/; done
-cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock /Users/"$i"/Library/Application\ Support\ HDD/ ; done
+#cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done
+
+#cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock; done
 sleep 2
 
 

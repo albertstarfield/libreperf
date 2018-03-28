@@ -291,6 +291,27 @@ else
   echo normal linking mode
 fi
 
+#commandrecievierformemtodiskdisktomemoperation
+if [ ! -f "/Volumes/libreperfruntime/sys/dumptodisk" ]; then
+  echo No signal detected
+else
+  echo saving contents
+  cd /Users/; for i in *; do cp -r /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
+  cd /Users/; for i in *; do cp -r /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD; done
+  echo purging memory from ram
+  cd /Users/; for i in *; do rm -rf /Volumes/prefetchblock0/"$i"/; done
+  cd /Users/; for i in *; do rm -rf /Volumes/systemcacheblock0/"$i"/; done
+fi
+
+
+
+if [ ! -f "/Volumes/libreperfruntime/sys/dumptoram" ]; then
+  echo No signal detected
+else
+  echo purging disk contents to memory
+  cd /Users/; for i in *; do cp -r /Users/"$i"/Library/Application\ Support\ HDD/ /Volumes/prefetchblock0/"$i"; done
+  cd /Users/; for i in *; do cp -r /Users/"$i"/Library/Caches_hdd/ /Volumes/systemcacheblock0/"$i"/; done
+fi
 
 #swappingstage
 https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line

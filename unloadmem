@@ -9,12 +9,8 @@ else
   sleep 2
   echo [1] Communication established
 fi
-echo saving contents
-cd /Users/; for i in *; do sudo cp -r /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
-cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD; done
-echo purging memory from ram
-cd /Users/; for i in *; do rm -rf /Volumes/prefetchblock0/"$i"/; done
-cd /Users/; for i in *; do rm -rf /Volumes/systemcacheblock0/"$i"/; done
+
+echo 1 > /Volumes/libreperfruntime/sys/dumptodisk
 
 echo [2] userspace operation executed
 sleep 1
