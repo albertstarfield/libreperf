@@ -1,5 +1,5 @@
 #!/bin/bash
-sleep 600
+sleep 60
 while true; do
 if [ ! -d "/Volumes/libreperfruntime/sys" ] || [ ! -d "/Volumes/libreperfruntime/binsync" ] || [ ! -d "/Volumes/libreperfruntime/bin" ] || [ ! -d "/Volumes/libreperfruntime/subbin" ] || [ ! -d "/Volumes/libreperfruntime/plugins" ]; then
 echo ramdisk kernel integrity failed 0x1

@@ -1,6 +1,6 @@
 
 #!/bin/bash
-
+echo creating Systemfiles
 mkdir /Volumes/libreperfruntime/sys
 mkdir /Volumes/libreperfruntime/sys/mem
 mkdir /Volumes/libreperfruntime/sys/mem/lightLMK
@@ -33,6 +33,7 @@ sudo cp -r /usr/local/lbpbin/ramdisksize /Volumes/libreperfruntime/sys/mem/
 sudo cp -r /usr/local/lbpbin/ramdiskalloc /Volumes/libreperfruntime/sys/mem/
 sudo cp -r /usr/local/lbpbin/ramdiskallocbytes /Volumes/libreperfruntime/sys/mem/
 #migrationend
+echo power saving test
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
 idlog=$(( ( RANDOM % 1000 )  + 1 ))
@@ -43,7 +44,7 @@ echo libreperf > /Volumes/libreperfruntime/sys/rescman
 
 while true; do
 
-
+echo cpuusage
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 cpuusage=$( echo ${cpuusage%%.*} )
 echo hybrid management system

@@ -45,7 +45,9 @@ sudo sh /Volumes/libreperfruntime/uiperfpatch.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/killengine.sh &
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
+#sensorpolling
 sudo sh /Volumes/libreperfruntime/sensorpolling.sh &
+echo booting sensor polling
 /Volumes/libreperfruntime/bin/sleep $irregulardelay
 sudo sh /Volumes/libreperfruntime/lowmemorykiller.sh &
 sudo sh /Volumes/libreperfruntime/subbin/lowmemorykiller.sh &

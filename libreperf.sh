@@ -51,7 +51,7 @@ cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Caches_hdd /Users/"$i"
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support; done
 cd /Users/; for i in *; do sudo ln -s /Users/"$i"/Library/Application\ Support\ HDD /Users/"$i"/Library/Application\ Support; done
 #reinitializehdddata
-sudo rsync -avz / &
+#sudo rsync -avz / &
 #initlibreperfmoduleend
 cd "$(dirname "$0")"
 LOGIN=$USER
@@ -396,7 +396,7 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310
 while true; do sudo chmod -R 0777 /Volumes/zramblock0/; sleep 2; done &
 sudo chflags hidden /Volumes/libreperfruntime
 sudo killall Finder
-cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime
+cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime
 echo initializing folders for binaries
 echo pactching
@@ -408,6 +408,7 @@ sudo mkdir /Volumes/libreperfruntime/plugins
 echo bugflag
 cp -r /bin/ /Volumes/libreperfruntime/bin/
 cp -r /usr/bin/ /Volumes/libreperfruntime/subbin/
+cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime/binsync
 cp -r /usr/local/lbpbin/86idlesync.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/lowmemorykiller.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/OOMkill.sh /Volumes/libreperfruntime/binsync
@@ -422,6 +423,7 @@ sudo cp -r /usr/local/lbpbin/cpulimit /Volumes/libreperfruntime/bin
 sudo cp -r /usr/local/lbpbin/refresh.sh /Volumes/libreperfruntime/binsync
 sudo cp -r /usr/local/lbpbin/plugins/ /Volumes/libreperfruntime/plugins
 sudo cp -r /usr/local/lbpbin/storagemanager.sh /Volumes/libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime/binsync
 
 #zygote creation modloader plugins
 if [ ! -f "/Volumes/libreperfruntime/plugins/zygote.sh" ]; then
@@ -465,9 +467,10 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 echo $irregulardelay seconds
 sudo sh /Volumes/libreperfruntime/resourceguard.sh
 sudo sh /usr/local/lbpbin/uptget.sh
+while true; do sudo echo mounting problem error libreperf cannot continue; sleep 1; done
+
 sudo sh /usr/local/lbpbin/libreperf.sh
 Sleep $irregulardelay
-while true; do sudo echo mounting problem error; sleep 1; done &
 
 done
 done
