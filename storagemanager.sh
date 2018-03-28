@@ -9,6 +9,12 @@ while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Applica
 disksizekb=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizecache)
 disksizekbprefetch=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizeprefetch)
 
+sizefill=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskallocprefetch)
+
+chunkmaxsizeprefetch=$(( $sizefill / 8 ))
+sizefill=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskalloccache)
+
+chunkmaxsize=$(( $sizefill / 16 ))
 while true; do
 #Desktop configurationfix
 #cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done
@@ -51,12 +57,14 @@ trigger=512000
 trigger=$(( $disksizekbprefetch / 4 ))
 if [ "$systemdiskfree" -lt "$trigger" ]; then
 # thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
-#cleanup cache
+#cleanup cache on hdd
 cd /Users/; for i in *; do cd /Users/"$i"/Library/Caches_hdd/; echo /Users/"$i"/Library/Caches_hdd/; cleanup=$(ls -A1t /Users/"$i"/Library/Caches_hdd/ | tail -n +$cleanupdepth0 | xargs rm -rf); for a in *; do cd /Users/"$i"/Library/Caches_hdd/"$a"/; echo /Users/"$i"/Library/Caches_hdd/"$a"/; cleanup=$(ls -A1t /Users/"$i"/Library/Caches_hdd/"$a"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
+#maximum chunkmaxsize
 cd /Users/; for i in *; do find /Users/"$i"/Library/Caches_hdd/ -size +"$chunkmaxsize"M -name "*.*" -exec rm -rf {} \; ; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches_hdd/Caches_hdd; done
 #ApplicationData
 cd /Users/; for i in *; do cd /Users/"$i"/Library/Application\ Support\ HDD/; echo /Users/"$i"/Library/Application\ Support\ HDD/; cleanup=$(ls -A1t /Users/"$i"/Library/Application\ Support\ HDD/ | tail -n +$cleanupdepth0 | xargs rm -rf); for a in *; do cd /Users/"$i"/Library/Application\ Support\ HDD/"$a"/; echo /Users/"$i"/Library/Application\ Support\ HDD/"$a"/; cleanup=$(ls -A1t /Users/"$i"/Library/Application\ Support\ HDD/"$a"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
+#maximum chunkmaxsize
 cd /Users/; for i in *; do find /Users/"$i"/Library/Application\ Support\ HDD/ -size +"$chunkmaxsizeprefetch"M -name "*.*" -exec rm -rf {} \; ; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD; done
 sudo rm -rf /usr/local/lbpbin/ramstate
