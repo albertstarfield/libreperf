@@ -70,6 +70,9 @@ cd /Users/; for i in *; do find /Users/"$i"/Library/Application\ Support\ HDD/ -
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD; done
 sudo rm -rf /usr/local/lbpbin/ramstate
 #disables fastboot zram0 state
+#Purge trashcan contents
+cd /Users/; for i in *; do rm -rf /Users/"$i"/.trash; done
+
 if [ $cleanupdepth0 -gt 1 ]; then
   cleanupdepth1=$(( $cleanupdepth0 - 1 ))
     else
