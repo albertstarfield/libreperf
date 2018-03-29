@@ -4,6 +4,15 @@
 #codesnippets cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.CrashReporter DialogType developer; done
 #reporting
 #fallbackstageboottimeaccoff
+#zramactivation
+#swappingstage
+echo zramcache applying
+#while true; do sudo nvram SystemAudioVolume="%01"; sleep 2; done &
+while true; do sudo /sbin/dynamic_pager -F /Volumes/zramblock0/zram; sleep 5; done &
+
+https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line
+#find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
+#find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
 #cleanup
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Caches_hdd/Caches_hdd; done
 cd /Users/; for i in *; do sudo rm -rf /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD; done
@@ -148,13 +157,7 @@ sleep 18
 sh /Volumes/libreperfruntime/storagemanager.sh
 while true; do
 
-#zramactivation
-#swappingstage
-echo zramcache applying
-/sbin/dynamic_pager -F /Volumes/zramblock0/zram
-https://www.zyxware.com/articles/2659/find-and-delete-files-greater-than-a-given-size-from-the-linux-command-line
-#find /Volumes/systemcacheblock0/ -size +64M -name "*.*" -exec rm -rf {} \;
-#find /Volumes/systemcacheblock0/ -size +512k -name "*.*" -exec echo {} \;
+
 
 cd "$(dirname "$0")"
 TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
