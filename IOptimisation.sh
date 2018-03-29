@@ -90,7 +90,7 @@ disksizekb=$(( $size * 1000 ))
 echo $size > /Volumes/libreperfruntime/sys/mem/ramdisksizecache
 echo $sizefill > /Volumes/libreperfruntime/sys/mem/ramdiskalloccache
 echo $sizefillbytes > /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache
-echo $disksizekb > /Volumes/libreperfruntime/sys/ramdiskkbsizecache
+echo $disksizekb > /Volumes/libreperfruntime/sys/mem/ramdiskkbsizecache
 #reporting section
 cd /Users/; for i in *; do sudo mkdir /Users/"$i"/Library/Caches_hdd; done
 echo mkdir step

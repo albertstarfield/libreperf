@@ -4,7 +4,8 @@ cleanupdepth=11
 cleanupdepth1=100
 cleanupdepth0=100
 while true; do cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done; sleep 60; done &
-while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 5; done &
+sleep 5
+while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 60; done &
 #load initial size
 disksizekb=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizecache)
 disksizekbprefetch=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizeprefetch)
@@ -54,7 +55,7 @@ echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth
 sleep 1
 systemdiskfree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/systemdiskfree)
 trigger=512000
-trigger=$(( $disksizekbprefetch / 4 ))
+trigger=$(( $disksizekbprefetch / 2 ))
 if [ "$systemdiskfree" -lt "$trigger" ]; then
 # thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
 #cleanup cache on hdd
