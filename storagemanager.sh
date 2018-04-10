@@ -8,6 +8,18 @@ sleep 9
 while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 60; done &
 sleep 5
 while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/desktoppicture.db /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 40; done &
+#storage sync
+#synccache
+#i didnt use rsync because i think its nvm i use it anyway
+while true; do cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd/; done; sleep 60; done &
+sleep 8
+while true; do cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches_hdd/Caches_hdd/ /Users/"$i"/Library/Caches_hdd/ ; done; sleep 60; done &
+sleep 8
+
+while true; do cd /Users/; for i in *; do sudo rsync -avz /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD/; done; sleep 60; done &
+sleep 8
+
+while true; do cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD/ /Users/"$i"/Library/Application\ Support\ HDD/ ; done; sleep 60; done &
 
 #load initial size
 disksizekb=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizecache)
