@@ -1,0 +1,5 @@
+how to create image file 101
+./qemu-img create -f qcow2 ~/Documents/codingartsprojects/libreperflinux/userdata.img 1T
+thanks
+./qemu-system-x86_64 -cdrom ~/Downloads/anarchy-cli-1.0.0-x86_64.iso -m 1024 -smp 16 -hda ~/Documents/codingartsprojects/libreperflinux/vmlinuz.img
+./qemu-system-x86_64 -cdrom ~/Downloads/anarchy-cli-1.0.0-x86_64.iso -m 1024 -smp 16 -hda ~/Documents/codingartsprojects/libreperflinux/vmlinuz.img -net user,hostfwd=tcp::10022-:22

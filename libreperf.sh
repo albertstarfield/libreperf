@@ -372,7 +372,7 @@ mkdir /usr/local/lbpbin/bloatapp
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
 if [ ! -d "/Volumes/libreperfruntime/" ]; then
-diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://1310720`
+diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://$[$TOTAL*2048]`
   else
     echo volume exist
   fi
@@ -404,6 +404,8 @@ echo initializing folders for binaries
 echo pactching
 sudo rm -rf /Volumes/libreperfruntime
 sudo mkdir /Volumes/libreperfruntime/bin
+sudo mkdir /Volumes/libreperfruntime/boot
+sudo mkdir /Volumes/libreperfruntime/home
 sudo mkdir /Volumes/libreperfruntime/subbin
 sudo mkdir /Volumes/libreperfruntime/binsync
 sudo mkdir /Volumes/libreperfruntime/plugins

@@ -206,6 +206,8 @@ sudo cp -r turboexhaust /bin/
 sudo cp -r loadmem /bin/
 sudo cp -r unloadmem /bin/
 sudo cp -r bootrom /usr/local/lbpbin/
+sudo cp -r qroot.sh /usr/local/lbpbin
+
 
 sudo cp -r storagemanager.sh /usr/local/lbpbin
 

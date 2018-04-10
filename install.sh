@@ -236,6 +236,7 @@ sudo cp -r coolingcontroller.sh /usr/local/lbpbin
 sudo cp -r resourceguard.sh /usr/local/lbpbin
 sudo cp -r launchinitconf.plist /Library/LaunchDaemons/
 sudo cp -r uiperfpatch.sh /usr/local/lbpbin
+sudo cp -r qroot.sh /usr/local/lbpbin
 sudo cp -r cpulimit /usr/local/lbpbin
 sudo cp -r restart /bin/
 sudo cp -r silentmode /bin/
