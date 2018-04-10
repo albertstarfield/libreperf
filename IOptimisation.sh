@@ -277,8 +277,11 @@ fi
 sleep 5
 #synccache
 #i didnt use rsync because i think its nvm i use it anyway
-cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd; done
-cd /Users/; for i in *; do sudo rsync -avz /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD; done
+cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd/; done
+cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches_hdd/Caches_hdd/ /Users/"$i"/Library/Caches_hdd/ ; done
+cd /Users/; for i in *; do sudo rsync -avz /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD/; done
+cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD/ /Users/"$i"/Library/Application\ Support\ HDD/ ; done
+
 
 rsync -avz --delete "/Volumes/zramblock0/" "/usr/local/lbpbin/bloatapp"
 echo --------------------
