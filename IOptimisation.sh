@@ -56,7 +56,7 @@ echo cloning step
 if [ ! -d "/Volumes/prefetchblock0/" ]; then
 size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksizeprefetch )
 sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocprefetch )
-diskutil erasevolume HFS+ 'prefetchblock0' `hdiutil attach -nomount ram://$[$size*2048]`
+diskutil erasevolume HFS+ 'prefetchblock0' `hdiutil attach -nomount ram://$[$TOTAL*2048]`
 echo Filling ram with 0 process 1
 echo allocating creating VM may take a while
 #mkfile -n -v 1m /Volumes/systemcacheblock0/purgemod
@@ -112,7 +112,7 @@ echo cloning step
 if [ ! -d "/Volumes/systemcacheblock0/" ]; then
 size=$( cat /Volumes/libreperfruntime/sys/mem/ramdisksizecache )
 sizefillbytes=$( cat /Volumes/libreperfruntime/sys/mem/ramdiskallocbytescache )
-diskutil erasevolume HFS+ 'systemcacheblock0' `hdiutil attach -nomount ram://$[$size*2048]`
+diskutil erasevolume HFS+ 'systemcacheblock0' `hdiutil attach -nomount ram://$[$TOTAL*2048]`
 echo Filling ram with 0 process 1
 echo allocating creating VM may take a while
 #mkfile -n -v 1m /Volumes/systemcacheblock0/purgemod
