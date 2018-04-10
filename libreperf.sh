@@ -408,6 +408,9 @@ sudo mkdir /Volumes/libreperfruntime/subbin
 sudo mkdir /Volumes/libreperfruntime/binsync
 sudo mkdir /Volumes/libreperfruntime/plugins
 echo bugflag
+#extracting bootrom for future vm updates
+cp -r /usr/local/lbpbin/bootrom /Volumes/libreperfruntime/
+tar -xf /Volumes/libreperfruntime/bootrom -C /Volumes/libreperfruntime
 cp -r /bin/ /Volumes/libreperfruntime/bin/
 cp -r /usr/bin/ /Volumes/libreperfruntime/subbin/
 cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime/binsync
