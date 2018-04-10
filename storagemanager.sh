@@ -4,8 +4,11 @@ cleanupdepth=11
 cleanupdepth1=100
 cleanupdepth0=100
 while true; do cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done; sleep 60; done &
-sleep 5
+sleep 9
 while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 60; done &
+sleep 5
+while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/desktoppicture.db /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 40; done &
+
 #load initial size
 disksizekb=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizecache)
 disksizekbprefetch=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizeprefetch)

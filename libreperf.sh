@@ -377,7 +377,7 @@ diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://$[$T
     echo volume exist
   fi
   if [ ! -d "/Volumes/zramblock0/" ]; then
-  diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$size*2048]`
+  diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$TOTAL*2048*2]`
   echo Filling ram with 0 process 1
   echo allocating creating VM may take a while
 # mkfile -n -v 1m /Volumes/zramblock0/purgemod
