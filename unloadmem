@@ -5,7 +5,7 @@ if [ ! -f "/Volumes/libreperfruntime/sys/kernelmsg" ]; then
   echo libreperfkernelmanagement communication failed please do a full restart
   exit
 else
-  cat /Volumes/libreperfruntime/sys/kernelmsg
+  cat /Volumes/libreperfruntime/runtimedebugmsg ; cat /Volumes/libreperfruntime/sys/kernelmsg
   sleep 2
   echo [1] Communication established
 fi

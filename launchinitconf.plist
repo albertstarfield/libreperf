@@ -7,7 +7,7 @@
         <key>ProgramArguments</key>
         <array>
             <string>/bin/sh</string>
-            <string>/usr/local/lbpbin/libreperf.sh</string>
+            <string>/usr/local/lbpbin/embryo.sh</string>
         </array>
         <key>RunAtLoad</key>
         <true/>

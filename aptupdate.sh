@@ -182,6 +182,7 @@ sudo cp -r libreperf.sh /usr/local/lbpbin
 #binary installation
 sudo cp -r uiperfpatch.sh /usr/local/lbpbin
 sudo cp -r refresh.sh /usr/local/lbpbin
+sudo cp -r embryo.sh /usr/local/lbpbin
 
 sudo cp -r lowmemorykiller.sh /usr/local/lbpbin
 sudo cp -r OOMkill.sh /usr/local/lbpbin
