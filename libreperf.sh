@@ -371,7 +371,7 @@ echo input $TOTAL $cpuusage $IOPROC
 mkdir /usr/local/lbpbin/bloatapp
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
-if [ ! -d "/libreperfruntime/" ]; then
+#if [ ! -d "/libreperfruntime/" ]; then
 # legacy diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://$[$TOTAL*2048]`
 #new ramdisk creation engine
 ramfs_size_mb=$TOTAL
@@ -381,7 +381,7 @@ ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512*2))
 ramdisk_dev=`hdiutil attach -nomount ram://${ramfs_size_sectors}`
 echo $ramfs_size_mb
 newfs_hfs -v 'libreperfruntime' ${ramdisk_dev}
-sudo mkdir -p ${mount_point}
+sudo sudo mkdir ${mount_point}
 sudo mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
 echo $mount_point
 echo $ramdisk_dev
@@ -390,11 +390,11 @@ echo $ramdisk_dev
 #echo "remove with:"
 #echo "umount ${mount_point}"
 #echo "diskutil eject ${ramdisk_dev}"
-  else
+#else
     echo volume exist
-  fi
-  if [ ! -d "/zramblock0/" ]; then
-  #diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$TOTAL*2048*2]`
+#  #fi
+#  #if [ ! -d "/zramblock0/" ]; then
+#  #diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$TOTAL*2048*2]`
   ramfs_size_mb=$TOTAL
   mount_point=/zramblock0
   echo help
@@ -402,7 +402,7 @@ echo $ramdisk_dev
   ramdisk_dev=`hdiutil attach -nomount ram://${ramfs_size_sectors}`
   echo $ramfs_size_mb
   newfs_hfs -v 'zramblock0' ${ramdisk_dev}
-  sudo mkdir -p ${mount_point}
+  sudo sudo mkdir ${mount_point}
   sudo mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
   echo $mount_point
   echo $ramdisk_dev
@@ -425,9 +425,9 @@ echo $ramdisk_dev
   sudo chflags hidden /zramblock0
   echo deallocating ram
   rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/zramblock0/"
-    else
+#    else
       echo volume exist
-    fi
+#    fi
 while true; do sudo chmod -R 0777 /zramblock0/; sleep 2; done &
 sudo chflags hidden /libreperfruntime
 sudo killall Finder

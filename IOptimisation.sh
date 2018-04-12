@@ -53,7 +53,7 @@ echo cloning step
 #sudo rm -rf /prefetchblock0
 
 #creating ramdisk for prefetchcache RAM
-if [ ! -d "/prefetchblock0/" ]; then
+#if [ ! -d "/prefetchblock0/" ]; then
 size=$( cat /libreperfruntime/sys/mem/ramdisksizeprefetch )
 sizefillbytes=$( cat /libreperfruntime/sys/mem/ramdiskallocprefetch )
 #diskutil erasevolume HFS+ 'prefetchblock0' `hdiutil attach -nomount ram://$[$size*2048*4]`
@@ -64,7 +64,7 @@ ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512*4))
 ramdisk_dev=`hdiutil attach -nomount ram://${ramfs_size_sectors}`
 echo $ramfs_size_mb
 newfs_hfs -v 'perfetchblock0' ${ramdisk_dev}
-sudo mkdir -p ${mount_point}
+sudo sudo mkdir ${mount_point}
 sudo mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
 echo $mount_point
 echo $ramdisk_dev
@@ -96,9 +96,9 @@ echo linking stage
 sudo chflags hidden /prefetchblock0
 #creating ramdisk operation ended
 #migration begins
-  else
+#  else
     echo volume exist operation cancelled
-  fi
+#  fi
 #creating ramdisk operation ended
 
 
@@ -125,7 +125,7 @@ echo cloning step
 #sudo rm -rf /systemcacheblock0
 
 #creating ramdisk for cache RAM
-if [ ! -d "/systemcacheblock0/" ]; then
+#if [ ! -d "/systemcacheblock0/" ]; then
 size=$( cat /libreperfruntime/sys/mem/ramdisksizecache )
 sizefillbytes=$( cat /libreperfruntime/sys/mem/ramdiskallocbytescache )
 #diskutil erasevolume HFS+ 'systemcacheblock0' `hdiutil attach -nomount ram://$[$size*2048*4]`
@@ -136,7 +136,7 @@ ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512*4))
 ramdisk_dev=`hdiutil attach -nomount ram://${ramfs_size_sectors}`
 echo $ramfs_size_mb
 newfs_hfs -v 'systemcacheblock0' ${ramdisk_dev}
-sudo mkdir -p ${mount_point}
+sudo sudo mkdir ${mount_point}
 sudo mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
 echo $mount_point
 echo $ramdisk_dev
@@ -171,9 +171,9 @@ echo linking stage
 sudo chflags hidden /systemcacheblock0
 #creating ramdisk operation ended
 #migration begins
-  else
+#  else
     echo volume exist operation cancelled
-  fi
+#  fi
 #creating ramdisk operation ended
 
 #cache2ramend

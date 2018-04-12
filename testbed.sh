@@ -7,7 +7,7 @@ ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512))
 ramdisk_dev=`hdiutil attach -nomount ram://${ramfs_size_sectors}`
 echo $ramfs_size_mb
 newfs_hfs -v 'ram disk' ${ramdisk_dev}
-mkdir -p ${mount_point}
+sudo mkdir ${mount_point}
 sudo mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
 echo $mount_point
 echo $ramdisk_dev
