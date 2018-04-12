@@ -1,7 +1,7 @@
 #!/bin/bash
 while true; do
   #powersavinglinepatch
-  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  rescman=$( /libreperfruntime/bin/cat /libreperfruntime/sys/rescman )
   if [ $rescman = apple ]
     then
       echo apple management resource mode

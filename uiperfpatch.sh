@@ -1,7 +1,7 @@
 while true; do
 #!/bin/bash
 #powersavinglinepatch
-rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+rescman=$( /libreperfruntime/bin/cat /libreperfruntime/sys/rescman )
 coalescingsleep=$(( ( RANDOM % 360 )  + 32 ))
 if [ $rescman = apple ]
   then
@@ -14,7 +14,7 @@ if [ $rescman = apple ]
 fi
 #Expense on Performance
 #Resource Window Manager Start
-averageload=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+averageload=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
 if [ "$averageload" -gt "50" ]; then
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dock minimize-to-application -bool YES; done
 #UXOptimization
@@ -117,8 +117,8 @@ fi
 sudo defaults write /Library/Preferences/com.apple.windowserver Compositor -dict deferredUpdates 0
 sudo defaults write /Library/Preferences/com.apple.windowserver QuartzGLEnabled -boolean YES
 #for batter indic
-cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
-IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
+cpuusage=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
+IOPROC=$( /libreperfruntime/bin/cat /libreperfruntime/sys/IOstats/IOPROC )
 #reboot UI
 
 cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.PowerChime ChimeOnAllHardware -bool true; open /System/Library/CoreServices/PowerChime.app; done

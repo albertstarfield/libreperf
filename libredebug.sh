@@ -3,15 +3,15 @@
 echo Collecting logs
 system_profiler >> $"{debugcache}"
 echo initializing
-debugcache=/Volumes/libreperfruntime/debug
-sysbridge=/Volumes/libreperfruntime/sys/bridge
-syscpu=/Volumes/libreperfruntime/sys/cpu
-sysenergy=/Volumes/libreperfruntime/sys/energy
-syshwmorph=/Volumes/libreperfruntime/sys/hwmorph
-sysIOstats=/Volumes/libreperfruntime/sys/IOstats
-sysmem=/Volumes/libreperfruntime/sys/mem
-systemp=/Volumes/libreperfruntime/sys/temp
-root=/volumes/libreperfruntime
+debugcache=/libreperfruntime/debug
+sysbridge=/libreperfruntime/sys/bridge
+syscpu=/libreperfruntime/sys/cpu
+sysenergy=/libreperfruntime/sys/energy
+syshwmorph=/libreperfruntime/sys/hwmorph
+sysIOstats=/libreperfruntime/sys/IOstats
+sysmem=/libreperfruntime/sys/mem
+systemp=/libreperfruntime/sys/temp
+root=/libreperfruntime
 while true; do
 echo compiling all logs
 date >> $debugcache

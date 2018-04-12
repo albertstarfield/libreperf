@@ -247,7 +247,7 @@ sudo launchctl limit maxfiles 1000000 1000000
 #optimisation patch bootcrash recovery
 #http://www.insanelymac.com/forum/topic/99891-osx-flags-list-for-darwin-bootloader-kernel-level/
 # 0x8 seems to be a sweetspot
-sudo nvram boot-args="-v kext-dev-mode=1 vm_compressor=4 idlehalt=1 srv=1 cpuidle=1 panic=5 oops=panic fn=4 serverperfmode=1 nmi_watchdog=2,panic=2" #cool looking boot up sequences 
+sudo nvram boot-args="-v kext-dev-mode=1 vm_compressor=4 idlehalt=1 srv=1 cpuidle=1 panic=5 oops=panic fn=4 serverperfmode=1 nmi_watchdog=2,panic=2" #cool looking boot up sequences
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.dynamic_pager.plist #Disable paging disk because OS X sucks at iops operation
 sudo rm -rf /private/var/vm/swapfile*
 sudo systemsetup -setwaitforstartupafterpowerfailure 30
@@ -366,84 +366,117 @@ echo $sizefillbytes > /usr/local/lbpbin/ramdiskallocbytes
 #size=2500
 echo filling ram with 0
 echo input $TOTAL $cpuusage $IOPROC
-#sudo rm -rf /Volumes/libreperfruntime
-#sudo rm -rf /Volumes/zramblock0
+#sudo rm -rf /libreperfruntime
+#sudo rm -rf /zramblock0
 mkdir /usr/local/lbpbin/bloatapp
 #Installingservice on ramdisk
 osascript -e 'display notification "Preparing Unified Management System" with title "libreperf"'
-if [ ! -d "/Volumes/libreperfruntime/" ]; then
-diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://$[$TOTAL*2048]`
+if [ ! -d "/libreperfruntime/" ]; then
+# legacy diskutil erasevolume HFS+ 'libreperfruntime' `hdiutil attach -nomount ram://$[$TOTAL*2048]`
+#new ramdisk creation engine
+ramfs_size_mb=$TOTAL
+mount_point=/libreperfruntime
+echo help
+ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512*2))
+ramdisk_dev=`hdiutil attach -nomount ram://${ramfs_size_sectors}`
+echo $ramfs_size_mb
+newfs_hfs -v 'libreperfruntime' ${ramdisk_dev}
+sudo mkdir -p ${mount_point}
+sudo mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
+echo $mount_point
+echo $ramdisk_dev
+#http://osxdaily.com/2007/03/23/create-a-ram-disk-in-mac-os-x/
+#https://superuser.com/questions/456803/create-ram-disk-mount-to-specific-folder-in-osx
+#echo "remove with:"
+#echo "umount ${mount_point}"
+#echo "diskutil eject ${ramdisk_dev}"
   else
     echo volume exist
   fi
-  if [ ! -d "/Volumes/zramblock0/" ]; then
-  diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$TOTAL*2048*2]`
+  if [ ! -d "/zramblock0/" ]; then
+  #diskutil erasevolume HFS+ 'zramblock0' `hdiutil attach -nomount ram://$[$TOTAL*2048*2]`
+  ramfs_size_mb=$TOTAL
+  mount_point=/zramblock0
+  echo help
+  ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512*2))
+  ramdisk_dev=`hdiutil attach -nomount ram://${ramfs_size_sectors}`
+  echo $ramfs_size_mb
+  newfs_hfs -v 'zramblock0' ${ramdisk_dev}
+  sudo mkdir -p ${mount_point}
+  sudo mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
+  echo $mount_point
+  echo $ramdisk_dev
+  #http://osxdaily.com/2007/03/23/create-a-ram-disk-in-mac-os-x/
+  #https://superuser.com/questions/456803/create-ram-disk-mount-to-specific-folder-in-osx
+  #echo "remove with:"
+  #echo "umount ${mount_point}"
+  #echo "diskutil eject ${ramdisk_dev}"
   echo Filling ram with 0 process 1
   echo allocating creating VM may take a while
-# mkfile -n -v 1m /Volumes/zramblock0/purgemod
-# dd if=/dev/urandom of=/Volumes/zramblock0/fill bs=64M count=16
+# mkfile -n -v 1m /zramblock0/purgemod
+# dd if=/dev/urandom of=/zramblock0/fill bs=64M count=16
   echo push
-# openssl rand -out /Volumes/zramblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
+# openssl rand -out /zramblock0/0 -base64 $(( $sizefillbytes * 3/4 ))
   echo waiting reactions
   sleep 5
-  rm -rf /Volumes/zramblock0/purgemod
-  rm -rf /Volumes/zramblock0/0
-  rm -rf /Volumes/zramblock0/fill
-  sudo chflags hidden /Volumes/zramblock0
+  rm -rf /zramblock0/purgemod
+  rm -rf /zramblock0/0
+  rm -rf /zramblock0/fill
+  sudo chflags hidden /zramblock0
   echo deallocating ram
-  rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/Volumes/zramblock0/"
+  rsync -avz --delete "/usr/local/lbpbin/bloatapp/" "/zramblock0/"
     else
       echo volume exist
     fi
-while true; do sudo chmod -R 0777 /Volumes/zramblock0/; sleep 2; done &
-sudo chflags hidden /Volumes/libreperfruntime
+while true; do sudo chmod -R 0777 /zramblock0/; sleep 2; done &
+sudo chflags hidden /libreperfruntime
 sudo killall Finder
-cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime
+cp -r /usr/local/lbpbin/coolingcontroller.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/resourceguard.sh /libreperfruntime
 echo initializing folders for binaries
 echo pactching
-sudo rm -rf /Volumes/libreperfruntime
-sudo mkdir /Volumes/libreperfruntime/bin
-sudo mkdir /Volumes/libreperfruntime/boot
-sudo mkdir /Volumes/libreperfruntime/home
-sudo mkdir /Volumes/libreperfruntime/subbin
-sudo mkdir /Volumes/libreperfruntime/binsync
-sudo mkdir /Volumes/libreperfruntime/plugins
+sudo rm -rf /libreperfruntime
+sudo mkdir /libreperfruntime/bin
+sudo mkdir /libreperfruntime/boot
+sudo mkdir /libreperfruntime/home
+sudo mkdir /libreperfruntime/subbin
+sudo mkdir /libreperfruntime/binsync
+sudo mkdir /libreperfruntime/plugins
 echo bugflag
 #extracting bootrom for future vm updates
-cp -r /usr/local/lbpbin/bootrom /Volumes/libreperfruntime/
-tar -xf /Volumes/libreperfruntime/bootrom -C /Volumes/libreperfruntime
-cp -r /bin/ /Volumes/libreperfruntime/bin/
-cp -r /usr/bin/ /Volumes/libreperfruntime/subbin/
-cp -r /usr/local/lbpbin/coolingcontroller.sh /Volumes/libreperfruntime/binsync
-cp -r /usr/local/lbpbin/86idlesync.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/lowmemorykiller.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/OOMkill.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/onscreenpowerset.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/renicecpu.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/IOptimisation.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/sleepmana.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/sensorpolling.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/killengine.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/cpulimit /Volumes/libreperfruntime/bin
-sudo cp -r /usr/local/lbpbin/refresh.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/plugins/ /Volumes/libreperfruntime/plugins
-sudo cp -r /usr/local/lbpbin/storagemanager.sh /Volumes/libreperfruntime/binsync
-sudo cp -r /usr/local/lbpbin/resourceguard.sh /Volumes/libreperfruntime/binsync
+cp -r /usr/local/lbpbin/bootrom /libreperfruntime/
+tar -xf /libreperfruntime/bootrom -C /libreperfruntime
+cp -r /bin/ /libreperfruntime/bin/
+cp -r /usr/bin/ /libreperfruntime/subbin/
+cp -r /usr/local/lbpbin/coolingcontroller.sh /libreperfruntime/binsync
+cp -r /usr/local/lbpbin/86idlesync.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/lowmemorykiller.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/OOMkill.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/onscreenpowerset.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/renicecpu.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/IOptimisation.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/sleepmana.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/sensorpolling.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/killengine.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/uiperfpatch.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/cpulimit /libreperfruntime/bin
+sudo cp -r /usr/local/lbpbin/refresh.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/plugins/ /libreperfruntime/plugins
+sudo cp -r /usr/local/lbpbin/storagemanager.sh /libreperfruntime/binsync
+sudo cp -r /usr/local/lbpbin/resourceguard.sh /libreperfruntime/binsync
 
 #zygote creation modloader plugins
-if [ ! -f "/Volumes/libreperfruntime/plugins/zygote.sh" ]; then
-echo start your plugins from here as starting point > /Volumes/libreperfruntime/plugins/zygote.sh
+if [ ! -f "/libreperfruntime/plugins/zygote.sh" ]; then
+echo start your plugins from here as starting point > /libreperfruntime/plugins/zygote.sh
 else
   echo zygote detected
 fi
 
-sudo cp -r /Volumes/libreperfruntime/binsync/ /Volumes/libreperfruntime
+sudo cp -r /libreperfruntime/binsync/ /libreperfruntime
 
 osascript -e 'display notification "Initializing Power Management Wake coalescing" with title "libreperf"'
 #powermanagement settings
-sudo sh /Volumes/libreperfruntime/86idlesync.sh &
+sudo sh /libreperfruntime/86idlesync.sh &
 osascript -e 'display notification "Initializing ramdisk watchdog" with title "libreperf"'
 sudo sh /usr/local/lbpbin/watchdog.sh &
 
@@ -472,7 +505,7 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
 
 
 echo $irregulardelay seconds
-sudo sh /Volumes/libreperfruntime/resourceguard.sh
+sudo sh /libreperfruntime/resourceguard.sh
 sudo sh /usr/local/lbpbin/uptget.sh
 while true; do sudo echo mounting problem error libreperf cannot continue; sleep 1; done
 

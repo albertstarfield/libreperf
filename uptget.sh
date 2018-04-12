@@ -107,10 +107,10 @@ echo clear
 #updatecomponent
 #git retrieval
 echo installing update
-sudo rm -rf /Volumes/libreperfruntime/upt/libreperfupt
-sudo mkdir /Volumes/libreperfruntime/upt/libreperfupt
-sudo git clone https://github.com/questandachievement/libreperf /Volumes/libreperfruntime/upt/libreperfupt/
-cd /Volumes/libreperfruntime/upt/libreperfupt
+sudo rm -rf /libreperfruntime/upt/libreperfupt
+sudo mkdir /libreperfruntime/upt/libreperfupt
+sudo git clone https://github.com/questandachievement/libreperf /libreperfruntime/upt/libreperfupt/
+cd /libreperfruntime/upt/libreperfupt
 sudo sh aptupdate.sh
 exit
 #installation ended

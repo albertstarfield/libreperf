@@ -3,50 +3,50 @@
 cleanupdepth=11
 cleanupdepth1=100
 cleanupdepth0=100
-while true; do cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done; sleep 60; done &
+while true; do cd /Users/; for i in *; do sudo cp -r /prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done; sleep 60; done &
 sleep 9
-while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 60; done &
+while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /prefetchblock0/"$i"/Dock/; done; sleep 60; done &
 sleep 5
-while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/desktoppicture.db /Volumes/prefetchblock0/"$i"/Dock/; done; sleep 40; done &
+while true; do cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/desktoppicture.db /prefetchblock0/"$i"/Dock/; done; sleep 40; done &
 #storage sync
 #synccache
 #i didnt use rsync because i think its nvm i use it anyway
-while true; do cd /Users/; for i in *; do sudo rsync -avz /Volumes/systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd/; done; sleep 60; done &
+while true; do cd /Users/; for i in *; do sudo rsync -avz /systemcacheblock0/"$i"/ /Users/"$i"/Library/Caches_hdd/; done; sleep 60; done &
 sleep 8
 while true; do cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Caches_hdd/Caches_hdd/ /Users/"$i"/Library/Caches_hdd/ ; done; sleep 60; done &
 sleep 8
 
-while true; do cd /Users/; for i in *; do sudo rsync -avz /Volumes/prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD/; done; sleep 60; done &
+while true; do cd /Users/; for i in *; do sudo rsync -avz /prefetchblock0/"$i"/ /Users/"$i"/Library/Application\ Support\ HDD/; done; sleep 60; done &
 sleep 8
 
 while true; do cd /Users/; for i in *; do sudo rsync -avz /Users/"$i"/Library/Application\ Support\ HDD/Application\ Support\ HDD/ /Users/"$i"/Library/Application\ Support\ HDD/ ; done; sleep 60; done &
 
 #load initial size
-disksizekb=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizecache)
-disksizekbprefetch=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskkbsizeprefetch)
+disksizekb=$(/libreperfruntime/bin/cat /libreperfruntime/sys/mem/ramdiskkbsizecache)
+disksizekbprefetch=$(/libreperfruntime/bin/cat /libreperfruntime/sys/mem/ramdiskkbsizeprefetch)
 
-sizefill=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskallocprefetch)
+sizefill=$(/libreperfruntime/bin/cat /libreperfruntime/sys/mem/ramdiskallocprefetch)
 
 chunkmaxsizeprefetch=$(( $sizefill / 8 ))
-sizefill=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/ramdiskalloccache)
+sizefill=$(/libreperfruntime/bin/cat /libreperfruntime/sys/mem/ramdiskalloccache)
 
 chunkmaxsize=$(( $sizefill / 16 ))
 while true; do
 #Desktop configurationfix
-#cd /Users/; for i in *; do sudo cp -r /Volumes/prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done
+#cd /Users/; for i in *; do sudo cp -r /prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done
 
-#cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /Volumes/prefetchblock0/"$i"/Dock; done
+#cd /Users/; for i in *; do sudo cp -r /Users/"$i"/Library/Application\ Support\ HDD/Dock/ /prefetchblock0/"$i"/Dock; done
 sleep 2
 
 
-cachefree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/cachefree)
+cachefree=$(/libreperfruntime/bin/cat /libreperfruntime/sys/mem/cachefree)
 trigger=512000
 trigger=$(( $disksizekb / 4 ))
 if [ "$cachefree" -lt "$trigger" ]; then
 # thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
-cd /Volumes/systemcacheblock0/; for i in *; do cd /Volumes/systemcacheblock0/"$i"/; echo Volumes/systemcacheblock0/"$i"; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); for a in *; do cd /Volumes/systemcacheblock0/"$i"/"$a"/; echo Volumes/systemcacheblock0/"$i"/"$a"/; cleanup=$(ls -A1t /Volumes/systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); done; done
-find /Volumes/systemcacheblock0/ -size +"$chunkmaxsize"M -name "*.*" -exec rm -rf {} \;
-cd /Volumes/systemcacheblock0/; for i in *; do sudo rm -rf /Volumes/systemcacheblock0/"$i"/Caches_HDD; done
+cd /systemcacheblock0/; for i in *; do cd /systemcacheblock0/"$i"/; echo Volumes/systemcacheblock0/"$i"; cleanup=$(ls -A1t /systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); for a in *; do cd /systemcacheblock0/"$i"/"$a"/; echo Volumes/systemcacheblock0/"$i"/"$a"/; cleanup=$(ls -A1t /systemcacheblock0/"$i"/ | tail -n +$cleanupdepth | xargs rm -rf); done; done
+find /systemcacheblock0/ -size +"$chunkmaxsize"M -name "*.*" -exec rm -rf {} \;
+cd /systemcacheblock0/; for i in *; do sudo rm -rf /systemcacheblock0/"$i"/Caches_HDD; done
 sleep 1
 if [ $cleanupdepth -gt 1 ]; then
   cleanupdepth=$(( $cleanupdepth - 1 ))
@@ -62,13 +62,13 @@ else
   echo Space free
 fi
 
-echo $cleanupdepth > /Volumes/libreperfruntime/sys/mem/cachecleanupdepth
+echo $cleanupdepth > /libreperfruntime/sys/mem/cachecleanupdepth
 
 
 #prefetchcleaning
 #ssdlowstorageoptimization
 sleep 1
-systemdiskfree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/systemdiskfree)
+systemdiskfree=$(/libreperfruntime/bin/cat /libreperfruntime/sys/mem/systemdiskfree)
 trigger=512000
 trigger=$(( $disksizekbprefetch / 2 ))
 if [ "$systemdiskfree" -lt "$trigger" ]; then
@@ -103,14 +103,14 @@ else
 fi
 sleep 1
 #check memory cache free
-prefetchfree=$(/Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/prefetchfree)
+prefetchfree=$(/libreperfruntime/bin/cat /libreperfruntime/sys/mem/prefetchfree)
 trigger=512000
 trigger=$(( $disksizekbprefetch / 4 ))
 if [ "$prefetchfree" -lt "$trigger" ]; then
 # thanks to https://stackoverflow.com/questions/2960022/shell-script-to-count-files-then-remove-oldest-files
-cd /Volumes/prefetchblock0/; for i in *; do cd /Volumes/prefetchblock0/"$i"/; echo Volumes/prefetchblock0/"$i"; cleanup=$(ls -A1t /Volumes/prefetchblock0/"$i"/ | tail -n +$cleanupdepth1 | xargs rm -rf); for a in *; do cd /Volumes/prefetchblock0/"$i"/"$a"/; echo Volumes/prefetchblock0/"$i"/"$a"/; cleanup=$(ls -A1t /Volumes/prefetchblock0/"$i"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
-find /Volumes/prefetchblock0/ -size +"$chunkmaxsizeprefetch"M -name "*.*" -exec rm -rf {} \;
-cd /Volumes/prefetchblock0/; for i in *; do sudo rm -rf /Volumes/prefetchblock0/"$i"/Application\ Support\ HDD; done
+cd /prefetchblock0/; for i in *; do cd /prefetchblock0/"$i"/; echo Volumes/prefetchblock0/"$i"; cleanup=$(ls -A1t /prefetchblock0/"$i"/ | tail -n +$cleanupdepth1 | xargs rm -rf); for a in *; do cd /prefetchblock0/"$i"/"$a"/; echo Volumes/prefetchblock0/"$i"/"$a"/; cleanup=$(ls -A1t /prefetchblock0/"$i"/ | tail -n +$cleanupdepth1 | xargs rm -rf); done; done
+find /prefetchblock0/ -size +"$chunkmaxsizeprefetch"M -name "*.*" -exec rm -rf {} \;
+cd /prefetchblock0/; for i in *; do sudo rm -rf /prefetchblock0/"$i"/Application\ Support\ HDD; done
 if [ $cleanupdepth1 -gt 1 ]; then
   cleanupdepth1=$(( $cleanupdepth1 - 1 ))
     else

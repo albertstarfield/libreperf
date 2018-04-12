@@ -16,7 +16,7 @@ sudo -S pmset repeat wake TWRFSU 19:32:00
 
 while true; do
 #powersavinglinepatch
-rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+rescman=$( /libreperfruntime/bin/cat /libreperfruntime/sys/rescman )
 if [ $rescman = apple ]
   then
     echo apple management resource mode
@@ -29,8 +29,8 @@ fi
 
 cycle=$(( $cycle + 1 ))
 cyclesample=$(( $cyclesample + 1 ))
-batterylevel=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/energy/batt )
-cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+batterylevel=$( /libreperfruntime/bin/cat /libreperfruntime/sys/energy/batt )
+cpuusage=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
 isync=$(( ${cpuusage%%.*} * 7 + ( ( 100 - $batterylevel ) * 2 ) ))
 pmset relative wake $isync
 if [ $isync -lt 60 ]

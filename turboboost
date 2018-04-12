@@ -1,10 +1,10 @@
 #!/bin/bash
 echo clear
-if [ ! -f "/Volumes/libreperfruntime/sys/kernelmsg" ]; then
+if [ ! -f "/libreperfruntime/sys/kernelmsg" ]; then
   echo libreperfkernelmanagement communication failed please do a full restart
   exit
 else
-  cat /Volumes/libreperfruntime/runtimedebugmsg ; cat /Volumes/libreperfruntime/sys/kernelmsg
+  cat /libreperfruntime/runtimedebugmsg ; cat /libreperfruntime/sys/kernelmsg
   sleep 2
   echo [1] Communication established
 fi
@@ -22,11 +22,11 @@ do
     case $opt in
         "turbomode1")
             echo "running cpu to the maximum"
-            echo 1 > /Volumes/libreperfruntime/sys/turboboost
+            echo 1 > /libreperfruntime/sys/turboboost
             ;;
         "turbomode0")
             echo "returning cpu clockspeed"
-            rm -rf /Volumes/libreperfruntime/sys/turboboost
+            rm -rf /libreperfruntime/sys/turboboost
             ;;
         "Quit")
             break

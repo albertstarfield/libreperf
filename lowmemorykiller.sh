@@ -1,7 +1,7 @@
 #!/bin/bash
 echo Initializing
 sleep 180
-TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+TOTAL=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/total )
 ramlim=$(( $TOTAL / 4 ))
 ramlimcrit=$(( $TOTAL - ( $TOTAL / 5 ) ))
 #cd /Users/; for i in *; do sudo -u "$i" defaults write com.apple.dashboard devmode YES; done
@@ -11,7 +11,7 @@ ramlimcrit=$(( $TOTAL - ( $TOTAL / 5 ) ))
 cycleramlim=0
 while true; do
   #powersavinglinepatch
-  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  rescman=$( /libreperfruntime/bin/cat /libreperfruntime/sys/rescman )
   if [ $rescman = apple ]
     then
       echo apple management resource mode
@@ -23,13 +23,13 @@ while true; do
 echo powersavingpatch
 echo Resourceguard_legacy
 cycleramlim=$(( $cycleramlim + 1 ))
- cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+ cpuusage=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
   #irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 10 ))
   echo updatespeed $irregulardelay
- cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
-  FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
-  INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
-  TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+ cpuusage=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
+  FREE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/free )
+  INACTIVE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/inactive )
+  TOTAL=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/total )
   echo ------------------- Ram management
   echo Free:       $FREE MB
   echo Inactive:   $INACTIVE MB
@@ -64,7 +64,7 @@ cycleramlim=$(( $cycleramlim + 1 ))
   fi
 if [[ $cycleramlim -gt 64 && $TOTAL -gt 1024 ]];then
       echo Doing some memory usage calibration
-      TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+      TOTAL=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/total )
       ramlim=$(( $TOTAL  - ( $TOTAL / 16 ) ))
       ramlimcrit=$(( $TOTAL - ( $TOTAL / 32 ) ))
       cycleramlim=0
@@ -97,9 +97,9 @@ SPECULATIVE_BLOCKS=$(vm_stat | grep speculative | awk '{ print $3 }' | sed 's/\.
 FREE=$((($FREE_BLOCKS+$SPECULATIVE_BLOCKS)*4096/1048576))
 INACTIVE=$(($INACTIVE_BLOCKS*4096/1048576))
 TOTAL=$((($FREE+$INACTIVE)))
-echo $FREE > /Volumes/libreperfruntime/sys/mem/free
-echo $INACTIVE > /Volumes/libreperfruntime/sys/mem/inactive
-echo $TOTAL > /Volumes/libreperfruntime/sys/mem/total
+echo $FREE > /libreperfruntime/sys/mem/free
+echo $INACTIVE > /libreperfruntime/sys/mem/inactive
+echo $TOTAL > /libreperfruntime/sys/mem/total
 if [[ $TOTAL -lt 1000 && $cpuusage -gt 60 && $cpuusage -lt 80 ]]; then
     irregulardelay=1
     irregulardelayprocdec=1
@@ -108,22 +108,22 @@ if [[ $TOTAL -lt 1000 && $cpuusage -gt 60 && $cpuusage -lt 80 ]]; then
 fi
 #lightLMK
 #patch for unsyncronized module killing
-echo loginwindow > /Volumes/libreperfruntime/sys/mem/lightLMK/Pname
-echo loginwindow > /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname
-echo unidentified > /Volumes/libreperfruntime/sys/mem/lightLMK/PID
-echo unidentified > /Volumes/libreperfruntime/sys/mem/heavyLMK/PID
+echo loginwindow > /libreperfruntime/sys/mem/lightLMK/Pname
+echo loginwindow > /libreperfruntime/sys/mem/heavyLMK/Pname
+echo unidentified > /libreperfruntime/sys/mem/lightLMK/PID
+echo unidentified > /libreperfruntime/sys/mem/heavyLMK/PID
 
-lineselect=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/bridge/lightLMKline )
+lineselect=$( /libreperfruntime/bin/cat /libreperfruntime/sys/bridge/lightLMKline )
 TOPPROCESS=$(top -l 1 -o MEM -stats command | sed 1,"$lineselect"d | sed -n 3p)
 TOPPROCESS="$(echo "${TOPPROCESS}" | tr -d '[:space:]')"
-echo $TOPPROCESS > /Volumes/libreperfruntime/sys/mem/lightLMK/Pname
+echo $TOPPROCESS > /libreperfruntime/sys/mem/lightLMK/Pname
 TOPPROCESSMEMUSAGE=$(top -l 1 -o MEM -stats mem | sed 1,"$lineselect"d | sed -n 3p)
-echo $TOPPROCESSMEMUSAGE > /Volumes/libreperfruntime/sys/mem/lightLMK/Pmemusage
+echo $TOPPROCESSMEMUSAGE > /libreperfruntime/sys/mem/lightLMK/Pmemusage
 TOPPROCESS=$(top -l 1 -o MEM -stats pid | sed 1,"$lineselect"d | sed -n 3p)
-echo $TOPPROCESS > /Volumes/libreperfruntime/sys/mem/lightLMK/PID
-TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/ps -o %cpu -c -p $TOPPROCESS )
+echo $TOPPROCESS > /libreperfruntime/sys/mem/lightLMK/PID
+TOPPROCESSCPUUSAGE=$( /libreperfruntime/bin/ps -o %cpu -c -p $TOPPROCESS )
 TOPPROCESSCPUUSAGE=$( echo "${TOPPROCESSCPUUSAGE}" | sed 1,1d | sed -n 1p | sed 's/[^0-9]*//g' )
-echo $TOPPROCESSCPUUSAGE > /Volumes/libreperfruntime/sys/mem/heavyLMK/Pcpuusage
+echo $TOPPROCESSCPUUSAGE > /libreperfruntime/sys/mem/heavyLMK/Pcpuusage
 echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
 	else
 	   echo using normal pipeline
@@ -154,17 +154,17 @@ echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
   echo FREERAM $TOTAL MB
 
   lineselect=$(( ( RANDOM % 20 )  + 10 ))
-  echo $lineselect > /Volumes/libreperfruntime/sys/bridge/lightLMKline
+  echo $lineselect > /libreperfruntime/sys/bridge/lightLMKline
   rankmemusage=$(( $lineselect - 10 ))
   cpulimidle2=$(( ( RANDOM % 190 )  + 100 ))
-  TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/Pname )
-  TOPPROCESSMEMUSAGE=$( /Volumes/libreperfruntime/bin/cat Volumes/libreperfruntime/sys/mem/lightLMK/Pmemusage )
+  TOPPROCESS=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/lightLMK/Pname )
+  TOPPROCESSMEMUSAGE=$( /libreperfruntime/bin/cat Volumes/libreperfruntime/sys/mem/lightLMK/Pmemusage )
   echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
   echo example "$TOPPROCESS" = "WindowServer"
   if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
     then
-      TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/PID )
-      TOPPROCESSCPUUSAGE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/lightLMK/Pcpuusage )
+      TOPPROCESS=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/lightLMK/PID )
+      TOPPROCESSCPUUSAGE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/lightLMK/Pcpuusage )
       if [ "$TOTAL" -lt "$ramclslv1" ]
         then
           cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "Memory Hog Detected and Optimizing" with title "SystemAI"'; done
@@ -173,7 +173,7 @@ echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
             then
               echo INNOCENT PROCESS
             else
-              echo $TOPPROCESS > /Volumes/libreperfruntime/sys/killconfirm
+              echo $TOPPROCESS > /libreperfruntime/sys/killconfirm
               echo Sacrificing bg apps $TOPPROCESS
               echo Memory freed
           fi
@@ -181,14 +181,14 @@ echo Process Scanned $TOPPROCESS $TOPPROCESSMEMUSAGE rank $rankmemusage
           then
             cd /Users/; for i in *; do sudo -u "$i" osascript -e 'display notification "High Memory Hog Detected and Optimizing" with title "SystemAI"'; done
             lineselect=$(( ( RANDOM % 15 )  + 10 ))
-            echo $lineselect > /Volumes/libreperfruntime/sys/bridge/heavyLMKline
-            TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/heavyLMK/Pname )
+            echo $lineselect > /libreperfruntime/sys/bridge/heavyLMKline
+            TOPPROCESS=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/heavyLMK/Pname )
 
             echo Process Scanned $TOPPROCESS
             if [[ $TOPPROCESS != "WindowServer" && $TOPPROCESS != "loginwindow" && $TOPPROCESS != "kernel_task" && $TOPPROCESS != "sh" && $TOPPROCESS != "bash" && $TOPPROCESS != "launchd" && $TOPPROCESS != "UserEventAgent" && $TOPPROCESS != "Terminal" && $TOPPROCESS != "node" && $TOPPROCESS != "spindump" && $TOPPROCESS != "kextd" && $TOPPROCESS != "launchd" && $TOPPROCESS != "coreduetd" && $TOPPROCESS != "SystemUIServer" && $TOPPROCESS != "sudo" && $TOPPROCESS != "Dock" && $TOPPROCESS != "coreaudiod" ]]
               then
-                TOPPROCESS=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/heavyLMK/PID )
-                echo $TOPPROCESS > /Volumes/libreperfruntime/sys/killconfirm
+                TOPPROCESS=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/heavyLMK/PID )
+                echo $TOPPROCESS > /libreperfruntime/sys/killconfirm
                 osascript -e 'display notification "Memory have reached the limit sacrificed $TOPPROCESS" with title "libreperf"'
                 irregulardelay=$irregulardelay
               fi

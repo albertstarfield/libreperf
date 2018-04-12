@@ -5,6 +5,6 @@ IOTOPPROCESSPID=$(sudo iotop -t 1 -C 1 1)
 IOTOPPROCESSPID=$( echo "${IOTOPPROCESSPID}" | sed 1,1d | sed -n 4p | awk '{print substr($2, index($11,$7))}' )
 #IOTOPPROCESS=$(sudo iotop -t 1 -C 1 1 | sed 1,1d | sed -n 1p | awk '{print substr($0, index($1,$7))}')
 #IOTOPPROCESS=$( echo "${IOPROC}" | tr -d '[:space:]' | tail -c 18 | sed 's/[^0-9]*//g')
-TOPPROCESS=$( /Volumes/libreperfruntime/bin/ps -c -p $IOTOPPROCESSPID )
+TOPPROCESS=$( /libreperfruntime/bin/ps -c -p $IOTOPPROCESSPID )
 TOPPROCESS=$( echo "${TOPPROCESS}" | sed 1,1d | sed -n 1p |sed 's/[^a-zA-Z]*//g' )
 echo PROCESS BEING MONITORED $TOPPROCESS

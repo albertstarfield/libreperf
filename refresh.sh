@@ -7,11 +7,11 @@ while true; do
 #mountstart
 echo checking status
 sudo rm -rf /Volumes/memfill
-cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
-FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
-INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
-TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
-IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
+cpuusage=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
+FREE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/free )
+INACTIVE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/inactive )
+TOTAL=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/total )
+IOPROC=$( /libreperfruntime/bin/cat /libreperfruntime/sys/IOstats/IOPROC )
 size=$(( $TOTAL ))
 
 sizefill=$(( $size - ( $size * 1 / 4 ) ))
@@ -52,7 +52,7 @@ if [[ $TOTAL -lt 9999 && $cpuusage -lt 400  ]]; then
   sudo killall -KILL Finder
   sudo killall -KILL loginwindow
   sudo killall -KILL diskimages-helper
-  TOTAL2=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+  TOTAL2=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/total )
   deltamem=$(( $TOTAL2 - $TOTAL ))
   echo $deltamem Free delta ram
   umount -f /Volumes/memfill

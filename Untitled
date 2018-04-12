@@ -3,10 +3,10 @@
 while true; do
 cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
   echo -----------------------Cooling systems
-  maxsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
+  maxsaferpm=$( /libreperfruntime/bin/smc -f f0Mx )
   maxsaferpm=$( echo "${maxsaferpm}" | sed -n 7p | sed 's/[^0-9]*//g' )
   echo $maxsaferpm MAX RPM
-  minsaferpm=$( /Volumes/libreperfruntime/bin/smc -f f0Mx )
+  minsaferpm=$( /libreperfruntime/bin/smc -f f0Mx )
   minsaferpm=$( echo "${minsaferpm}" | sed -n 6p | sed 's/[^0-9]*//g' )
   echo $minsaferpm MIN DETERMINED RPM
   cpulimidle=$(( ( RANDOM % 52 )  + 40 ))
@@ -14,11 +14,11 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
   if [ ${cpuusage%%.*} -gt $cpulimidle ]
     then
       echo MAXIMUM RPM MODE
-      sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-      sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
+      sudo /libreperfruntime/bin/smc -k "FS! " -w 0001
+      sudo /libreperfruntime/bin/smc -k F0Tg -w $maxsaferpm
     else
       echo SERVO RPM MODE
-      temp=$( /Volumes/libreperfruntime/bin/cycletmpcheck )
+      temp=$( /libreperfruntime/bin/cycletmpcheck )
       temp=$( echo "${temp}" | tr -d '[:space:]' | sed 's/[^0-9]*//g' )
       echo $temp Celsius
       maxtemp=$(( ( RANDOM % 740 )  + 690 ))
@@ -27,11 +27,11 @@ cpuusage=$( ps -A -o %cpu | awk '{s+=$1} END {print s ""}' )
         then
           rpmop=$(( $temp * $maxsaferpm / $maxtemp ))
           echo Safe Spin $rpmop RPM
-          sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-          sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w $rpmop
+          sudo /libreperfruntime/bin/smc -k "FS! " -w 0001
+          sudo /libreperfruntime/bin/smc -k F0Tg -w $rpmop
         else
-          sudo /Volumes/libreperfruntime/bin/smc -k "FS! " -w 0001
-          sudo /Volumes/libreperfruntime/bin/smc -k F0Tg -w 0000
+          sudo /libreperfruntime/bin/smc -k "FS! " -w 0001
+          sudo /libreperfruntime/bin/smc -k F0Tg -w 0000
       fi
     fi
 sleep 1

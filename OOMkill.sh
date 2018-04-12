@@ -1,8 +1,8 @@
 #!/bin/bash
-sudo sh /Volumes/libreperfruntime/lowmemorykiller.sh &
+sudo sh /libreperfruntime/lowmemorykiller.sh &
 while true; do
   #powersavinglinepatch
-  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  rescman=$( /libreperfruntime/bin/cat /libreperfruntime/sys/rescman )
   if [ $rescman = apple ]
     then
       echo apple management resource mode
@@ -11,11 +11,11 @@ while true; do
     else
       echo libreperf management mode
   fi
-  cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+  cpuusage=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
   irregulardelay=$(( ( 100 - ${cpuusage%%.*} ) / 4 ))
-  FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
-  INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
-  TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+  FREE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/free )
+  INACTIVE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/inactive )
+  TOTAL=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/total )
   echo ------------------- Ram management
   echo Free:       $FREE MB
   echo Inactive:   $INACTIVE MB
@@ -34,7 +34,7 @@ sleep $irregulardelay
       sudo killall loginwindow
       sudo purge
     else
-      echo no emergency /Volumes/libreperfruntime/bin/kill needed
+      echo no emergency /libreperfruntime/bin/kill needed
   fi
 
   if [ "$TOTAL" -lt "$ramclscfail" ]
@@ -45,7 +45,7 @@ sleep $irregulardelay
       sudo reboot -q
       #sudo purge
     else
-      echo no emergency /Volumes/libreperfruntime/bin/kill needed
+      echo no emergency /libreperfruntime/bin/kill needed
   fi
 echo --------------------
 sleep 3

@@ -1,6 +1,6 @@
 while true; do
   #powersavinglinepatch
-  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  rescman=$( /libreperfruntime/bin/cat /libreperfruntime/sys/rescman )
   if [ $rescman = apple ]
     then
       echo apple management resource mode
@@ -11,10 +11,10 @@ while true; do
   fi
 killconfirm=0
   echo clear
-killconfirm=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/killconfirm )
+killconfirm=$( /libreperfruntime/bin/cat /libreperfruntime/sys/killconfirm )
 echo $killconfirm  value---------------- phase 1
 
-killconfirmpn=$( /Volumes/libreperfruntime/bin/ps -c -p $killconfirm )
+killconfirmpn=$( /libreperfruntime/bin/ps -c -p $killconfirm )
 killconfirmpn=$( echo "${killconfirmpn}" | sed 1,1d | sed -n 1p | sed 's/[^a-zA-Z]*//g' )
 if [ $killconfirm = 0 ]; then
   killconfirmpn=kernel_task
@@ -30,7 +30,7 @@ if [[ $killconfirmpn != "uBar" && $killconfirmpn != "WindowServer" && $killconfi
 else
   echo process failure $killconfirmpn $killconfirm
 fi
-#echo 0 > /Volumes/libreperfruntime/sys/killconfirm
+#echo 0 > /libreperfruntime/sys/killconfirm
 echo phase 3
 sleep 1
 done

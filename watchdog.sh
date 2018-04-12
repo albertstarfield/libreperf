@@ -1,7 +1,7 @@
 #!/bin/bash
 sleep 60
 while true; do
-if [ ! -d "/Volumes/libreperfruntime/sys" ] || [ ! -d "/Volumes/libreperfruntime/binsync" ] || [ ! -d "/Volumes/libreperfruntime/bin" ] || [ ! -d "/Volumes/libreperfruntime/subbin" ] || [ ! -d "/Volumes/libreperfruntime/plugins" ] || [ ! -d "/Volumes/zramblock0" ]; then
+if [ ! -d "/libreperfruntime/sys" ] || [ ! -d "/libreperfruntime/binsync" ] || [ ! -d "/libreperfruntime/bin" ] || [ ! -d "/libreperfruntime/subbin" ] || [ ! -d "/libreperfruntime/plugins" ] || [ ! -d "/zramblock0" ]; then
 echo ramdisk kernel integrity failed 0x1
 sudo dtrace -w -n "BEGIN{ panic();}"
 sudo sync &

@@ -21,7 +21,7 @@ printf '\e[9;1t'
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # Backdoor disabler
-#while :; do echo icloudbackdoord; killall com.apple.CloudPhotosConfiguration; killall com.apple.iCloudHelper; killall com.apple.preferences.icloud.remoteservice; /Volumes/libreperfruntime/bin/sleep 1.1; done &
+#while :; do echo icloudbackdoord; killall com.apple.CloudPhotosConfiguration; killall com.apple.iCloudHelper; killall com.apple.preferences.icloud.remoteservice; /libreperfruntime/bin/sleep 1.1; done &
 suspendstatuseng1=0
 suspendstatuseng2=0
 suspendstatuseng3=0
@@ -38,36 +38,36 @@ sudo sh /usr/local/lbpbin/uptget.sh &
 #irregulardelay=$(( ( RANDOM % $irregulardelaycpuoverride )  + 0 ))
 
 #processlaunch
-sudo chmod -R +x /Volumes/libreperfruntime
-cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
+sudo chmod -R +x /libreperfruntime
+cpuusage=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
 irregulardelay=7
-sudo sh /Volumes/libreperfruntime/uiperfpatch.sh &
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
-sudo sh /Volumes/libreperfruntime/killengine.sh &
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/uiperfpatch.sh &
+/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/killengine.sh &
+/libreperfruntime/bin/sleep $irregulardelay
 #sensorpolling
-sudo sh /Volumes/libreperfruntime/sensorpolling.sh &
+sudo sh /libreperfruntime/sensorpolling.sh &
 echo booting sensor polling
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
-sudo sh /Volumes/libreperfruntime/lowmemorykiller.sh &
-sudo sh /Volumes/libreperfruntime/subbin/lowmemorykiller.sh &
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
-sudo sh /Volumes/libreperfruntime/coolingcontroller.sh &
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
-sudo sh /Volumes/libreperfruntime/OOMkill.sh &
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
-sudo sh /Volumes/libreperfruntime/onscreenpowerset.sh &
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
-sudo sh /Volumes/libreperfruntime/renicecpu.sh &
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
-sudo sh /Volumes/libreperfruntime/IOptimisation.sh &
-/Volumes/libreperfruntime/bin/sleep $irregulardelay
-sudo sh /Volumes/libreperfruntime/sleepmana.sh &
+/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/lowmemorykiller.sh &
+sudo sh /libreperfruntime/subbin/lowmemorykiller.sh &
+/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/coolingcontroller.sh &
+/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/OOMkill.sh &
+/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/onscreenpowerset.sh &
+/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/renicecpu.sh &
+/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/IOptimisation.sh &
+/libreperfruntime/bin/sleep $irregulardelay
+sudo sh /libreperfruntime/sleepmana.sh &
 echo booting
 #modloading
-cd /Volumes/libreperfruntime/plugins/; for i in *; do sudo sh "$i" ; done &
+cd /libreperfruntime/plugins/; for i in *; do sudo sh "$i" ; done &
 
-#sudo sh /Volumes/libreperfruntime/plugins/zygote.sh &
+#sudo sh /libreperfruntime/plugins/zygote.sh &
 
 
 
@@ -83,12 +83,12 @@ cd /Volumes/libreperfruntime/plugins/; for i in *; do sudo sh "$i" ; done &
 #echo $BATTLEFT mins left
 cycleidle=0
 compusagesum=0
-sudo cp -r  /Volumes/zramblock0/ /usr/local/lbpbin/ramstate
+sudo cp -r  /zramblock0/ /usr/local/lbpbin/ramstate
 #DNSBoost
 sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache
 while true; do
   #powersavinglinepatch
-  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  rescman=$( /libreperfruntime/bin/cat /libreperfruntime/sys/rescman )
   if [ $rescman = apple ]
     then
       echo apple management resource mode
@@ -98,15 +98,15 @@ while true; do
       echo libreperf management mode
   fi
 updatecycle=$(( $updatecycle + 1 ))
-cpuusage=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/cpu/cpuusage )
-IOPROC=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/IOstats/IOPROC )
+cpuusage=$( /libreperfruntime/bin/cat /libreperfruntime/sys/cpu/cpuusage )
+IOPROC=$( /libreperfruntime/bin/cat /libreperfruntime/sys/IOstats/IOPROC )
 
 #reboottrigger checks
-if [ ! -f "/Volumes/libreperfruntime/sys/reboottrigger" ]; then
+if [ ! -f "/libreperfruntime/sys/reboottrigger" ]; then
   echo No signal detected
 else
   echo signal detected
-  sudo sh /Volumes/libreperfruntime/refresh.sh
+  sudo sh /libreperfruntime/refresh.sh
 fi
 #announce slowdown
 if [[ $compusage -gt 40 && $IOPROC -gt 1 ]]; then
@@ -119,13 +119,13 @@ irregulardelay=$(( ( ${cpuusage%%.*} ) / 4 ))
 compusage=$cpuusage
 compusagesum=$(( $compusage + $compusagesum ))
 compusage=$(( $compusagesum / $updatecycle ))
-echo $compusage > /Volumes/libreperfruntime/sys/idleindicate
+echo $compusage > /libreperfruntime/sys/idleindicate
 
 #quickreboot
 if [[ $compusage -lt 15 && $IOPROC -lt 1 ]]; then
  cycleidle=$(( $cycleidle + 1 ))
   if [ $cycleidle -gt 64 ]; then
-    sudo sh /Volumes/libreperfruntime/refresh.sh
+    sudo sh /libreperfruntime/refresh.sh
   else
     echo waiting idle to refresh
   fi
@@ -135,8 +135,8 @@ else
 fi
 #Resync with the systems
 if [ $cycleidle -gt 4 ]; then
-sudo cp -r /Volumes/libreperfruntime/binsync/ /usr/local/lbpbin
-sudo cp -r /Volumes/libreperfruntime/plugins/ /usr/local/lbpbin/plugins/
+sudo cp -r /libreperfruntime/binsync/ /usr/local/lbpbin
+sudo cp -r /libreperfruntime/plugins/ /usr/local/lbpbin/plugins/
 else
 echo waiting idle to sleep arest
 fi
@@ -149,7 +149,7 @@ fi
 
 if [[ $updatecycle -gt $getupdate && $compusage -lt 20 ]]; then
   updatecycle=0
-  rsync -avz --delete "/Volumes/zramblock0/" "/usr/local/lbpbin/ramstate"
+  rsync -avz --delete "/zramblock0/" "/usr/local/lbpbin/ramstate"
   sudo sh /usr/local/lbpbin/resourceguard.sh
 else
   echo updating not possible now
@@ -157,7 +157,7 @@ fi
 if [ $updatecycle -gt $lifetime ]
   then
     echo hibernate
-    rsync -avz --delete "/Volumes/zramblock0/" "/usr/local/lbpbin/ramstate"
+    rsync -avz --delete "/zramblock0/" "/usr/local/lbpbin/ramstate"
     sleep ${cpuusage%%.*}
   else
     echo alive
@@ -169,6 +169,6 @@ if [ $batterylevel -lt 500 ]
   else
     echo safe
 fi
-/Volumes/libreperfruntime/bin/sleep 2
+/libreperfruntime/bin/sleep 2
 
 done

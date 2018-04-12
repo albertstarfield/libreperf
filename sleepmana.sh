@@ -1,7 +1,7 @@
 #!/bin/bash
 while true; do
   #powersavinglinepatch
-  rescman=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/rescman )
+  rescman=$( /libreperfruntime/bin/cat /libreperfruntime/sys/rescman )
   if [ $rescman = apple ]
     then
       echo apple management resource mode
@@ -12,13 +12,13 @@ while true; do
   fi
 #   |   "AppleClamshellState" = No
 #   |   "AppleClamshellState" = Yes
-clamshellinfo=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/hwmorph/clamshellinfo )
+clamshellinfo=$( /libreperfruntime/bin/cat /libreperfruntime/sys/hwmorph/clamshellinfo )
 echo $clamshellinfo
 echo SLEEP CACHING MANAGER
 sleep 1
-FREE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/free )
-INACTIVE=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/inactive )
-TOTAL=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/mem/total )
+FREE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/free )
+INACTIVE=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/inactive )
+TOTAL=$( /libreperfruntime/bin/cat /libreperfruntime/sys/mem/total )
 if [ $clamshellinfo = ACSY ]
   then
     echo lid closed
@@ -29,8 +29,8 @@ if [ $clamshellinfo = ACSY ]
         sudo periodic daily weekly monthly &
         ls -R /Applications/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
         ls -R /Users/ | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
-        clamshellinfo=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/hwmorph/clamshellinfo )
-        batterylevel=$( /Volumes/libreperfruntime/bin/cat /Volumes/libreperfruntime/sys/energy/batt )
+        clamshellinfo=$( /libreperfruntime/bin/cat /libreperfruntime/sys/hwmorph/clamshellinfo )
+        batterylevel=$( /libreperfruntime/bin/cat /libreperfruntime/sys/energy/batt )
         wakelockmax=$(( $batterylevel * 3 ))
         wakelock=$(( ( RANDOM % $wakelockmax )  + $batterylevel ))
         sleep $wakelock
