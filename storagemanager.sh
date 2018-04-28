@@ -32,6 +32,9 @@ sizefill=$(/libreperfruntime/bin/cat /libreperfruntime/sys/mem/ramdiskalloccache
 
 chunkmaxsize=$(( $sizefill / 16 ))
 while true; do
+#Permission Fix
+chmod -R 777 /systemcacheblock0/
+chmod -R 777 /prefetchblock0/
 #Desktop configurationfix
 #cd /Users/; for i in *; do sudo cp -r /prefetchblock0/"$i"/Dock/ /Users/"$i"/Library/Application\ Support\ HDD/Dock/ ; done
 
